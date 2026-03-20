@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import { NextRequest, NextResponse } from "next/server";
 import { getAIClient } from "@/lib/ai/client";
 import { PROMPTS } from "@/lib/ai/prompts";

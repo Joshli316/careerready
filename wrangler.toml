@@ -5,7 +5,7 @@ compatibility_flags = ["nodejs_compat"]
 [[d1_databases]]
 binding = "DB"
 database_name = "careerready-db"
-database_id = "placeholder-create-with-wrangler"
+database_id = "ad9a908a-c6d6-4789-a0b5-57f5b5c4f17e"
 
 [vars]
 ENVIRONMENT = "production"
