@@ -1,0 +1,37 @@
+import { forwardRef, type TextareaHTMLAttributes } from "react";
+import { cn } from "@/lib/utils/cn";
+
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label?: string;
+  error?: string;
+}
+
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({ className, label, error, id, ...props }, ref) => {
+    const inputId = id || label?.toLowerCase().replace(/\s+/g, "-");
+    return (
+      <div className="space-y-1.5">
+        {label && (
+          <label htmlFor={inputId} className="block text-sm font-medium text-neutral-700">
+            {label}
+          </label>
+        )}
+        <textarea
+          ref={ref}
+          id={inputId}
+          className={cn(
+            "min-h-20 w-full rounded-lg border bg-white px-3 py-2 text-sm text-neutral-800",
+            "placeholder:text-neutral-300 resize-y",
+            "focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-400",
+            error ? "border-error" : "border-neutral-200",
+            className
+          )}
+          aria-invalid={error ? "true" : undefined}
+          {...props}
+        />
+        {error && <p className="text-xs text-error">{error}</p>}
+      </div>
+    );
+  }
+);
+Textarea.displayName = "Textarea";
