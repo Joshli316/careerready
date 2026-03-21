@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Interview Prep",
+  description: "Practice the 8 most common interview questions and build STAR stories you can reuse.",
+};
 import { Star, MessageCircle, Building2, ThumbsUp } from "lucide-react";
 
 const sections = [
@@ -17,7 +23,7 @@ export default function InterviewsPage() {
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         {sections.map((s) => (
-          <Link key={s.href} href={s.href} className="group flex gap-4 rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:border-primary-300">
+          <Link key={s.href} href={s.href} className="group flex gap-4 rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md hover:border-primary-300">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-400 group-hover:bg-primary-100"><s.icon className="h-5 w-5" /></div>
             <div><h2 className="font-semibold text-neutral-800">{s.title}</h2><p className="mt-1 text-sm text-neutral-500">{s.description}</p></div>
           </Link>

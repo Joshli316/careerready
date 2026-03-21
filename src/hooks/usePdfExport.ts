@@ -17,6 +17,9 @@ export function usePdfExport() {
       const doc = createElement(ResumeDocument, { resume });
       const blob = await pdf(doc as Parameters<typeof pdf>[0]).toBlob();
       downloadBlob(blob, `${resume.title || "Resume"}.pdf`);
+    } catch (err) {
+      console.error("PDF export failed:", err);
+      alert("PDF export failed. Please try again.");
     } finally {
       setExporting(false);
     }
@@ -42,6 +45,9 @@ export function usePdfExport() {
         });
         const blob = await pdf(doc as Parameters<typeof pdf>[0]).toBlob();
         downloadBlob(blob, `Cover Letter - ${letter.title || "Untitled"}.pdf`);
+      } catch (err) {
+        console.error("PDF export failed:", err);
+        alert("PDF export failed. Please try again.");
       } finally {
         setExporting(false);
       }
@@ -69,6 +75,9 @@ export function usePdfExport() {
         const doc = createElement(ThankYouDocument, data);
         const blob = await pdf(doc as Parameters<typeof pdf>[0]).toBlob();
         downloadBlob(blob, `Thank You - ${data.company || "Note"}.pdf`);
+      } catch (err) {
+        console.error("PDF export failed:", err);
+        alert("PDF export failed. Please try again.");
       } finally {
         setExporting(false);
       }
@@ -85,7 +94,10 @@ function downloadBlob(blob: Blob, filename: string) {
   a.href = url;
   a.download = filename;
   document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  try {
+    a.click();
+  } finally {
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
 }

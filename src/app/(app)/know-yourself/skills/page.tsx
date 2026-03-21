@@ -1,14 +1,15 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useStorage } from "@/hooks/useStorage";
-import { useSaveIndicator } from "@/hooks/useSaveIndicator";
-import { useToast } from "@/components/ui/Toast";
+import { useProfileSave } from "@/hooks/useProfileSave";
+import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Callout } from "@/components/ui/Callout";
-import { Plus, X, CheckCircle } from "lucide-react";
-import type { UserProfile } from "@/types/profile";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { Plus, X } from "lucide-react";
+import { ToggleButton } from "@/components/ui/ToggleButton";
+
 
 const SOFT_SKILLS = [
   "Professionalism",
@@ -44,13 +45,11 @@ interface Skill {
 }
 
 export default function SkillsPage() {
-  const storage = useStorage();
+  const { saved, save, storage } = useProfileSave();
   const [skills, setSkills] = useState<Skill[]>([]);
   const [newSkill, setNewSkill] = useState("");
   const [newCategory, setNewCategory] = useState<"soft" | "hard">("soft");
   const [newSource, setNewSource] = useState("");
-  const { saved, showSaved } = useSaveIndicator();
-  const { toast } = useToast();
 
   useEffect(() => {
     storage.getProfile().then((profile) => {
@@ -60,18 +59,9 @@ export default function SkillsPage() {
     });
   }, [storage]);
 
-  const save = useCallback(
-    async (updated: Skill[]) => {
-      try {
-        const profile = (await storage.getProfile()) ?? {};
-        await storage.setProfile({ ...profile, skills: updated });
-        showSaved();
-        toast("Saved successfully", "success");
-      } catch {
-        toast("Failed to save. Please try again.", "error");
-      }
-    },
-    [storage, showSaved, toast]
+  const saveSkills = useCallback(
+    (updated: Skill[]) => save({ skills: updated }),
+    [save]
   );
 
   function toggleSoftSkill(name: string) {
@@ -83,7 +73,7 @@ export default function SkillsPage() {
       updated = [...skills, { name, category: "soft", source: "" }];
     }
     setSkills(updated);
-    save(updated);
+    saveSkills(updated);
   }
 
   function addCustomSkill() {
@@ -92,13 +82,13 @@ export default function SkillsPage() {
     setSkills(updated);
     setNewSkill("");
     setNewSource("");
-    save(updated);
+    saveSkills(updated);
   }
 
   function removeSkill(index: number) {
     const updated = skills.filter((_, i) => i !== index);
     setSkills(updated);
-    save(updated);
+    saveSkills(updated);
   }
 
   const softSkills = skills.filter((s) => s.category === "soft");
@@ -106,6 +96,7 @@ export default function SkillsPage() {
 
   return (
     <div>
+      <Breadcrumb href="/know-yourself" label="Know Yourself" />
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">Transferable Skills Inventory</h1>
@@ -114,12 +105,7 @@ export default function SkillsPage() {
             volunteer work, campus activities, and coursework.
           </p>
         </div>
-        {saved && (
-          <div className="flex items-center gap-1.5 text-sm text-success">
-            <CheckCircle className="h-4 w-4" />
-            Saved
-          </div>
-        )}
+        <SavedIndicator visible={saved} />
       </div>
 
       <Callout type="tip" className="mb-6">
@@ -130,33 +116,17 @@ export default function SkillsPage() {
       <section className="mb-8">
         <h2 className="mb-3 text-lg font-semibold text-neutral-800">Soft Skills</h2>
         <p className="mb-4 text-sm text-neutral-500">
-          Personal qualities and interpersonal abilities. Select all that apply to you.
+          People skills and personal qualities. Select all that apply to you.
         </p>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-          {SOFT_SKILLS.map((skill) => {
-            const selected = skills.some((s) => s.name === skill && s.category === "soft");
-            return (
-              <button
+          {SOFT_SKILLS.map((skill) => (
+              <ToggleButton
                 key={skill}
-                onClick={() => toggleSoftSkill(skill)}
-                aria-pressed={selected}
-                className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm transition-colors ${
-                  selected
-                    ? "border-primary-400 bg-primary-50 text-primary-700"
-                    : "border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300"
-                }`}
-              >
-                <div
-                  className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border ${
-                    selected ? "border-primary-400 bg-primary-400" : "border-neutral-300"
-                  }`}
-                >
-                  {selected && <CheckCircle className="h-3 w-3 text-white" />}
-                </div>
-                {skill}
-              </button>
-            );
-          })}
+                label={skill}
+                checked={skills.some((s) => s.name === skill && s.category === "soft")}
+                onToggle={() => toggleSoftSkill(skill)}
+              />
+          ))}
         </div>
       </section>
 

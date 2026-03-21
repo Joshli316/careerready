@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useRef, type ReactNode } from "react";
 import { cn } from "@/lib/utils/cn";
 import { CheckCircle, AlertTriangle, XCircle, X, Info } from "lucide-react";
 
@@ -38,9 +38,10 @@ const styles: Record<ToastType, string> = {
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const counterRef = useRef(0);
 
   const addToast = useCallback((message: string, type: ToastType = "success") => {
-    const id = Date.now().toString();
+    const id = `toast-${++counterRef.current}`;
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));

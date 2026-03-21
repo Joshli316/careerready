@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useStorage } from "@/hooks/useStorage";
-import { useSaveIndicator } from "@/hooks/useSaveIndicator";
-import { useToast } from "@/components/ui/Toast";
+import { useProfileSave } from "@/hooks/useProfileSave";
+import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
-import { CheckCircle, GripVertical } from "lucide-react";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 const VALUES = [
   { value: "Achievement", description: "Jobs that let you use your best abilities with a feeling of accomplishment." },
@@ -18,10 +17,8 @@ const VALUES = [
 ];
 
 export default function WorkValuesPage() {
-  const storage = useStorage();
+  const { saved, save, storage } = useProfileSave();
   const [rankings, setRankings] = useState(VALUES.map((v, i) => ({ ...v, rank: i + 1 })));
-  const { saved, showSaved } = useSaveIndicator();
-  const { toast } = useToast();
 
   useEffect(() => {
     storage.getProfile().then((profile) => {
@@ -35,19 +32,10 @@ export default function WorkValuesPage() {
     });
   }, [storage]);
 
-  const save = useCallback(async () => {
-    try {
-      const profile = (await storage.getProfile()) ?? {};
-      await storage.setProfile({
-        ...profile,
-        workValues: rankings.map((r, i) => ({ value: r.value, rank: i + 1 })),
-      });
-      showSaved();
-      toast("Saved successfully", "success");
-    } catch {
-      toast("Failed to save. Please try again.", "error");
-    }
-  }, [storage, rankings, showSaved, toast]);
+  const handleSave = useCallback(
+    () => save({ workValues: rankings.map((r, i) => ({ value: r.value, rank: i + 1 })) }),
+    [save, rankings]
+  );
 
   function moveUp(index: number) {
     if (index === 0) return;
@@ -65,6 +53,7 @@ export default function WorkValuesPage() {
 
   return (
     <div>
+      <Breadcrumb href="/know-yourself" label="Know Yourself" />
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">Work Values Assessment</h1>
@@ -72,16 +61,11 @@ export default function WorkValuesPage() {
             Rank what matters most to you in a workplace. This helps you target jobs that align with your priorities.
           </p>
         </div>
-        {saved && (
-          <div className="flex items-center gap-1.5 text-sm text-success">
-            <CheckCircle className="h-4 w-4" />
-            Saved
-          </div>
-        )}
+        <SavedIndicator visible={saved} />
       </div>
 
       <Callout type="tip" className="mb-6">
-        Drag to reorder or use the arrows. #1 is most important to you.
+        Use the arrows to reorder. #1 is most important to you.
         Your values may change over time — revisit this periodically.
       </Callout>
 
@@ -121,7 +105,7 @@ export default function WorkValuesPage() {
       </div>
 
       <div className="mt-6 flex justify-end">
-        <Button onClick={save} size="lg">Save Rankings</Button>
+        <Button onClick={handleSave} size="lg">Save Rankings</Button>
       </div>
     </div>
   );

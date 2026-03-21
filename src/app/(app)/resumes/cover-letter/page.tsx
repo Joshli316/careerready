@@ -2,11 +2,15 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useStorage } from "@/hooks/useStorage";
+import { useSaveIndicator } from "@/hooks/useSaveIndicator";
+import { useToast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
-import { CheckCircle, Download } from "lucide-react";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { SavedIndicator } from "@/components/ui/SavedIndicator";
+import { Download, Eye, EyeOff } from "lucide-react";
 import { nanoid } from "nanoid";
 import { usePdfExport } from "@/hooks/usePdfExport";
 import type { CoverLetter } from "@/types/resume";
@@ -28,7 +32,9 @@ export default function CoverLetterPage() {
     createdAt: new Date().toISOString(),
   });
   const { exportCoverLetter, exporting } = usePdfExport();
-  const [saved, setSaved] = useState(false);
+  const { saved, showSaved } = useSaveIndicator();
+  const { toast } = useToast();
+  const [showPreview, setShowPreview] = useState(false);
   const [profile, setProfile] = useState<{ brandStatement?: string; powerStatement?: string } | null>(null);
 
   useEffect(() => {
@@ -39,10 +45,14 @@ export default function CoverLetterPage() {
   }, [storage]);
 
   const save = useCallback(async () => {
-    await storage.saveCoverLetter(letter);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  }, [storage, letter]);
+    try {
+      await storage.saveCoverLetter(letter);
+      showSaved();
+      toast("Saved successfully", "success");
+    } catch {
+      toast("Failed to save cover letter. Please try again.", "error");
+    }
+  }, [storage, letter, showSaved, toast]);
 
   function updateContent(field: keyof CoverLetter["content"], value: string) {
     setLetter({ ...letter, content: { ...letter.content, [field]: value } });
@@ -50,28 +60,30 @@ export default function CoverLetterPage() {
 
   return (
     <div>
+      <Breadcrumb href="/resumes" label="Resumes" />
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">Cover Letter Builder</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Create a tailored cover letter using the three-paragraph structure.
+            Write a cover letter in three paragraphs: why you're interested, what you bring, and next steps.
           </p>
         </div>
-        {saved && (
-          <div className="flex items-center gap-1.5 text-sm text-success">
-            <CheckCircle className="h-4 w-4" />
-            Saved
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          <SavedIndicator visible={saved} />
+          <Button variant="ghost" size="sm" onClick={() => setShowPreview(!showPreview)} className="md:hidden">
+            {showPreview ? <EyeOff className="h-4 w-4 mr-1" /> : <Eye className="h-4 w-4 mr-1" />}
+            {showPreview ? "Edit" : "Preview"}
+          </Button>
+        </div>
       </div>
 
       <Callout type="tip" className="mb-6">
-        A cover letter should complement your resume, not duplicate it. Highlight your experience
-        as it relates to the job and explain why you're interested in the company.
+        Don't repeat your resume. Instead, connect the dots between your experience and what this
+        specific job needs. Tell them why you want to work there.
       </Callout>
 
-      <div className="flex gap-6">
-        <div className="flex-1 space-y-6">
+      <div className="flex flex-col gap-6 md:flex-row">
+        <div className={`flex-1 space-y-6 ${showPreview ? "hidden md:block" : ""}`}>
           {/* Recipient */}
           <section className="rounded-xl border-l-4 border-l-primary-400 bg-white p-5 shadow-sm">
             <h2 className="mb-4 text-lg font-semibold text-neutral-800">Recipient</h2>
@@ -92,7 +104,7 @@ export default function CoverLetterPage() {
             <Textarea
               value={letter.content.opening}
               onChange={(e) => updateContent("opening", e.target.value)}
-              placeholder="It is with great interest that I submit my application and resume for the [Position] posted on [Source]..."
+              placeholder="I'm applying for the [Position] I saw on [Source]. Here's why I'd be a good fit..."
               rows={5}
             />
           </section>
@@ -120,12 +132,12 @@ export default function CoverLetterPage() {
             <Textarea
               value={letter.content.closing}
               onChange={(e) => updateContent("closing", e.target.value)}
-              placeholder="I believe I have a great deal to offer [Company]. I look forward to meeting with you..."
+              placeholder="I'd welcome the chance to talk more about how my background fits this role. I'm available anytime next week..."
               rows={4}
             />
           </section>
 
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-3">
             <Button variant="secondary" size="lg" onClick={() => exportCoverLetter(letter)} disabled={exporting}>
               <Download className="mr-1.5 h-4 w-4" />
               {exporting ? "Exporting..." : "Export PDF"}
@@ -135,8 +147,8 @@ export default function CoverLetterPage() {
         </div>
 
         {/* Preview */}
-        <div className="hidden md:block w-[400px] shrink-0">
-          <div className="sticky top-20 rounded-xl border border-neutral-150 bg-white p-6 shadow-sm text-[11px] leading-relaxed space-y-3">
+        <div className={`w-full md:w-[400px] shrink-0 ${showPreview ? "" : "hidden md:block"}`}>
+          <div className="sticky top-20 rounded-xl border border-neutral-150 bg-white p-6 shadow-sm text-xs leading-relaxed space-y-3">
             <h3 className="text-sm font-medium text-neutral-500 mb-3">Preview</h3>
             <p className="text-neutral-500">{new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
             {letter.content.recipientName && (

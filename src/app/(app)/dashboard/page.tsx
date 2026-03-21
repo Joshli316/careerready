@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Your job search toolkit — 8 free tools from self-discovery to landing the job.",
+};
 import {
   User,
   FileText,
@@ -13,56 +19,56 @@ import {
 const tools = [
   {
     name: "Know Yourself",
-    description: "Discover your skills, values, and personal brand to build a strong foundation.",
+    description: "Figure out your strengths, goals, and elevator pitch before applying anywhere.",
     href: "/know-yourself",
     icon: User,
     phase: "Know Yourself",
   },
   {
     name: "Applications",
-    description: "Master the application process with tips, templates, and assessment prep.",
+    description: "Fill out any application faster with a master form and keyword tips.",
     href: "/applications",
     icon: FileText,
     phase: "Market Your Brand",
   },
   {
     name: "Resumes",
-    description: "Build professional resumes, cover letters, and reference pages.",
+    description: "Create your resume, cover letter, and reference page — export as PDF.",
     href: "/resumes",
     icon: ScrollText,
     phase: "Market Your Brand",
   },
   {
     name: "Interviews",
-    description: "Prepare for interviews with STAR method, question practice, and research tools.",
+    description: "Practice the 8 most common questions and build STAR stories you can reuse.",
     href: "/interviews",
     icon: MessageSquare,
     phase: "Market Your Brand",
   },
   {
     name: "Job Search",
-    description: "Find opportunities through networking, job boards, and strategic outreach.",
+    description: "Networking scripts, job board strategy, and a checklist to stay on track.",
     href: "/job-search",
     icon: Search,
     phase: "Market Your Brand",
   },
   {
     name: "Social Media",
-    description: "Optimize your online presence and make a great digital first impression.",
+    description: "Audit your profiles before employers Google you.",
     href: "/social-media",
     icon: Globe,
     phase: "Market Your Brand",
   },
   {
     name: "Landing the Job",
-    description: "Succeed in your new role with workplace tips and self-evaluation tracking.",
+    description: "Tips for your first 90 days and a monthly self-evaluation tracker.",
     href: "/landing-the-job",
     icon: Trophy,
     phase: "Prove Yourself",
   },
   {
     name: "Contact Log",
-    description: "Track every application, follow-up, and employer interaction in one place.",
+    description: "Log every application so nothing falls through the cracks.",
     href: "/contact-log",
     icon: BookOpen,
     phase: "Prove Yourself",
@@ -81,9 +87,9 @@ export default function DashboardPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-neutral-800">Your Career Toolkit</h1>
+        <h1 className="text-3xl font-bold text-neutral-800">Your Job Search Toolkit</h1>
         <p className="mt-2 text-neutral-500">
-          8 interactive tools to guide you from self-discovery to landing your first job.
+          Everything you need to go from "where do I start?" to "I got the job."
         </p>
       </div>
 
@@ -105,13 +111,13 @@ export default function DashboardPage() {
           <Link
             key={tool.href}
             href={tool.href}
-            className="group rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:border-primary-300"
+            className="group rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md hover:border-primary-300"
           >
             <div className="mb-3 flex items-center justify-between">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-50 text-primary-400 transition-colors group-hover:bg-primary-100">
                 <tool.icon className="h-5 w-5" />
               </div>
-              <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${phaseColors[tool.phase]}`}>
+              <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${phaseColors[tool.phase]}`}>
                 {tool.phase}
               </span>
             </div>
@@ -123,10 +129,10 @@ export default function DashboardPage() {
 
       {/* Bottom callout */}
       <div className="mt-8 rounded-xl border border-primary-200 bg-primary-50 p-6">
-        <h3 className="font-semibold text-primary-800">Getting Started</h3>
+        <h3 className="font-semibold text-primary-800">Start here</h3>
         <p className="mt-1 text-sm text-primary-700">
-          We recommend starting with <strong>Know Yourself</strong> to identify your skills, values, and personal brand.
-          This information flows into your resume, cover letters, and interview preparation automatically.
+          Open <strong>Know Yourself</strong> first. The skills and brand statement you write there
+          will auto-fill your resume, cover letter, and interview prep — so you only write them once.
         </p>
       </div>
     </div>

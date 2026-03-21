@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAIClient } from "@/lib/ai/client";
 import { PROMPTS } from "@/lib/ai/prompts";
 import { checkRateLimit } from "@/lib/ai/rate-limit";
+import { getClientIp } from "@/lib/ai/client-ip";
 
 export async function POST(request: NextRequest) {
   const apiKey = process.env.CLAUDE_API_KEY;
@@ -11,13 +12,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "AI features are not configured" }, { status: 503 });
   }
 
-  const ip = request.headers.get("x-forwarded-for") ?? "anonymous";
+  const ip = getClientIp(request);
   const { allowed, remaining } = checkRateLimit(`ai:ip:${ip}`, false);
   if (!allowed) {
     return NextResponse.json({ error: "Daily AI limit reached." }, { status: 429 });
   }
 
-  const { coverLetter, jobTitle, company } = (await request.json()) as { coverLetter: string; jobTitle?: string; company?: string };
+  let body: { coverLetter?: string; jobTitle?: string; company?: string };
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
+  }
+  const { coverLetter, jobTitle, company } = body;
   if (!coverLetter || typeof coverLetter !== "string" || coverLetter.length > 10000) {
     return NextResponse.json({ error: "Invalid cover letter" }, { status: 400 });
   }

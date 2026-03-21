@@ -1,7 +1,7 @@
 {
   "name": "careerready",
   "version": "1.0.0",
-  "description": "",
+  "description": "Free job preparation tools for college graduates — resumes, interviews, applications, and more.",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",

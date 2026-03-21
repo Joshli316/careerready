@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { ListChecks, Lightbulb, ClipboardList, BrainCircuit, FolderOpen } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Applications",
+  description: "Tips, templates, and tools to fill out job applications faster. Includes a master application builder.",
+};
+import { ListChecks, Lightbulb, ClipboardList } from "lucide-react";
 
 const sections = [
   {
@@ -28,7 +34,7 @@ export default function ApplicationsPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-neutral-800">Applications</h1>
         <p className="mt-2 text-neutral-500">
-          Master the application process with proven tips, templates, and preparation tools.
+          Tips, templates, and tools to fill out job applications faster and better.
         </p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
@@ -36,7 +42,7 @@ export default function ApplicationsPage() {
           <Link
             key={section.href}
             href={section.href}
-            className="group flex gap-4 rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:border-primary-300"
+            className="group flex gap-4 rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md hover:border-primary-300"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-400 group-hover:bg-primary-100">
               <section.icon className="h-5 w-5" />

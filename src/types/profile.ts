@@ -1,3 +1,51 @@
+export interface MasterAppEducation {
+  school: string;
+  degree: string;
+  dates: string;
+  location: string;
+}
+
+export interface MasterAppWorkEntry {
+  company: string;
+  title: string;
+  startDate: string;
+  endDate: string;
+  duties: string;
+  reasonLeft: string;
+  supervisorName: string;
+  supervisorPhone: string;
+}
+
+export interface MasterAppReference {
+  name: string;
+  phone: string;
+  email: string;
+  occupation: string;
+  yearsKnown: string;
+}
+
+export interface MasterApp {
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  education: MasterAppEducation[];
+  workHistory: MasterAppWorkEntry[];
+  skills: string;
+  languages: string;
+  certifications: string;
+  references: MasterAppReference[];
+}
+
+export interface ReferencesEntry {
+  name: string;
+  title: string;
+  company: string;
+  phone: string;
+  email: string;
+  relationship: "professional" | "personal";
+}
+
 export interface UserProfile {
   beliefs?: {
     positive: string[];
@@ -16,6 +64,24 @@ export interface UserProfile {
   workValues?: Array<{ value: string; rank: number }>;
   brandStatement?: string;
   powerStatement?: string;
+  brandDiscovery?: {
+    field: string;
+    position: string;
+    skills: string;
+    accomplishments: string;
+  };
+  masterApp?: MasterApp;
+  references?: ReferencesEntry[];
+  networkContacts?: {
+    professional: string[];
+    personal: string[];
+  };
+  socialAudit?: Record<string, "pass" | "fail" | null>;
+  selfEvaluation?: Record<string, number>;
+  jobSearchChecklist?: {
+    progress: number[];
+    methods: number[];
+  };
   emailTemplate?: string;
   voicemailScript?: string;
 }

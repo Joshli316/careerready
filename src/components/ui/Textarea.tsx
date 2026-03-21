@@ -21,15 +21,16 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={inputId}
           className={cn(
             "min-h-20 w-full rounded-lg border bg-white px-3 py-2 text-sm text-neutral-800",
-            "placeholder:text-neutral-300 resize-y",
+            "placeholder:text-neutral-400 resize-y",
             "focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-400",
             error ? "border-error" : "border-neutral-200",
             className
           )}
           aria-invalid={error ? "true" : undefined}
+          aria-describedby={error ? `${inputId}-error` : undefined}
           {...props}
         />
-        {error && <p className="text-xs text-error">{error}</p>}
+        {error && <p id={`${inputId}-error`} className="text-xs text-error">{error}</p>}
       </div>
     );
   }

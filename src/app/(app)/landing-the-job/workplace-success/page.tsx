@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { Callout } from "@/components/ui/Callout";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+
+export const metadata: Metadata = {
+  title: "Workplace Success",
+  description: "Work habits, communication tips, and professional growth advice for your first job.",
+};
 
 const areas = [
   {
@@ -7,7 +14,7 @@ const areas = [
       "Maintain a professional image — live your brand",
       "Arrive on time and call in promptly when you'll be late or absent",
       "Limit personal cell phone use to breaks and rest periods",
-      "Demonstrate a positive attitude and enthusiasm for your work",
+      "Show up with a good attitude — it gets noticed",
       "Do not participate in office gossip",
     ],
   },
@@ -55,17 +62,18 @@ const areas = [
 export default function WorkplaceSuccessPage() {
   return (
     <div>
+      <Breadcrumb href="/landing-the-job" label="Landing the Job" />
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-neutral-800">Long-Term Workplace Success</h1>
         <p className="mt-1 text-sm text-neutral-500">
-          Solid work practices and interpersonal skills will support your career growth
-          and lead to greater job satisfaction.
+          Good habits at work keep you employed and get you promoted.
+          Here's what managers actually look for.
         </p>
       </div>
 
       <Callout type="tip" className="mb-6">
-        Whether you're starting a new job or want to level up, continuously fine-tune and upgrade
-        your skills. These practices will help you thrive in any workplace.
+        These habits apply to day one and year ten. Review them before your first week,
+        then revisit monthly to catch anything slipping.
       </Callout>
 
       <div className="space-y-6">

@@ -12,7 +12,9 @@ import { Callout } from "@/components/ui/Callout";
 import { ContactInfoSection } from "./components/ContactInfoSection";
 import { ExperienceSection } from "./components/ExperienceSection";
 import { ResumePreview } from "./components/ResumePreview";
-import { CheckCircle, Plus, Trash2, Eye, EyeOff, Download, Wand2 } from "lucide-react";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { SavedIndicator } from "@/components/ui/SavedIndicator";
+import { Plus, Trash2, Eye, EyeOff, Download, Wand2 } from "lucide-react";
 import { nanoid } from "nanoid";
 import type { Resume, ResumeTemplate } from "@/types/resume";
 import type { UserProfile } from "@/types/profile";
@@ -127,13 +129,14 @@ export default function ResumeBuilderPage() {
 
   return (
     <div>
+      <Breadcrumb href="/resumes" label="Resumes" />
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">Resume Builder</h1>
           <p className="mt-1 text-sm text-neutral-500">Build a professional resume step by step.</p>
         </div>
         <div className="flex items-center gap-2">
-          {saved && <div className="flex items-center gap-1.5 text-sm text-success"><CheckCircle className="h-4 w-4" /> Saved</div>}
+          <SavedIndicator visible={saved} />
           <Button variant="ghost" size="sm" onClick={() => setShowPreview(!showPreview)} className="md:hidden">
             {showPreview ? <EyeOff className="h-4 w-4 mr-1" /> : <Eye className="h-4 w-4 mr-1" />}
             {showPreview ? "Edit" : "Preview"}
@@ -157,7 +160,7 @@ export default function ResumeBuilderPage() {
         <Callout type="tip" className="mb-4">Complete the <strong>Know Yourself</strong> tools first to auto-populate your skills and profile overview here.</Callout>
       )}
 
-      <div className="flex gap-6">
+      <div className="flex flex-col gap-6 md:flex-row">
         <div className={`flex-1 space-y-6 ${showPreview ? "hidden md:block" : ""}`}>
           <div className="rounded-xl border border-neutral-150 bg-white p-5 shadow-sm">
             <div className="grid gap-4 sm:grid-cols-2">

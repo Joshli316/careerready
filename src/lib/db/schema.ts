@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, index, primaryKey } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 
 export const users = sqliteTable("users", {
@@ -161,4 +161,6 @@ export const rateLimits = sqliteTable("rate_limits", {
   key: text("key").notNull(),
   date: text("date").notNull(),
   requests: integer("requests").notNull().default(0),
-});
+}, (table) => [
+  primaryKey({ columns: [table.key, table.date] }),
+]);

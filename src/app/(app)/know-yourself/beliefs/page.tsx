@@ -1,18 +1,18 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useStorage } from "@/hooks/useStorage";
-import { useSaveIndicator } from "@/hooks/useSaveIndicator";
-import { useToast } from "@/components/ui/Toast";
+import { useProfileSave } from "@/hooks/useProfileSave";
+import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
-import { CheckCircle, Plus, X } from "lucide-react";
-import type { UserProfile } from "@/types/profile";
+import { Plus, X } from "lucide-react";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+
 
 export default function BeliefsPage() {
-  const storage = useStorage();
+  const { saved, save, storage } = useProfileSave();
   const [mindset, setMindset] = useState("");
   const [iAm, setIAm] = useState("");
   const [iCan, setICan] = useState("");
@@ -20,8 +20,6 @@ export default function BeliefsPage() {
   const [challenges, setChallenges] = useState<Array<{ challenge: string; solution: string }>>([
     { challenge: "", solution: "" },
   ]);
-  const { saved, showSaved } = useSaveIndicator();
-  const { toast } = useToast();
 
   useEffect(() => {
     storage.getProfile().then((profile) => {
@@ -35,22 +33,15 @@ export default function BeliefsPage() {
     });
   }, [storage]);
 
-  const save = useCallback(async () => {
-    try {
-      const profile = (await storage.getProfile()) ?? {};
-      await storage.setProfile({
-        ...profile,
-        beliefs: {
-          positive: [iAm, iCan, iHave],
-          challenges: challenges.filter((c) => c.challenge || c.solution),
-        },
-      });
-      showSaved();
-      toast("Saved successfully", "success");
-    } catch {
-      toast("Failed to save. Please try again.", "error");
-    }
-  }, [storage, iAm, iCan, iHave, challenges, showSaved, toast]);
+  const handleSave = useCallback(
+    () => save({
+      beliefs: {
+        positive: [iAm, iCan, iHave],
+        challenges: challenges.filter((c) => c.challenge || c.solution),
+      },
+    }),
+    [save, iAm, iCan, iHave, challenges]
+  );
 
   function updateChallenge(index: number, field: "challenge" | "solution", value: string) {
     const updated = [...challenges];
@@ -69,6 +60,8 @@ export default function BeliefsPage() {
 
   return (
     <div>
+      <Breadcrumb href="/know-yourself" label="Know Yourself" />
+
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">Challenge Your Belief System</h1>
@@ -76,17 +69,12 @@ export default function BeliefsPage() {
             Identify positive beliefs about yourself and convert challenges into affirmations.
           </p>
         </div>
-        {saved && (
-          <div className="flex items-center gap-1.5 text-sm text-success">
-            <CheckCircle className="h-4 w-4" />
-            Saved
-          </div>
-        )}
+        <SavedIndicator visible={saved} />
       </div>
 
       <Callout type="tip" className="mb-6">
-        Many of us carry beliefs from our past that influence our present and future. You have the power
-        to challenge your belief system and replace negative thoughts with positive affirmations.
+        Negative self-talk ("I don't have enough experience") kills interviews. This exercise helps you
+        reframe those thoughts so you can talk about yourself confidently to employers.
       </Callout>
 
       {/* Positive Beliefs */}
@@ -172,7 +160,7 @@ export default function BeliefsPage() {
       </section>
 
       <div className="flex justify-end">
-        <Button onClick={save} size="lg">
+        <Button onClick={handleSave} size="lg">
           Save Progress
         </Button>
       </div>

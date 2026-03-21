@@ -1,11 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { CheckCircle, Plus, Trash2 } from "lucide-react";
+import { useStorage } from "@/hooks/useStorage";
+import { useSaveIndicator } from "@/hooks/useSaveIndicator";
+import { useToast } from "@/components/ui/Toast";
 
 interface Research {
   company: string;
@@ -21,8 +25,35 @@ const emptyResearch = (): Research => ({
 });
 
 export default function CompanyResearchPage() {
+  const storage = useStorage();
   const [entries, setEntries] = useState<Research[]>([emptyResearch()]);
   const [active, setActive] = useState(0);
+  const { saved, showSaved } = useSaveIndicator();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    storage.getInterviewPrep().then((prep) => {
+      if (prep?.companyResearch?.length) {
+        setEntries(prep.companyResearch);
+      }
+    });
+  }, [storage]);
+
+  const save = useCallback(async () => {
+    try {
+      const prep = (await storage.getInterviewPrep()) ?? {
+        commonResponses: [],
+        starStories: [],
+        companyResearch: [],
+        thankYouNotes: [],
+      };
+      await storage.setInterviewPrep({ ...prep, companyResearch: entries });
+      showSaved();
+      toast("Saved successfully", "success");
+    } catch {
+      toast("Failed to save. Please try again.", "error");
+    }
+  }, [storage, entries, showSaved, toast]);
 
   const entry = entries[active];
 
@@ -34,11 +65,20 @@ export default function CompanyResearchPage() {
 
   return (
     <div>
-      <div className="mb-6">
+      <Breadcrumb href="/interviews" label="Interviews" />
+      <div className="mb-6 flex items-center justify-between">
+        <div>
         <h1 className="text-2xl font-bold text-neutral-800">Company Research</h1>
         <p className="mt-1 text-sm text-neutral-500">
           Research each company before your interview. Use this framework to organize your findings.
         </p>
+        </div>
+        {saved && (
+          <div className="flex items-center gap-1.5 text-sm text-success">
+            <CheckCircle className="h-4 w-4" />
+            Saved
+          </div>
+        )}
       </div>
 
       <Callout type="tip" className="mb-6">
@@ -79,6 +119,10 @@ export default function CompanyResearchPage() {
           </div>
         </div>
       )}
+
+      <div className="mt-6 flex justify-end">
+        <Button onClick={save} size="lg">Save Research</Button>
+      </div>
     </div>
   );
 }

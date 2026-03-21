@@ -1,20 +1,18 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useStorage } from "@/hooks/useStorage";
-import { useSaveIndicator } from "@/hooks/useSaveIndicator";
-import { useToast } from "@/components/ui/Toast";
+import { useProfileSave } from "@/hooks/useProfileSave";
+import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
-import { CheckCircle, Mic } from "lucide-react";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { Mic } from "lucide-react";
 
 export default function PowerStatementPage() {
-  const storage = useStorage();
+  const { saved, save, storage } = useProfileSave();
   const [powerStatement, setPowerStatement] = useState("");
   const [brandStatement, setBrandStatement] = useState("");
-  const { saved, showSaved } = useSaveIndicator();
-  const { toast } = useToast();
 
   useEffect(() => {
     storage.getProfile().then((profile) => {
@@ -23,32 +21,19 @@ export default function PowerStatementPage() {
     });
   }, [storage]);
 
-  const save = useCallback(async () => {
-    try {
-      const profile = (await storage.getProfile()) ?? {};
-      await storage.setProfile({ ...profile, powerStatement });
-      showSaved();
-      toast("Saved successfully", "success");
-    } catch {
-      toast("Failed to save. Please try again.", "error");
-    }
-  }, [storage, powerStatement, showSaved, toast]);
+  const handleSave = useCallback(() => save({ powerStatement }), [save, powerStatement]);
 
   return (
     <div>
+      <Breadcrumb href="/know-yourself" label="Know Yourself" />
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">Power Statement</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Build your elevator pitch — a clear summary to introduce yourself and your brand.
+            Write a 30-second introduction you can use at networking events and in interviews.
           </p>
         </div>
-        {saved && (
-          <div className="flex items-center gap-1.5 text-sm text-success">
-            <CheckCircle className="h-4 w-4" />
-            Saved
-          </div>
-        )}
+        <SavedIndicator visible={saved} />
       </div>
 
       <Callout type="tip" className="mb-6">
@@ -93,7 +78,7 @@ export default function PowerStatementPage() {
           <h2 className="font-semibold text-primary-800">Your Power Statement</h2>
         </div>
         <Textarea
-          placeholder="Write your power statement here. Include your name, key qualifications, relevant experience, and what you're looking for..."
+          placeholder="Hi, I'm [name]. I just graduated from [school] with a degree in [field]. At [internship/job], I [specific thing you did]. I'm looking for a [target role] where I can..."
           value={powerStatement}
           onChange={(e) => setPowerStatement(e.target.value)}
           rows={6}
@@ -102,7 +87,7 @@ export default function PowerStatementPage() {
       </section>
 
       <div className="flex justify-end">
-        <Button onClick={save} size="lg">Save Power Statement</Button>
+        <Button onClick={handleSave} size="lg">Save Power Statement</Button>
       </div>
     </div>
   );

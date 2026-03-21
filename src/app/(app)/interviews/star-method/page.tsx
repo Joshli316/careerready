@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { CheckCircle, Plus, Star, Trash2 } from "lucide-react";
 import { nanoid } from "nanoid";
 import type { StarStory, InterviewPrep } from "@/types/interview";
@@ -88,6 +89,7 @@ export default function StarMethodPage() {
 
   return (
     <div>
+      <Breadcrumb href="/interviews" label="Interviews" />
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">STAR Method Practice</h1>
@@ -114,7 +116,7 @@ export default function StarMethodPage() {
           <div key={item.letter} className="rounded-lg border border-primary-200 bg-primary-50 p-3 text-center">
             <div className="text-2xl font-bold text-primary-400">{item.letter}</div>
             <div className="text-xs font-medium text-primary-700">{item.label}</div>
-            <div className="mt-1 text-[10px] text-primary-600 hidden sm:block">{item.desc}</div>
+            <div className="mt-1 text-xs text-primary-600 hidden sm:block">{item.desc}</div>
           </div>
         ))}
       </div>

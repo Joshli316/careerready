@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { Callout } from "@/components/ui/Callout";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+
+export const metadata: Metadata = {
+  title: "Job Boards & Websites",
+  description: "The best job search websites for recent graduates — LinkedIn, Indeed, Handshake, and more. Tips for each platform.",
+};
 
 const boards = [
   { name: "LinkedIn", type: "Professional Network", tip: "Build your profile, set job alerts, use Easy Apply" },
@@ -14,6 +21,7 @@ const boards = [
 export default function JobBoardsPage() {
   return (
     <div>
+      <Breadcrumb href="/job-search" label="Job Search" />
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-neutral-800">Job Boards & Websites</h1>
         <p className="mt-1 text-sm text-neutral-500">Use multiple job search platforms to maximize your opportunities.</p>
@@ -34,7 +42,7 @@ export default function JobBoardsPage() {
           <div key={board.name} className="rounded-xl border border-neutral-150 bg-white p-5 shadow-sm">
             <div className="mb-1 flex items-center justify-between">
               <h2 className="font-semibold text-neutral-800">{board.name}</h2>
-              <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-medium text-neutral-500">{board.type}</span>
+              <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-500">{board.type}</span>
             </div>
             <p className="text-sm text-neutral-600">{board.tip}</p>
           </div>

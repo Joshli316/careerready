@@ -11,7 +11,7 @@ export function ResumePreview({ resume }: Props) {
       <div className="mb-3 flex items-center justify-between">
         <h3 className="text-sm font-medium text-neutral-500">Live Preview</h3>
       </div>
-      <div className="space-y-4 text-[11px] leading-relaxed">
+      <div className="space-y-4 text-xs leading-relaxed">
         {/* Header */}
         <div className="text-center">
           <div className="text-base font-bold text-neutral-900">

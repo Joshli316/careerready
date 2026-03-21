@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { Input } from "@/components/ui/Input";
+import { useProfileSave } from "@/hooks/useProfileSave";
+import { SavedIndicator } from "@/components/ui/SavedIndicator";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 const categories = [
   {
@@ -40,13 +43,24 @@ const categories = [
       "I seek ways to remain productive without being told",
       "I have learned new skills",
       "I have assisted with tasks outside my job description",
-      "I am a valued employee who contributes to the organization",
+      "I add something my team would miss if I left",
     ],
   },
 ];
 
 export default function SelfEvaluationPage() {
+  const { saved, save, storage } = useProfileSave();
   const [ratings, setRatings] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    storage.getProfile().then((profile) => {
+      if (profile?.selfEvaluation) {
+        setRatings(profile.selfEvaluation);
+      }
+    });
+  }, [storage]);
+
+  const handleSave = useCallback(() => save({ selfEvaluation: ratings }), [save, ratings]);
 
   function setRating(item: string, value: number) {
     setRatings({ ...ratings, [item]: value });
@@ -57,11 +71,15 @@ export default function SelfEvaluationPage() {
 
   return (
     <div>
-      <div className="mb-6">
+      <Breadcrumb href="/landing-the-job" label="Landing the Job" />
+      <div className="mb-6 flex items-center justify-between">
+        <div>
         <h1 className="text-2xl font-bold text-neutral-800">New Employee Self-Evaluation</h1>
         <p className="mt-1 text-sm text-neutral-500">
           Track your progress at 1, 3, and 6 months. Rate yourself honestly on each item.
         </p>
+        </div>
+        <SavedIndicator visible={saved} />
       </div>
 
       <Callout type="tip" className="mb-6">
@@ -86,7 +104,8 @@ export default function SelfEvaluationPage() {
                       <button
                         key={n}
                         onClick={() => setRating(item, n)}
-                        className={`flex h-8 w-8 items-center justify-center rounded-lg text-sm font-medium transition-colors ${
+                        aria-label={`Rate "${item}" as ${n}`}
+                        className={`flex h-9 w-9 sm:h-8 sm:w-8 items-center justify-center rounded-lg text-sm font-medium transition-colors ${
                           ratings[item] === n
                             ? "bg-primary-400 text-white"
                             : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
@@ -103,7 +122,11 @@ export default function SelfEvaluationPage() {
         ))}
       </div>
 
-      <div className="mt-6 rounded-lg bg-neutral-50 border border-neutral-150 p-4 text-sm text-neutral-500">
+      <div className="mt-6 flex justify-end">
+        <Button onClick={handleSave} size="lg">Save Evaluation</Button>
+      </div>
+
+      <div className="mt-4 rounded-lg bg-neutral-50 border border-neutral-150 p-4 text-sm text-neutral-500">
         Rated {ratedItems} of {totalItems} items.
         {ratedItems === totalItems && Object.values(ratings).length > 0 && (
           <span className="ml-2 font-medium text-primary-700">

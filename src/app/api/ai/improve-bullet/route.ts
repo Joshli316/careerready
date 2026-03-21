@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAIClient } from "@/lib/ai/client";
 import { PROMPTS } from "@/lib/ai/prompts";
 import { checkRateLimit } from "@/lib/ai/rate-limit";
+import { getClientIp } from "@/lib/ai/client-ip";
 
 export async function POST(request: NextRequest) {
   const apiKey = process.env.CLAUDE_API_KEY;
@@ -14,7 +15,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const ip = request.headers.get("x-forwarded-for") ?? "anonymous";
+  const ip = getClientIp(request);
   const { allowed, remaining } = checkRateLimit(`ai:ip:${ip}`, false);
 
   if (!allowed) {
@@ -24,7 +25,13 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { bullet, context } = (await request.json()) as { bullet: string; context?: string };
+  let body: { bullet?: string; context?: string };
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
+  }
+  const { bullet, context } = body;
   if (!bullet || typeof bullet !== "string" || bullet.length > 500) {
     return NextResponse.json(
       { error: "Invalid bullet. Must be a non-empty string under 500 characters." },

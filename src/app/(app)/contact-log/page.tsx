@@ -1,10 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Plus, Building2 } from "lucide-react";
 import { useStorage } from "@/hooks/useStorage";
+import { useToast } from "@/components/ui/Toast";
 import { CardSkeleton } from "@/components/ui/Skeleton";
-import type { EmployerContact } from "@/types/contact";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Textarea } from "@/components/ui/Textarea";
+import { nanoid } from "nanoid";
+import type { EmployerContact, ContactStatus } from "@/types/contact";
 
 const statusLabels: Record<string, { label: string; color: string }> = {
   saved: { label: "Saved", color: "bg-neutral-100 text-neutral-600" },
@@ -19,8 +24,14 @@ const statusLabels: Record<string, { label: string; color: string }> = {
 
 export default function ContactLogPage() {
   const storage = useStorage();
+  const { toast } = useToast();
   const [contacts, setContacts] = useState<EmployerContact[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [formCompany, setFormCompany] = useState("");
+  const [formPosition, setFormPosition] = useState("");
+  const [formStatus, setFormStatus] = useState<ContactStatus>("applied");
+  const [formNotes, setFormNotes] = useState("");
 
   useEffect(() => {
     storage.getContacts().then((data) => {
@@ -28,6 +39,29 @@ export default function ContactLogPage() {
       setLoading(false);
     });
   }, [storage]);
+
+  const addContact = useCallback(async () => {
+    if (!formCompany.trim()) return;
+    const now = new Date().toISOString();
+    const contact: EmployerContact = {
+      id: nanoid(),
+      companyName: formCompany.trim(),
+      position: formPosition.trim(),
+      status: formStatus,
+      notes: formNotes.trim() || undefined,
+      dateApplied: now,
+      createdAt: now,
+      updatedAt: now,
+    };
+    await storage.saveContact(contact);
+    setContacts(await storage.getContacts());
+    setFormCompany("");
+    setFormPosition("");
+    setFormStatus("applied");
+    setFormNotes("");
+    setShowForm(false);
+    toast("Contact added");
+  }, [storage, formCompany, formPosition, formStatus, formNotes, toast]);
 
   return (
     <div>
@@ -38,10 +72,39 @@ export default function ContactLogPage() {
             Track every application, follow-up, and employer interaction.
           </p>
         </div>
+        <Button onClick={() => setShowForm(!showForm)} size="md">
+          <Plus className="mr-1.5 h-4 w-4" />
+          Add Contact
+        </Button>
       </div>
 
+      {showForm && (
+        <div className="mb-6 rounded-xl border border-primary-200 bg-white p-5 shadow-sm">
+          <h3 className="mb-4 font-semibold text-neutral-800">New Contact</h3>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Input label="Company" placeholder="Company name" value={formCompany} onChange={(e) => setFormCompany(e.target.value)} />
+            <Input label="Position" placeholder="Job title you applied for" value={formPosition} onChange={(e) => setFormPosition(e.target.value)} />
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-neutral-700">Status</label>
+              <select value={formStatus} onChange={(e) => setFormStatus(e.target.value as ContactStatus)} className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm">
+                {Object.entries(statusLabels).map(([key, { label }]) => (
+                  <option key={key} value={key}>{label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="mt-4">
+            <Textarea label="Notes (optional)" placeholder="How you found this job, contact person, etc." value={formNotes} onChange={(e) => setFormNotes(e.target.value)} rows={2} />
+          </div>
+          <div className="mt-4 flex justify-end gap-3">
+            <Button variant="ghost" size="sm" onClick={() => setShowForm(false)}>Cancel</Button>
+            <Button size="sm" onClick={addContact}>Save Contact</Button>
+          </div>
+        </div>
+      )}
+
       {loading ? (
-        <div>
+        <div className="space-y-3">
           <CardSkeleton />
           <CardSkeleton />
         </div>
@@ -67,7 +130,7 @@ export default function ContactLogPage() {
           <Building2 className="mx-auto h-10 w-10 text-neutral-300" />
           <h3 className="mt-4 font-semibold text-neutral-700">No contacts yet</h3>
           <p className="mt-1 text-sm text-neutral-500">
-            Start tracking your job applications to stay organized and follow up on time.
+            Click "Add Contact" above to start tracking your applications.
           </p>
         </div>
       ) : (
@@ -84,6 +147,11 @@ export default function ContactLogPage() {
                 </span>
               </div>
               {contact.notes && <p className="mt-2 text-sm text-neutral-500">{contact.notes}</p>}
+              {contact.dateApplied && (
+                <p className="mt-1 text-xs text-neutral-400">
+                  Added {new Date(contact.dateApplied).toLocaleDateString()}
+                </p>
+              )}
             </div>
           ))}
         </div>

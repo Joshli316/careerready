@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { Callout } from "@/components/ui/Callout";
-import { CheckCircle } from "lucide-react";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { ToggleButton } from "@/components/ui/ToggleButton";
 
 const categories = [
   {
@@ -17,7 +18,7 @@ const categories = [
   },
   {
     title: "Campus & Extracurricular",
-    description: "Activities that demonstrate leadership and teamwork.",
+    description: "Activities that show leadership and teamwork.",
     items: ["Student Government", "Club Officer/Member", "Sports Team", "Student Newspaper", "Event Planning", "Peer Counseling", "Resident Advisor"],
   },
   {
@@ -44,6 +45,7 @@ export default function ExperienceGapPage() {
 
   return (
     <div>
+      <Breadcrumb href="/applications" label="Applications" />
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-neutral-800">Experience Gap Solver</h1>
         <p className="mt-1 text-sm text-neutral-500">
@@ -53,8 +55,8 @@ export default function ExperienceGapPage() {
       </div>
 
       <Callout type="tip" className="mb-6">
-        Employers value all types of experience. Volunteer work, campus activities, internships,
-        and class projects all demonstrate transferable skills that belong on your resume and applications.
+        Employers count all types of experience. Volunteer work, campus activities, internships,
+        and class projects all show skills that belong on your resume.
       </Callout>
 
       <div className="space-y-6">
@@ -63,27 +65,14 @@ export default function ExperienceGapPage() {
             <h2 className="mb-1 font-semibold text-neutral-800">{cat.title}</h2>
             <p className="mb-3 text-sm text-neutral-500">{cat.description}</p>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-              {cat.items.map((item) => {
-                const isChecked = checked.has(item);
-                return (
-                  <button
+              {cat.items.map((item) => (
+                  <ToggleButton
                     key={item}
-                    onClick={() => toggle(item)}
-                    className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm transition-colors ${
-                      isChecked
-                        ? "border-primary-400 bg-primary-50 text-primary-700"
-                        : "border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300"
-                    }`}
-                  >
-                    <div className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border ${
-                      isChecked ? "border-primary-400 bg-primary-400" : "border-neutral-300"
-                    }`}>
-                      {isChecked && <CheckCircle className="h-3 w-3 text-white" />}
-                    </div>
-                    {item}
-                  </button>
-                );
-              })}
+                    label={item}
+                    checked={checked.has(item)}
+                    onToggle={() => toggle(item)}
+                  />
+              ))}
             </div>
           </section>
         ))}
@@ -95,7 +84,8 @@ export default function ExperienceGapPage() {
             You identified {checked.size} types of experience!
           </h3>
           <p className="mt-1 text-sm text-primary-700">
-            Include these on your applications and resume. Even informal experience demonstrates valuable skills to employers.
+            Add these to your resume and applications. Use the <strong>Resume Builder</strong> to
+            turn each experience into result-oriented bullet points.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             {Array.from(checked).map((item) => (

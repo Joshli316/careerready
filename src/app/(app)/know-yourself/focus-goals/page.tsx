@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useStorage } from "@/hooks/useStorage";
-import { useSaveIndicator } from "@/hooks/useSaveIndicator";
-import { useToast } from "@/components/ui/Toast";
+import { useProfileSave } from "@/hooks/useProfileSave";
+import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
-import { CheckCircle, Target } from "lucide-react";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { Target } from "lucide-react";
 
 interface FocusGoal {
   goal: string;
@@ -29,10 +29,8 @@ const emptyGoal: FocusGoal = {
 };
 
 export default function FocusGoalsPage() {
-  const storage = useStorage();
+  const { saved, save, storage } = useProfileSave();
   const [focusGoal, setFocusGoal] = useState<FocusGoal>(emptyGoal);
-  const { saved, showSaved } = useSaveIndicator();
-  const { toast } = useToast();
 
   useEffect(() => {
     storage.getProfile().then((profile) => {
@@ -42,16 +40,7 @@ export default function FocusGoalsPage() {
     });
   }, [storage]);
 
-  const save = useCallback(async () => {
-    try {
-      const profile = (await storage.getProfile()) ?? {};
-      await storage.setProfile({ ...profile, focusGoals: [focusGoal] });
-      showSaved();
-      toast("Saved successfully", "success");
-    } catch {
-      toast("Failed to save. Please try again.", "error");
-    }
-  }, [storage, focusGoal, showSaved, toast]);
+  const handleSave = useCallback(() => save({ focusGoals: [focusGoal] }), [save, focusGoal]);
 
   function updateSteps(phase: keyof FocusGoal["steps"], index: number, value: string) {
     const steps = { ...focusGoal.steps };
@@ -67,14 +56,9 @@ export default function FocusGoalsPage() {
     setFocusGoal({ ...focusGoal, steps });
   }
 
-  const focusSteps = [
-    { letter: "F", title: "Find and Define", description: "What exactly do you want to achieve? Be specific.", field: "goal" as const },
-    { letter: "U", title: "Understand the Purpose", description: "Why is this goal important to you?", field: "purpose" as const },
-    { letter: "S", title: "Set a Time Frame", description: "When will you achieve this goal?", field: "deadline" as const },
-  ];
-
   return (
     <div>
+      <Breadcrumb href="/know-yourself" label="Know Yourself" />
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">Goal Setting with FOCUS</h1>
@@ -82,12 +66,7 @@ export default function FocusGoalsPage() {
             Create structured employment goals using the FOCUS framework.
           </p>
         </div>
-        {saved && (
-          <div className="flex items-center gap-1.5 text-sm text-success">
-            <CheckCircle className="h-4 w-4" />
-            Saved
-          </div>
-        )}
+        <SavedIndicator visible={saved} />
       </div>
 
       <Callout type="tip" className="mb-6">
@@ -95,34 +74,24 @@ export default function FocusGoalsPage() {
         The FOCUS framework breaks your goal into achievable parts.
       </Callout>
 
-      {/* F, U, S — text fields */}
-      {focusSteps.map((step) => (
-        <section key={step.letter} className="mb-6 rounded-xl border-l-4 border-l-primary-400 bg-white p-6 shadow-sm">
-          <div className="mb-3 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-400 text-lg font-bold text-white">
-              {step.letter}
-            </div>
-            <div>
-              <h2 className="font-semibold text-neutral-800">{step.title}</h2>
-              <p className="text-sm text-neutral-500">{step.description}</p>
-            </div>
+      {/* F — Find and Define */}
+      <section className="mb-6 rounded-xl border-l-4 border-l-primary-400 bg-white p-6 shadow-sm">
+        <div className="mb-3 flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-400 text-lg font-bold text-white">
+            F
           </div>
-          {step.field === "deadline" ? (
-            <Input
-              type="date"
-              value={focusGoal[step.field]}
-              onChange={(e) => setFocusGoal({ ...focusGoal, [step.field]: e.target.value })}
-            />
-          ) : (
-            <Textarea
-              value={focusGoal[step.field]}
-              onChange={(e) => setFocusGoal({ ...focusGoal, [step.field]: e.target.value })}
-              placeholder={step.description}
-              rows={3}
-            />
-          )}
-        </section>
-      ))}
+          <div>
+            <h2 className="font-semibold text-neutral-800">Find and Define</h2>
+            <p className="text-sm text-neutral-500">What exactly do you want to achieve? Be specific.</p>
+          </div>
+        </div>
+        <Textarea
+          value={focusGoal.goal}
+          onChange={(e) => setFocusGoal({ ...focusGoal, goal: e.target.value })}
+          placeholder="What exactly do you want to achieve? Be specific."
+          rows={3}
+        />
+      </section>
 
       {/* O — Outline Steps */}
       <section className="mb-6 rounded-xl border-l-4 border-l-primary-400 bg-white p-6 shadow-sm">
@@ -195,6 +164,43 @@ export default function FocusGoalsPage() {
         </div>
       </section>
 
+      {/* U — Understand the Purpose */}
+      <section className="mb-6 rounded-xl border-l-4 border-l-primary-400 bg-white p-6 shadow-sm">
+        <div className="mb-3 flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-400 text-lg font-bold text-white">
+            U
+          </div>
+          <div>
+            <h2 className="font-semibold text-neutral-800">Understand the Purpose</h2>
+            <p className="text-sm text-neutral-500">Why is this goal important to you?</p>
+          </div>
+        </div>
+        <Textarea
+          value={focusGoal.purpose}
+          onChange={(e) => setFocusGoal({ ...focusGoal, purpose: e.target.value })}
+          placeholder="Why is this goal important to you?"
+          rows={3}
+        />
+      </section>
+
+      {/* S — Set a Time Frame */}
+      <section className="mb-6 rounded-xl border-l-4 border-l-primary-400 bg-white p-6 shadow-sm">
+        <div className="mb-3 flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-400 text-lg font-bold text-white">
+            S
+          </div>
+          <div>
+            <h2 className="font-semibold text-neutral-800">Set a Time Frame</h2>
+            <p className="text-sm text-neutral-500">When will you achieve this goal?</p>
+          </div>
+        </div>
+        <Input
+          type="date"
+          value={focusGoal.deadline}
+          onChange={(e) => setFocusGoal({ ...focusGoal, deadline: e.target.value })}
+        />
+      </section>
+
       {/* Full Goal Statement */}
       <section className="mb-6 rounded-xl border border-primary-200 bg-primary-50 p-6">
         <div className="mb-3 flex items-center gap-2">
@@ -211,7 +217,7 @@ export default function FocusGoalsPage() {
       </section>
 
       <div className="flex justify-end">
-        <Button onClick={save} size="lg">
+        <Button onClick={handleSave} size="lg">
           Save Goal
         </Button>
       </div>

@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAIClient } from "@/lib/ai/client";
 import { PROMPTS } from "@/lib/ai/prompts";
 import { checkRateLimit } from "@/lib/ai/rate-limit";
+import { getClientIp } from "@/lib/ai/client-ip";
 
 export async function POST(request: NextRequest) {
   const apiKey = process.env.CLAUDE_API_KEY;
@@ -11,13 +12,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "AI features are not configured" }, { status: 503 });
   }
 
-  const ip = request.headers.get("x-forwarded-for") ?? "anonymous";
+  const ip = getClientIp(request);
   const { allowed, remaining } = checkRateLimit(`ai:ip:${ip}`, false);
   if (!allowed) {
     return NextResponse.json({ error: "Daily AI limit reached." }, { status: 429 });
   }
 
-  const { question, answer, jobContext } = (await request.json()) as { question: string; answer: string; jobContext?: string };
+  let body: { question?: string; answer?: string; jobContext?: string };
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
+  }
+  const { question, answer, jobContext } = body;
   if (!question || typeof question !== "string" || !answer || typeof answer !== "string") {
     return NextResponse.json({ error: "Missing or invalid question/answer" }, { status: 400 });
   }

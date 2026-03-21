@@ -1,57 +1,52 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useStorage } from "@/hooks/useStorage";
-import { useSaveIndicator } from "@/hooks/useSaveIndicator";
-import { useToast } from "@/components/ui/Toast";
+import { useProfileSave } from "@/hooks/useProfileSave";
+import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
-import { CheckCircle, Sparkles } from "lucide-react";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { Sparkles } from "lucide-react";
 
 export default function BrandingPage() {
-  const storage = useStorage();
+  const { saved, save, storage } = useProfileSave();
   const [field, setField] = useState("");
   const [position, setPosition] = useState("");
   const [skills, setSkills] = useState("");
   const [accomplishments, setAccomplishments] = useState("");
   const [brandStatement, setBrandStatement] = useState("");
-  const { saved, showSaved } = useSaveIndicator();
-  const { toast } = useToast();
 
   useEffect(() => {
     storage.getProfile().then((profile) => {
       if (profile?.brandStatement) setBrandStatement(profile.brandStatement);
+      const bd = profile?.brandDiscovery;
+      if (bd) {
+        if (bd.field) setField(bd.field);
+        if (bd.position) setPosition(bd.position);
+        if (bd.skills) setSkills(bd.skills);
+        if (bd.accomplishments) setAccomplishments(bd.accomplishments);
+      }
     });
   }, [storage]);
 
-  const save = useCallback(async () => {
-    try {
-      const profile = (await storage.getProfile()) ?? {};
-      await storage.setProfile({ ...profile, brandStatement });
-      showSaved();
-      toast("Saved successfully", "success");
-    } catch {
-      toast("Failed to save. Please try again.", "error");
-    }
-  }, [storage, brandStatement, showSaved, toast]);
+  const handleSave = useCallback(
+    () => save({ brandStatement, brandDiscovery: { field, position, skills, accomplishments } }),
+    [save, brandStatement, field, position, skills, accomplishments]
+  );
 
   return (
     <div>
+      <Breadcrumb href="/know-yourself" label="Know Yourself" />
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">Personal Branding</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Create a personal brand statement that conveys your strengths and what sets you apart.
+            Write 1-2 sentences that tell employers what you're good at and why.
           </p>
         </div>
-        {saved && (
-          <div className="flex items-center gap-1.5 text-sm text-success">
-            <CheckCircle className="h-4 w-4" />
-            Saved
-          </div>
-        )}
+        <SavedIndicator visible={saved} />
       </div>
 
       <Callout type="tip" className="mb-6">
@@ -82,7 +77,7 @@ export default function BrandingPage() {
           Write 1-2 sentences about what you are best at (value), who you serve (audience), and how you do it uniquely.
         </p>
         <Textarea
-          placeholder='e.g., "Energetic marketing graduate with expertise in social media strategy and content creation. Passionate about helping brands connect with Gen Z audiences through authentic storytelling."'
+          placeholder='e.g., "Marketing graduate who ran social media for two campus organizations. I grew one account from 200 to 2,000 followers in a semester."'
           value={brandStatement}
           onChange={(e) => setBrandStatement(e.target.value)}
           rows={4}
@@ -94,13 +89,13 @@ export default function BrandingPage() {
       <div className="mb-6 rounded-lg border border-neutral-150 bg-neutral-50 p-4">
         <h3 className="mb-2 text-sm font-medium text-neutral-600">Example Brand Statements</h3>
         <ul className="space-y-2 text-sm text-neutral-500 italic">
-          <li>"Energetic sales professional with expertise in matching customers with optimal products and services to meet their specific needs."</li>
-          <li>"Detail-oriented computer science graduate skilled in full-stack development, passionate about building accessible web applications."</li>
+          <li>"I helped customers find the right product at a busy retail store and consistently hit 110% of my weekly sales target."</li>
+          <li>"CS graduate who built three full-stack apps in school. I care about making websites that work for everyone, including people using screen readers."</li>
         </ul>
       </div>
 
       <div className="flex justify-end">
-        <Button onClick={save} size="lg">Save Brand Statement</Button>
+        <Button onClick={handleSave} size="lg">Save Brand Statement</Button>
       </div>
     </div>
   );

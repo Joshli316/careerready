@@ -1,8 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Callout } from "@/components/ui/Callout";
+import { Button } from "@/components/ui/Button";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { CheckCircle, XCircle } from "lucide-react";
+import { useProfileSave } from "@/hooks/useProfileSave";
+import { SavedIndicator } from "@/components/ui/SavedIndicator";
 
 const auditCategories = [
   { category: "Drug use, excessive drinking, or partying content", key: "drugs" },
@@ -29,10 +33,22 @@ const dontList = [
 ];
 
 export default function AuditPage() {
+  const { saved, save, storage } = useProfileSave();
   const [results, setResults] = useState<Record<string, "pass" | "fail" | null>>({});
+
+  useEffect(() => {
+    storage.getProfile().then((profile) => {
+      if (profile?.socialAudit) {
+        setResults(profile.socialAudit);
+      }
+    });
+  }, [storage]);
+
+  const handleSave = useCallback(() => save({ socialAudit: results }), [save, results]);
 
   return (
     <div>
+      <Breadcrumb href="/social-media" label="Social Media" />
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-neutral-800">Online Presence Audit</h1>
         <p className="mt-1 text-sm text-neutral-500">
@@ -40,6 +56,8 @@ export default function AuditPage() {
           and 1 in 3 have rejected someone based on what they found.
         </p>
       </div>
+
+      <SavedIndicator visible={saved} />
 
       <Callout type="warning" className="mb-6">
         Before starting your job search, Google yourself and review every social media profile.
@@ -109,6 +127,10 @@ export default function AuditPage() {
           </div>
         )}
       </section>
+
+      <div className="mt-6 flex justify-end">
+        <Button onClick={handleSave} size="lg">Save Audit Results</Button>
+      </div>
     </div>
   );
 }

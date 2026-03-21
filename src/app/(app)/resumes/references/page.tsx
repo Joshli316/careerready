@@ -1,21 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Callout } from "@/components/ui/Callout";
-import { Plus, Trash2, CheckCircle } from "lucide-react";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { Plus, Trash2 } from "lucide-react";
+import { useProfileSave } from "@/hooks/useProfileSave";
+import { SavedIndicator } from "@/components/ui/SavedIndicator";
+import type { ReferencesEntry } from "@/types/profile";
 
-interface Reference {
-  name: string;
-  title: string;
-  company: string;
-  phone: string;
-  email: string;
-  relationship: "professional" | "personal";
-}
-
-const emptyRef = (): Reference => ({
+const emptyRef = (): ReferencesEntry => ({
   name: "",
   title: "",
   company: "",
@@ -25,10 +20,18 @@ const emptyRef = (): Reference => ({
 });
 
 export default function ReferencesPage() {
-  const [references, setReferences] = useState<Reference[]>([emptyRef(), emptyRef(), emptyRef()]);
-  const [saved, setSaved] = useState(false);
+  const { saved, save, storage } = useProfileSave();
+  const [references, setReferences] = useState<ReferencesEntry[]>([emptyRef(), emptyRef(), emptyRef()]);
 
-  function update(index: number, field: keyof Reference, value: string) {
+  useEffect(() => {
+    storage.getProfile().then((profile) => {
+      if (profile?.references) {
+        setReferences(profile.references);
+      }
+    });
+  }, [storage]);
+
+  function update(index: number, field: keyof ReferencesEntry, value: string) {
     const updated = [...references];
     updated[index] = { ...updated[index], [field]: value };
     setReferences(updated);
@@ -43,13 +46,11 @@ export default function ReferencesPage() {
     setReferences(references.filter((_, i) => i !== index));
   }
 
-  function save() {
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  }
+  const handleSave = useCallback(() => save({ references }), [save, references]);
 
   return (
     <div>
+      <Breadcrumb href="/resumes" label="Resumes" />
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">Reference Page</h1>
@@ -57,17 +58,12 @@ export default function ReferencesPage() {
             Build a formatted reference page that matches your resume layout.
           </p>
         </div>
-        {saved && (
-          <div className="flex items-center gap-1.5 text-sm text-success">
-            <CheckCircle className="h-4 w-4" />
-            Saved
-          </div>
-        )}
+        <SavedIndicator visible={saved} />
       </div>
 
       <Callout type="tip" className="mb-6">
-        Select at least 5 people with accurate contact information. Always ask permission before listing someone as a reference.
-        Professional references (co-workers, supervisors, instructors) are preferred.
+        List at least 5 people and double-check their phone numbers and emails. Ask permission first.
+        Supervisors, professors, and co-workers make the strongest references.
       </Callout>
 
       <div className="space-y-4">
@@ -107,7 +103,7 @@ export default function ReferencesPage() {
           <Plus className="h-4 w-4" />
           Add Reference
         </button>
-        <Button onClick={save} size="lg">Save References</Button>
+        <Button onClick={handleSave} size="lg">Save References</Button>
       </div>
     </div>
   );

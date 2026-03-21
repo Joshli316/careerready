@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { Callout } from "@/components/ui/Callout";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+
+export const metadata: Metadata = {
+  title: "Application Tips",
+  description: "10 tips for completing job applications that get you noticed. Avoid the errors that reject 50% of applicants.",
+};
 
 const tips = [
   {
@@ -56,6 +63,7 @@ const tips = [
 export default function ApplicationTipsPage() {
   return (
     <div>
+      <Breadcrumb href="/applications" label="Applications" />
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-neutral-800">10 Essential Application Tips</h1>
         <p className="mt-1 text-sm text-neutral-500">

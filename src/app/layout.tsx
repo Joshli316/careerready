@@ -1,10 +1,37 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "CareerReady — Job Preparation Toolkit",
+  metadataBase: new URL("https://careerready.pages.dev"),
+  title: {
+    default: "CareerReady — Free Job Prep Tools for College Graduates",
+    template: "%s — CareerReady",
+  },
   description:
-    "Interactive tools to help college graduates prepare for their first job search.",
+    "8 free tools that help recent graduates build resumes, practice interviews, and land their first job. No account needed — start in 30 seconds.",
+  openGraph: {
+    title: "CareerReady — Free Job Prep Tools for College Graduates",
+    description:
+      "8 free tools that help recent graduates build resumes, practice interviews, and land their first job.",
+    type: "website",
+    siteName: "CareerReady",
+  },
+  twitter: {
+    card: "summary",
+    title: "CareerReady — Free Job Prep Tools for College Graduates",
+    description:
+      "8 free tools that help recent graduates build resumes, practice interviews, and land their first job.",
+  },
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({
@@ -13,13 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" className={inter.variable}>
       <body className="antialiased">{children}</body>
     </html>
   );

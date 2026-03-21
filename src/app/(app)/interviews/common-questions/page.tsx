@@ -7,6 +7,7 @@ import { useToast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { CheckCircle, ChevronDown, ChevronUp } from "lucide-react";
 import type { InterviewResponse, InterviewPrep } from "@/types/interview";
 
@@ -24,7 +25,7 @@ const QUESTIONS: Array<{ question: string; tips: string[] }> = [
     tips: [
       "Match your qualifications to the job description.",
       "Describe specific skills and experience you bring.",
-      "Use concrete examples to demonstrate your value.",
+      "Back up each claim with a specific example.",
     ],
   },
   {
@@ -55,7 +56,7 @@ const QUESTIONS: Array<{ question: string; tips: string[] }> = [
     question: "How would co-workers describe you?",
     tips: [
       "Share personality traits that match the job and culture.",
-      "Focus on interpersonal skills and teamwork.",
+      "Talk about how you work with others day to day.",
     ],
   },
   {
@@ -120,6 +121,7 @@ export default function CommonQuestionsPage() {
 
   return (
     <div>
+      <Breadcrumb href="/interviews" label="Interviews" />
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">Common Interview Questions</h1>
@@ -161,6 +163,7 @@ export default function CommonQuestionsPage() {
               <button
                 onClick={() => setExpandedIndex(isExpanded ? null : i)}
                 className="flex w-full items-center justify-between p-4 text-left"
+                aria-expanded={isExpanded}
               >
                 <div className="flex items-center gap-3">
                   <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${

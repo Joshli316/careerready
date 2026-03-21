@@ -1,8 +1,16 @@
+import type { Metadata } from "next";
 import { Callout } from "@/components/ui/Callout";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+
+export const metadata: Metadata = {
+  title: "Emailing Your Resume",
+  description: "How to write a professional email when sending your resume. Subject line format, body template, and attachment tips.",
+};
 
 export default function EmailGuidePage() {
   return (
     <div>
+      <Breadcrumb href="/resumes" label="Resumes" />
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-neutral-800">Emailing Your Resume</h1>
         <p className="mt-1 text-sm text-neutral-500">

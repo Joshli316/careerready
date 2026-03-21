@@ -4,31 +4,9 @@ import Link from "next/link";
 import { Menu } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils/cn";
-import {
-  User,
-  FileText,
-  ScrollText,
-  MessageSquare,
-  Search,
-  Globe,
-  Trophy,
-  BookOpen,
-  LayoutDashboard,
-  X,
-} from "lucide-react";
+import { X } from "lucide-react";
 import { usePathname } from "next/navigation";
-
-const tools = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Know Yourself", href: "/know-yourself", icon: User },
-  { name: "Applications", href: "/applications", icon: FileText },
-  { name: "Resumes", href: "/resumes", icon: ScrollText },
-  { name: "Interviews", href: "/interviews", icon: MessageSquare },
-  { name: "Job Search", href: "/job-search", icon: Search },
-  { name: "Social Media", href: "/social-media", icon: Globe },
-  { name: "Landing the Job", href: "/landing-the-job", icon: Trophy },
-  { name: "Contact Log", href: "/contact-log", icon: BookOpen },
-] as const;
+import { navItems } from "./navItems";
 
 export function TopNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -62,7 +40,7 @@ export function TopNav() {
         </div>
         <div className="hidden md:block" />
         <div className="flex items-center gap-2">
-          <span className="text-xs text-neutral-400">No account needed</span>
+          <span className="text-xs text-neutral-400">Your data saves in this browser</span>
         </div>
       </header>
 
@@ -81,13 +59,14 @@ export function TopNav() {
               <button
                 onClick={() => setMobileOpen(false)}
                 className="rounded-lg p-2 text-neutral-600 hover:bg-neutral-100"
+                aria-label="Close menu"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
             <nav className="px-3 py-4">
               <ul className="space-y-1">
-                {tools.map((tool) => {
+                {navItems.map((tool) => {
                   const isActive = pathname === tool.href || pathname.startsWith(tool.href + "/");
                   return (
                     <li key={tool.href}>

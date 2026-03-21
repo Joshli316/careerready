@@ -1,3 +1,6 @@
+// Storage abstraction. Anonymous users get LocalStorageAdapter (data stays in browser).
+// Authenticated users get RemoteStorageAdapter (data syncs to Cloudflare D1).
+// The useStorage hook selects the right one based on auth state.
 import type { UserProfile } from "@/types/profile";
 import type { Resume, CoverLetter } from "@/types/resume";
 import type { EmployerContact } from "@/types/contact";

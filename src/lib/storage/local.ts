@@ -11,12 +11,40 @@ const PREFIX = "careerready_";
 function getItem<T>(key: string): T | null {
   if (typeof window === "undefined") return null;
   const raw = localStorage.getItem(`${PREFIX}${key}`);
-  return raw ? JSON.parse(raw) : null;
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as T;
+  } catch {
+    console.warn(`Corrupted data for key "${PREFIX}${key}", resetting.`);
+    localStorage.removeItem(`${PREFIX}${key}`);
+    return null;
+  }
 }
+
+const STORAGE_WARN_BYTES = 4 * 1024 * 1024; // 4MB — warn at ~80% of 5MB limit
 
 function setItem<T>(key: string, value: T): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem(`${PREFIX}${key}`, JSON.stringify(value));
+  const json = JSON.stringify(value);
+  localStorage.setItem(`${PREFIX}${key}`, json);
+  checkStorageUsage();
+}
+
+function checkStorageUsage(): void {
+  try {
+    let total = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k?.startsWith(PREFIX)) {
+        total += (localStorage.getItem(k) ?? "").length * 2; // UTF-16
+      }
+    }
+    if (total > STORAGE_WARN_BYTES) {
+      console.warn(`CareerReady localStorage usage: ${(total / 1024 / 1024).toFixed(1)}MB of ~5MB. Consider creating an account to sync data.`);
+    }
+  } catch {
+    // Ignore — quota errors will surface on next setItem
+  }
 }
 
 export class LocalStorageAdapter implements StorageAdapter {

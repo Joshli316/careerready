@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { Brain, Target, Wrench, Heart, Sparkles, Mic, Shirt, Mail } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Know Yourself",
+  description: "Identify your skills, values, and personal brand. What you write here auto-fills your resume and interview prep.",
+};
+import { Brain, Target, Wrench, Heart, Sparkles, Mic } from "lucide-react";
 
 const sections = [
   {
@@ -16,7 +22,7 @@ const sections = [
   },
   {
     title: "Transferable Skills",
-    description: "Identify your soft and hard skills from all experiences.",
+    description: "Identify your soft and hard skills — these auto-fill your resume.",
     href: "/know-yourself/skills",
     icon: Wrench,
   },
@@ -28,13 +34,13 @@ const sections = [
   },
   {
     title: "Personal Branding",
-    description: "Create your personal brand statement.",
+    description: "Write your brand statement — it becomes your resume summary.",
     href: "/know-yourself/branding",
     icon: Sparkles,
   },
   {
     title: "Power Statement",
-    description: "Build your elevator pitch for networking and interviews.",
+    description: "Build your elevator pitch — use it at networking events and in interviews.",
     href: "/know-yourself/power-statement",
     icon: Mic,
   },
@@ -46,8 +52,8 @@ export default function KnowYourselfPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-neutral-800">Know Yourself</h1>
         <p className="mt-2 text-neutral-500">
-          Build self-awareness about your professional identity. The skills, values, and brand you
-          define here will flow into your resume, cover letters, and interview preparation.
+          Figure out what you're good at and how to talk about it. What you write here
+          auto-fills your resume, cover letter, and interview prep.
         </p>
       </div>
 
@@ -56,7 +62,7 @@ export default function KnowYourselfPage() {
           <Link
             key={section.href}
             href={section.href}
-            className="group flex gap-4 rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:border-primary-300"
+            className="group flex gap-4 rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md hover:border-primary-300"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-400 group-hover:bg-primary-100">
               <section.icon className="h-5 w-5" />
