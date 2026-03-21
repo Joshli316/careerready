@@ -49,7 +49,7 @@ export function MockQuestionCard({ question, index }: MockQuestionCardProps) {
           </div>
           {question.suggestedStoryIds.length > 0 && (
             <p className="text-xs text-neutral-500">
-              Use stories: {question.suggestedStoryIds.join(", ")}
+              Suggested stories: {question.suggestedStoryIds.join(", ")}
             </p>
           )}
         </div>

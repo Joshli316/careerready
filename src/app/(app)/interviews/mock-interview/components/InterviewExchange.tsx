@@ -30,7 +30,7 @@ export function InterviewExchange({
         <span className="text-xs font-medium text-neutral-400">
           Question {questionIndex + 1} of {totalQuestions}
         </span>
-        <div className="h-1.5 flex-1 rounded-full bg-neutral-100">
+        <div className="h-1.5 flex-1 rounded-full bg-neutral-100" role="progressbar">
           <div
             className="h-1.5 rounded-full bg-primary-400 transition-all"
             style={{ width: `${((questionIndex + 1) / totalQuestions) * 100}%` }}
@@ -53,7 +53,7 @@ export function InterviewExchange({
             className="mt-3 flex items-center gap-1 text-xs text-neutral-500 hover:text-neutral-700"
           >
             {showHints ? <ChevronDown className="h-3.5 w-3.5" /> : <ChevronRight className="h-3.5 w-3.5" />}
-            {showHints ? "Hide hints" : "Show hints"}
+            {showHints ? "Hide tips" : "Show tips"}
           </button>
         )}
         {showHints && (
@@ -68,10 +68,10 @@ export function InterviewExchange({
       <textarea
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
-        placeholder="Type your answer here... Speak as if you're in an actual interview."
+        placeholder="Answer as if you're talking to the interviewer right now."
         rows={6}
         maxLength={5000}
-        className="w-full rounded-xl border border-neutral-200 bg-white p-4 text-sm text-neutral-700 placeholder:text-neutral-400 focus:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-100 resize-y"
+        className="w-full min-h-[120px] rounded-xl border border-neutral-200 bg-white p-4 text-sm text-neutral-700 placeholder:text-neutral-400 focus:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-100 resize-y"
       />
       <div className="flex items-center justify-between">
         <span className="text-xs text-neutral-400">{answer.length.toLocaleString()} / 5,000</span>
@@ -80,7 +80,7 @@ export function InterviewExchange({
           onClick={() => onSubmit(answer)}
           disabled={loading || answer.trim().length < 10}
         >
-          {loading ? "Getting feedback..." : "Submit Answer"}
+          {loading ? "Reviewing your answer..." : "Submit"}
         </Button>
       </div>
     </div>

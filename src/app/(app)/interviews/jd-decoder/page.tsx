@@ -122,7 +122,7 @@ export default function JDDecoderPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-neutral-800">JD Decoder</h1>
         <p className="mt-1 text-sm text-neutral-500">
-          Paste a job description to get AI-powered requirement extraction, story matching, and a tailored prep plan.
+          Paste a job posting. The AI pulls out what they want, checks which of your stories fit, and flags what&apos;s missing.
         </p>
       </div>
 

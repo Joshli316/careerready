@@ -18,14 +18,14 @@ export function PastSessions({ sessions, onSelect, onDelete }: PastSessionsProps
     return (
       <div className="rounded-xl border border-neutral-150 bg-neutral-50 p-5 text-center">
         <Clock className="mx-auto h-6 w-6 text-neutral-400 mb-2" />
-        <p className="text-sm text-neutral-500">No past sessions yet. Start your first mock interview below.</p>
+        <p className="text-sm text-neutral-500">No practice sessions yet. Pick a question set below to start.</p>
       </div>
     );
   }
 
   return (
     <div>
-      <h3 className="mb-2 text-xs font-medium uppercase text-neutral-500">Past Sessions</h3>
+      <h3 className="mb-2 text-xs font-medium uppercase text-neutral-500">Your Sessions</h3>
       <div className="space-y-2">
         {sessions.map((s) => (
           <div
@@ -40,14 +40,14 @@ export function PastSessions({ sessions, onSelect, onDelete }: PastSessionsProps
                 <p className="text-sm font-medium text-neutral-800">{s.sourceLabel}</p>
                 <p className="text-xs text-neutral-500">
                   {new Date(s.createdAt).toLocaleDateString()} — {s.exchanges.length} questions
-                  {s.completed ? " (completed)" : " (in progress)"}
+                  {s.completed ? " — done" : " — incomplete"}
                 </p>
               </div>
               <ChevronRight className="h-4 w-4 text-neutral-400" />
             </button>
             <button
               onClick={() => setDeleteId(s.id)}
-              className="ml-2 rounded p-1 text-neutral-400 opacity-0 group-hover:opacity-100 hover:text-red-500"
+              className="ml-2 rounded p-1 text-neutral-300 hover:text-red-500"
               aria-label={`Delete ${s.sourceLabel} session`}
             >
               <Trash2 className="h-3.5 w-3.5" />

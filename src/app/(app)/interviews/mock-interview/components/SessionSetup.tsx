@@ -47,20 +47,20 @@ export function SessionSetup({ jdAnalyses, onStart }: SessionSetupProps) {
   return (
     <div className="space-y-6">
       <div className="rounded-xl border border-neutral-150 bg-white p-6 shadow-sm">
-        <h3 className="font-semibold text-neutral-800">General Practice</h3>
+        <h3 className="font-semibold text-neutral-800">Quick Practice</h3>
         <p className="mt-1 text-sm text-neutral-500">
-          Practice with 6 common interview questions suited for any role.
+          6 common questions that come up in almost every interview.
         </p>
         <Button className="mt-3" onClick={startGeneric}>
-          Start Generic Practice
+          Start Quick Practice
         </Button>
       </div>
 
       {jdAnalyses.length > 0 && (
         <div className="rounded-xl border border-neutral-150 bg-white p-6 shadow-sm">
-          <h3 className="font-semibold text-neutral-800">Practice from a JD Analysis</h3>
+          <h3 className="font-semibold text-neutral-800">Practice for a Specific Job</h3>
           <p className="mt-1 text-sm text-neutral-500">
-            Use mock questions tailored to a specific job description you've decoded.
+            Questions pulled from a job posting you already analyzed.
           </p>
           <div className="mt-3 space-y-2">
             {jdAnalyses.map((a) => (
@@ -76,7 +76,7 @@ export function SessionSetup({ jdAnalyses, onStart }: SessionSetupProps) {
                 <span className="font-medium">{a.jobTitle || "Untitled"}</span>
                 {a.company && <span className="text-neutral-500"> — {a.company}</span>}
                 <span className="ml-2 text-xs text-neutral-400">
-                  {a.mockQuestions.length} questions
+                  {a.mockQuestions.length} Qs
                 </span>
               </button>
             ))}
@@ -90,7 +90,7 @@ export function SessionSetup({ jdAnalyses, onStart }: SessionSetupProps) {
                 if (analysis) startFromJD(analysis);
               }}
             >
-              Start JD Practice
+              Start Job-Specific Practice
             </Button>
           )}
         </div>

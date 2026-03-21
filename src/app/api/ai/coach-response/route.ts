@@ -9,7 +9,7 @@ import { getClientIp } from "@/lib/ai/client-ip";
 export async function POST(request: NextRequest) {
   const apiKey = process.env.CLAUDE_API_KEY;
   if (!apiKey) {
-    return NextResponse.json({ error: "AI features are not configured" }, { status: 503 });
+    return NextResponse.json({ error: "AI features are not available right now." }, { status: 503 });
   }
 
   const ip = getClientIp(request);
@@ -22,11 +22,11 @@ export async function POST(request: NextRequest) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
   const { question, answer, jobContext } = body;
   if (!question || typeof question !== "string" || !answer || typeof answer !== "string") {
-    return NextResponse.json({ error: "Missing or invalid question/answer" }, { status: 400 });
+    return NextResponse.json({ error: "Question and answer are both required." }, { status: 400 });
   }
   if (answer.length > 5000) {
     return NextResponse.json({ error: "Answer too long (max 5000 chars)" }, { status: 400 });
@@ -52,6 +52,6 @@ export async function POST(request: NextRequest) {
     const text = message.content[0].type === "text" ? message.content[0].text : "";
     return NextResponse.json({ result: text, remaining });
   } catch {
-    return NextResponse.json({ error: "AI request failed" }, { status: 500 });
+    return NextResponse.json({ error: "Could not get feedback. Try again." }, { status: 500 });
   }
 }

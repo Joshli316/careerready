@@ -27,17 +27,17 @@ export function AnalysisSummary({ analysis }: AnalysisSummaryProps) {
         <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-center">
           <CheckCircle className="mx-auto h-5 w-5 text-green-600 mb-1" />
           <div className="text-2xl font-bold text-green-700">{matchCount}</div>
-          <div className="text-xs text-green-600">Stories Matched</div>
+          <div className="text-xs text-green-600">Matched</div>
         </div>
         <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-center">
           <AlertTriangle className="mx-auto h-5 w-5 text-amber-600 mb-1" />
           <div className="text-2xl font-bold text-amber-700">{gapCount}</div>
-          <div className="text-xs text-amber-600">Gaps to Fill</div>
+          <div className="text-xs text-amber-600">Gaps</div>
         </div>
         <div className="rounded-xl border border-primary-200 bg-primary-50 p-4 text-center">
           <HelpCircle className="mx-auto h-5 w-5 text-primary-600 mb-1" />
           <div className="text-2xl font-bold text-primary-700">{questionCount}</div>
-          <div className="text-xs text-primary-600">Mock Questions</div>
+          <div className="text-xs text-primary-600">Practice Qs</div>
         </div>
       </div>
     </div>

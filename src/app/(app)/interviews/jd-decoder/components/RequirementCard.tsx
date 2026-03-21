@@ -32,7 +32,7 @@ export function RequirementCard({ requirement, match, gap, stories }: Requiremen
               {requirement.importance === "must_have" ? "Must Have" : "Nice to Have"}
             </span>
             <span className="inline-block rounded bg-neutral-100 px-2 py-0.5 text-xs text-neutral-500">
-              {requirement.category.replace("_", " ")}
+              {requirement.category.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
             </span>
             {requirement.competency && (
               <span className="inline-block rounded bg-primary-50 px-2 py-0.5 text-xs text-primary-600">

@@ -121,7 +121,7 @@ export default function MockInterviewPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-neutral-800">AI Mock Interview</h1>
         <p className="mt-1 text-sm text-neutral-500">
-          Practice answering interview questions with real-time AI coaching on each response.
+          Pick a question set, answer each one, and get feedback before moving on.
         </p>
       </div>
 

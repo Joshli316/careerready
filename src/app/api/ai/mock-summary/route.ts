@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
   const apiKey = process.env.CLAUDE_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
-      { error: "AI features are not configured" },
+      { error: "AI features are not available right now." },
       { status: 503 }
     );
   }
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 
   const { jobContext, exchanges } = body;
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ result, remaining });
   } catch {
     return NextResponse.json(
-      { error: "Summary generation failed. Please try again." },
+      { error: "Could not generate summary. Try again." },
       { status: 500 }
     );
   }

@@ -9,8 +9,8 @@ interface PrepChecklistProps {
 }
 
 const groupLabels: Record<PrepChecklistItem["type"], string> = {
-  polish_story: "Polish Existing Stories",
-  draft_new_story: "Draft New Stories",
+  polish_story: "Strengthen Matched Stories",
+  draft_new_story: "Write New Stories",
   research: "Research",
   practice: "Practice",
 };
@@ -37,14 +37,14 @@ export function PrepChecklist({ items, onToggle }: PrepChecklistProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <div className="h-2 flex-1 rounded-full bg-neutral-100">
+        <div className="h-2 flex-1 rounded-full bg-neutral-100" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
           <div
             className="h-2 rounded-full bg-primary-400 transition-all"
             style={{ width: `${progress}%` }}
           />
         </div>
         <span className="text-sm font-medium text-neutral-600">
-          {doneCount}/{items.length}
+          {doneCount}/{items.length} done
         </span>
       </div>
       {grouped.map((group) => (

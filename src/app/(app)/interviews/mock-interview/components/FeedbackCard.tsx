@@ -42,10 +42,10 @@ export function FeedbackCard({
       <div className="flex justify-end gap-3">
         {isLast ? (
           <Button variant="ai" onClick={onFinish}>
-            Finish & Get Summary
+            Finish Interview
           </Button>
         ) : (
-          <Button onClick={onNext}>Next Question</Button>
+          <Button onClick={onNext}>Next</Button>
         )}
       </div>
     </div>

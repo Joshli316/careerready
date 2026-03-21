@@ -5,12 +5,12 @@ import { BookOpen, MessageCircle, Building2, ThumbsUp, FileSearch, Mic } from "l
 import { ReadinessDashboard } from "./components/ReadinessDashboard";
 
 const sections = [
-  { title: "Storybank", description: "Build and manage your behavioral interview story collection.", href: "/interviews/star-method", icon: BookOpen },
-  { title: "JD Decoder", description: "Decode job descriptions and build a targeted prep plan.", href: "/interviews/jd-decoder", icon: FileSearch },
-  { title: "AI Mock Interview", description: "Practice with AI-coached mock interviews and get real-time feedback.", href: "/interviews/mock-interview", icon: Mic },
-  { title: "Common Questions", description: "Prepare answers to the 8 most common interview questions.", href: "/interviews/common-questions", icon: MessageCircle },
-  { title: "Company Research", description: "Research framework to prepare for specific employers.", href: "/interviews/company-research", icon: Building2 },
-  { title: "Thank You Notes", description: "Generate professional thank you notes after interviews.", href: "/interviews/thank-you", icon: ThumbsUp },
+  { title: "Storybank", description: "Write STAR stories and tag them by skill so they're ready when you need them.", href: "/interviews/star-method", icon: BookOpen },
+  { title: "JD Decoder", description: "Paste any job posting to see which stories you have ready and where you have gaps.", href: "/interviews/jd-decoder", icon: FileSearch },
+  { title: "AI Mock Interview", description: "Answer questions one by one and get AI coaching after each.", href: "/interviews/mock-interview", icon: Mic },
+  { title: "Common Questions", description: "Draft answers to the 8 questions interviewers ask most.", href: "/interviews/common-questions", icon: MessageCircle },
+  { title: "Company Research", description: "Organize your research on each company before you walk in.", href: "/interviews/company-research", icon: Building2 },
+  { title: "Thank You Notes", description: "Write and send thank you notes the same day.", href: "/interviews/thank-you", icon: ThumbsUp },
 ];
 
 export default function InterviewsPage() {
@@ -18,7 +18,7 @@ export default function InterviewsPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-neutral-800">Interviews</h1>
-        <p className="mt-2 text-neutral-500">Prepare for interviews with structured frameworks and practice tools.</p>
+        <p className="mt-2 text-neutral-500">Six tools to get you interview-ready, from stories to thank you notes.</p>
       </div>
       <ReadinessDashboard />
       <div className="grid gap-4 sm:grid-cols-2">

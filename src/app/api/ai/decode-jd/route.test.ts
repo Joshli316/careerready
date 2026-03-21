@@ -60,7 +60,7 @@ describe("POST /api/ai/decode-jd", () => {
     const res = await POST(makeRequest({ jobDescription: "Test JD" }));
     expect(res.status).toBe(503);
     const json = (await res.json()) as any;
-    expect(json.error).toContain("not configured");
+    expect(json.error).toContain("not available");
 
     if (original) process.env.CLAUDE_API_KEY = original;
   });
@@ -117,6 +117,6 @@ describe("POST /api/ai/decode-jd", () => {
     const res = await POST(makeRequest({ jobDescription: "Some job description here" }));
     expect(res.status).toBe(500);
     const json = (await res.json()) as any;
-    expect(json.error).toContain("failed");
+    expect(json.error).toContain("Could not analyze");
   });
 });
