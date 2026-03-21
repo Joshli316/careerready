@@ -5,6 +5,7 @@ import type { UserProfile } from "@/types/profile";
 import type { Resume, CoverLetter } from "@/types/resume";
 import type { EmployerContact } from "@/types/contact";
 import type { InterviewPrep } from "@/types/interview";
+import type { JDAnalysis } from "@/app/(app)/interviews/jd-decoder/types";
 
 const PREFIX = "careerready_";
 
@@ -113,5 +114,20 @@ export class LocalStorageAdapter implements StorageAdapter {
   async deleteContact(id: string): Promise<void> {
     const contacts = (await this.getContacts()).filter((c) => c.id !== id);
     setItem("contacts", contacts);
+  }
+
+  async getJDAnalyses(): Promise<JDAnalysis[]> {
+    return getItem<JDAnalysis[]>("jd_analyses") ?? [];
+  }
+  async saveJDAnalysis(analysis: JDAnalysis): Promise<void> {
+    const analyses = await this.getJDAnalyses();
+    const idx = analyses.findIndex((a) => a.id === analysis.id);
+    if (idx >= 0) analyses[idx] = analysis;
+    else analyses.push(analysis);
+    setItem("jd_analyses", analyses);
+  }
+  async deleteJDAnalysis(id: string): Promise<void> {
+    const analyses = (await this.getJDAnalyses()).filter((a) => a.id !== id);
+    setItem("jd_analyses", analyses);
   }
 }

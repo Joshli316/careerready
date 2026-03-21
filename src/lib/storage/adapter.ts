@@ -5,6 +5,7 @@ import type { UserProfile } from "@/types/profile";
 import type { Resume, CoverLetter } from "@/types/resume";
 import type { EmployerContact } from "@/types/contact";
 import type { InterviewPrep } from "@/types/interview";
+import type { JDAnalysis } from "@/app/(app)/interviews/jd-decoder/types";
 
 export interface StorageAdapter {
   getProfile(): Promise<UserProfile | null>;
@@ -22,4 +23,7 @@ export interface StorageAdapter {
   getContact(id: string): Promise<EmployerContact | null>;
   saveContact(contact: EmployerContact): Promise<void>;
   deleteContact(id: string): Promise<void>;
+  getJDAnalyses(): Promise<JDAnalysis[]>;
+  saveJDAnalysis(analysis: JDAnalysis): Promise<void>;
+  deleteJDAnalysis(id: string): Promise<void>;
 }

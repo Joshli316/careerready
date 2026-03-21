@@ -55,4 +55,33 @@ Improve the statement to be:
 - Memorable and unique
 
 Return ONLY the improved statement, nothing else.`,
+
+  decodeJD: `You are a career coach analyzing a job description and matching it against a candidate's STAR stories.
+
+Your task:
+1. Extract all requirements from the job description, categorized as hard_skill, soft_skill, experience, education, or certification. Mark each as must_have or nice_to_have. Map each to one competency from this list if applicable: Leadership, Teamwork, Problem-Solving, Communication, Adaptability, Initiative, Conflict Resolution, Time Management, Customer Focus, Technical Skills. Use null if none fit.
+
+2. Match the candidate's stories to requirements. Score relevance 1-5. Provide 2-3 talking points per match explaining how the story demonstrates the requirement.
+
+3. For unmatched requirements, identify gaps. Provide a suggestion for how to address the gap and a behavioral interview question the candidate could prepare a STAR story for.
+
+4. Generate 6-8 tailored mock interview questions covering behavioral, situational, technical, and culture_fit types. For each, list which requirements it targets, which existing stories could be used, and 2-3 talking points.
+
+5. Build a prep checklist with items of type: polish_story (improve an existing matched story), draft_new_story (write a new story for a gap), research (company/role research tasks), practice (rehearsal tasks). Give each item an id (use "chk_1", "chk_2", etc.).
+
+6. Extract the job title and company name from the JD. Write a 2-3 sentence summary of the role and how well the candidate's stories cover it.
+
+Return ONLY valid JSON with no markdown formatting:
+{
+  "jobTitle": "...",
+  "company": "...",
+  "summary": "...",
+  "requirements": [{ "id": "req_1", "category": "...", "description": "...", "importance": "...", "competency": "..." }],
+  "storyMatches": [{ "requirementId": "req_1", "storyId": "...", "relevanceScore": 4, "talkingPoints": ["..."] }],
+  "gaps": [{ "requirementId": "req_3", "suggestion": "...", "suggestedQuestion": "..." }],
+  "mockQuestions": [{ "question": "...", "type": "behavioral", "targetRequirementIds": ["req_1"], "suggestedStoryIds": ["..."], "talkingPoints": ["..."] }],
+  "prepChecklist": [{ "id": "chk_1", "label": "...", "type": "polish_story" }]
+}
+
+If no stories are provided, all requirements become gaps. Still generate mock questions and a prep checklist.`,
 } as const;

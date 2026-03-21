@@ -40,6 +40,9 @@ function createMockStorage(overrides: Partial<StorageAdapter> = {}): StorageAdap
     getContact: vi.fn().mockResolvedValue(null),
     saveContact: vi.fn().mockResolvedValue(undefined),
     deleteContact: vi.fn().mockResolvedValue(undefined),
+    getJDAnalyses: vi.fn().mockResolvedValue([]),
+    saveJDAnalysis: vi.fn().mockResolvedValue(undefined),
+    deleteJDAnalysis: vi.fn().mockResolvedValue(undefined),
     ...overrides,
   };
 }

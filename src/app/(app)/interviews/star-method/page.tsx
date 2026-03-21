@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { useStorage } from "@/hooks/useStorage";
 import { useSaveIndicator } from "@/hooks/useSaveIndicator";
 import { useToast } from "@/components/ui/Toast";
@@ -44,11 +45,13 @@ const emptyStory = (): StarStory => ({
 
 export default function StarMethodPage() {
   const storage = useStorage();
+  const searchParams = useSearchParams();
   const [stories, setStories] = useState<StarStory[]>([emptyStory()]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
   const { saved, showSaved } = useSaveIndicator();
   const { toast } = useToast();
+  const deepLinkHandled = useRef(false);
 
   useEffect(() => {
     storage.getInterviewPrep().then((prep) => {
@@ -57,6 +60,22 @@ export default function StarMethodPage() {
       }
     });
   }, [storage]);
+
+  // Handle "Draft Story" deep link from JD Decoder
+  useEffect(() => {
+    if (deepLinkHandled.current) return;
+    const isNew = searchParams.get("newStory");
+    const question = searchParams.get("question");
+    if (isNew === "true" && question) {
+      deepLinkHandled.current = true;
+      const newStory = { ...emptyStory(), question };
+      setStories((prev) => {
+        const updated = [...prev, newStory];
+        setActiveIndex(updated.length - 1);
+        return updated;
+      });
+    }
+  }, [searchParams]);
 
   const save = useCallback(async () => {
     try {

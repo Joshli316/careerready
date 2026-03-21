@@ -3,6 +3,7 @@ import type { UserProfile } from "@/types/profile";
 import type { Resume, CoverLetter } from "@/types/resume";
 import type { EmployerContact } from "@/types/contact";
 import type { InterviewPrep } from "@/types/interview";
+import type { JDAnalysis } from "@/app/(app)/interviews/jd-decoder/types";
 
 async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(url, {
@@ -115,5 +116,15 @@ export class RemoteStorageAdapter implements StorageAdapter {
 
   async deleteContact(id: string): Promise<void> {
     await fetchJson(`/api/contacts/${id}`, { method: "DELETE" });
+  }
+
+  async getJDAnalyses(): Promise<JDAnalysis[]> {
+    return [];
+  }
+  async saveJDAnalysis(_analysis: JDAnalysis): Promise<void> {
+    // Remote storage not yet implemented for JD analyses
+  }
+  async deleteJDAnalysis(_id: string): Promise<void> {
+    // Remote storage not yet implemented for JD analyses
   }
 }
