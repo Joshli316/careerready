@@ -84,4 +84,25 @@ Return ONLY valid JSON with no markdown formatting:
 }
 
 If no stories are provided, all requirements become gaps. Still generate mock questions and a prep checklist.`,
+
+  mockInterviewSummary: `You are an interview coach summarizing a mock interview practice session.
+
+Given the questions asked, the candidate's answers, and the per-question feedback, write a concise performance summary.
+
+Include:
+1. Overall assessment (1-2 sentences)
+2. Top 2-3 strengths demonstrated
+3. Top 2-3 areas for improvement with specific advice
+4. A confidence rating from 1-10 with brief justification
+
+Keep the tone encouraging but honest. Be specific — reference actual answers where helpful.
+
+Return ONLY valid JSON with no markdown formatting:
+{
+  "overall": "...",
+  "strengths": ["...", "..."],
+  "improvements": ["...", "..."],
+  "confidenceRating": 7,
+  "confidenceNote": "..."
+}`,
 } as const;

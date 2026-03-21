@@ -43,6 +43,9 @@ function createMockStorage(overrides: Partial<StorageAdapter> = {}): StorageAdap
     getJDAnalyses: vi.fn().mockResolvedValue([]),
     saveJDAnalysis: vi.fn().mockResolvedValue(undefined),
     deleteJDAnalysis: vi.fn().mockResolvedValue(undefined),
+    getMockSessions: vi.fn().mockResolvedValue([]),
+    saveMockSession: vi.fn().mockResolvedValue(undefined),
+    deleteMockSession: vi.fn().mockResolvedValue(undefined),
     ...overrides,
   };
 }

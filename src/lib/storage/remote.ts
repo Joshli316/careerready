@@ -4,6 +4,7 @@ import type { Resume, CoverLetter } from "@/types/resume";
 import type { EmployerContact } from "@/types/contact";
 import type { InterviewPrep } from "@/types/interview";
 import type { JDAnalysis } from "@/app/(app)/interviews/jd-decoder/types";
+import type { MockInterviewSession } from "@/app/(app)/interviews/mock-interview/types";
 
 async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(url, {
@@ -126,5 +127,15 @@ export class RemoteStorageAdapter implements StorageAdapter {
   }
   async deleteJDAnalysis(_id: string): Promise<void> {
     // Remote storage not yet implemented for JD analyses
+  }
+
+  async getMockSessions(): Promise<MockInterviewSession[]> {
+    return [];
+  }
+  async saveMockSession(_session: MockInterviewSession): Promise<void> {
+    // Remote storage not yet implemented for mock sessions
+  }
+  async deleteMockSession(_id: string): Promise<void> {
+    // Remote storage not yet implemented for mock sessions
   }
 }

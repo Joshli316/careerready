@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, MessageCircle, Building2, ThumbsUp, FileSearch } from "lucide-react";
+import { BookOpen, MessageCircle, Building2, ThumbsUp, FileSearch, Mic } from "lucide-react";
 import { ReadinessDashboard } from "./components/ReadinessDashboard";
 
 const sections = [
   { title: "Storybank", description: "Build and manage your behavioral interview story collection.", href: "/interviews/star-method", icon: BookOpen },
   { title: "JD Decoder", description: "Decode job descriptions and build a targeted prep plan.", href: "/interviews/jd-decoder", icon: FileSearch },
+  { title: "AI Mock Interview", description: "Practice with AI-coached mock interviews and get real-time feedback.", href: "/interviews/mock-interview", icon: Mic },
   { title: "Common Questions", description: "Prepare answers to the 8 most common interview questions.", href: "/interviews/common-questions", icon: MessageCircle },
   { title: "Company Research", description: "Research framework to prepare for specific employers.", href: "/interviews/company-research", icon: Building2 },
   { title: "Thank You Notes", description: "Generate professional thank you notes after interviews.", href: "/interviews/thank-you", icon: ThumbsUp },

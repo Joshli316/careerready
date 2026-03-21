@@ -6,6 +6,7 @@ import type { Resume, CoverLetter } from "@/types/resume";
 import type { EmployerContact } from "@/types/contact";
 import type { InterviewPrep } from "@/types/interview";
 import type { JDAnalysis } from "@/app/(app)/interviews/jd-decoder/types";
+import type { MockInterviewSession } from "@/app/(app)/interviews/mock-interview/types";
 
 const PREFIX = "careerready_";
 
@@ -129,5 +130,20 @@ export class LocalStorageAdapter implements StorageAdapter {
   async deleteJDAnalysis(id: string): Promise<void> {
     const analyses = (await this.getJDAnalyses()).filter((a) => a.id !== id);
     setItem("jd_analyses", analyses);
+  }
+
+  async getMockSessions(): Promise<MockInterviewSession[]> {
+    return getItem<MockInterviewSession[]>("mock_sessions") ?? [];
+  }
+  async saveMockSession(session: MockInterviewSession): Promise<void> {
+    const sessions = await this.getMockSessions();
+    const idx = sessions.findIndex((s) => s.id === session.id);
+    if (idx >= 0) sessions[idx] = session;
+    else sessions.push(session);
+    setItem("mock_sessions", sessions);
+  }
+  async deleteMockSession(id: string): Promise<void> {
+    const sessions = (await this.getMockSessions()).filter((s) => s.id !== id);
+    setItem("mock_sessions", sessions);
   }
 }
