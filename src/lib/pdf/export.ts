@@ -1,7 +1,6 @@
 "use client";
 
 import { pdf } from "@react-pdf/renderer";
-import { createElement } from "react";
 
 function downloadBlob(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob);
@@ -15,11 +14,9 @@ function downloadBlob(blob: Blob, filename: string) {
 }
 
 export async function exportPdf(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  component: React.ReactElement<any>,
+  component: Parameters<typeof pdf>[0],
   filename: string
 ) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const blob = await pdf(component as any).toBlob();
+  const blob = await pdf(component).toBlob();
   downloadBlob(blob, filename);
 }

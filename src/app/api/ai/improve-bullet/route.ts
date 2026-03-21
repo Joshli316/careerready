@@ -25,8 +25,11 @@ export async function POST(request: NextRequest) {
   }
 
   const { bullet, context } = (await request.json()) as { bullet: string; context?: string };
-  if (!bullet) {
-    return NextResponse.json({ error: "Missing bullet" }, { status: 400 });
+  if (!bullet || typeof bullet !== "string" || bullet.length > 500) {
+    return NextResponse.json(
+      { error: "Invalid bullet. Must be a non-empty string under 500 characters." },
+      { status: 400 }
+    );
   }
 
   try {

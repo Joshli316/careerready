@@ -18,8 +18,8 @@ export async function POST(request: NextRequest) {
   }
 
   const { coverLetter, jobTitle, company } = (await request.json()) as { coverLetter: string; jobTitle?: string; company?: string };
-  if (!coverLetter) {
-    return NextResponse.json({ error: "Missing cover letter" }, { status: 400 });
+  if (!coverLetter || typeof coverLetter !== "string" || coverLetter.length > 10000) {
+    return NextResponse.json({ error: "Invalid cover letter" }, { status: 400 });
   }
 
   try {

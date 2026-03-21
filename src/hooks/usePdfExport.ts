@@ -9,15 +9,14 @@ export function usePdfExport() {
   const exportResume = useCallback(async (resume: Resume) => {
     setExporting(true);
     try {
-      const { exportPdf } = await import("@/lib/pdf/export");
+      const { pdf } = await import("@react-pdf/renderer");
       const { ResumeDocument } = await import(
         "@/lib/pdf/templates/ResumeDocument"
       );
       const { createElement } = await import("react");
-      await exportPdf(
-        createElement(ResumeDocument, { resume }),
-        `${resume.title || "Resume"}.pdf`
-      );
+      const doc = createElement(ResumeDocument, { resume });
+      const blob = await pdf(doc as Parameters<typeof pdf>[0]).toBlob();
+      downloadBlob(blob, `${resume.title || "Resume"}.pdf`);
     } finally {
       setExporting(false);
     }
@@ -30,20 +29,19 @@ export function usePdfExport() {
     ) => {
       setExporting(true);
       try {
-        const { exportPdf } = await import("@/lib/pdf/export");
+        const { pdf } = await import("@react-pdf/renderer");
         const { CoverLetterDocument } = await import(
           "@/lib/pdf/templates/CoverLetterDocument"
         );
         const { createElement } = await import("react");
-        await exportPdf(
-          createElement(CoverLetterDocument, {
-            letter,
-            senderName: sender?.name,
-            senderPhone: sender?.phone,
-            senderEmail: sender?.email,
-          }),
-          `Cover Letter - ${letter.title || "Untitled"}.pdf`
-        );
+        const doc = createElement(CoverLetterDocument, {
+          letter,
+          senderName: sender?.name,
+          senderPhone: sender?.phone,
+          senderEmail: sender?.email,
+        });
+        const blob = await pdf(doc as Parameters<typeof pdf>[0]).toBlob();
+        downloadBlob(blob, `Cover Letter - ${letter.title || "Untitled"}.pdf`);
       } finally {
         setExporting(false);
       }
@@ -63,15 +61,14 @@ export function usePdfExport() {
     }) => {
       setExporting(true);
       try {
-        const { exportPdf } = await import("@/lib/pdf/export");
+        const { pdf } = await import("@react-pdf/renderer");
         const { ThankYouDocument } = await import(
           "@/lib/pdf/templates/ThankYouDocument"
         );
         const { createElement } = await import("react");
-        await exportPdf(
-          createElement(ThankYouDocument, data),
-          `Thank You - ${data.company || "Note"}.pdf`
-        );
+        const doc = createElement(ThankYouDocument, data);
+        const blob = await pdf(doc as Parameters<typeof pdf>[0]).toBlob();
+        downloadBlob(blob, `Thank You - ${data.company || "Note"}.pdf`);
       } finally {
         setExporting(false);
       }
@@ -80,4 +77,15 @@ export function usePdfExport() {
   );
 
   return { exportResume, exportCoverLetter, exportThankYou, exporting };
+}
+
+function downloadBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }

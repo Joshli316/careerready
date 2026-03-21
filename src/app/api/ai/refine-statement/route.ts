@@ -18,8 +18,8 @@ export async function POST(request: NextRequest) {
   }
 
   const { statement, type } = (await request.json()) as { statement: string; type?: string };
-  if (!statement) {
-    return NextResponse.json({ error: "Missing statement" }, { status: 400 });
+  if (!statement || typeof statement !== "string" || statement.length > 2000) {
+    return NextResponse.json({ error: "Invalid statement" }, { status: 400 });
   }
 
   try {

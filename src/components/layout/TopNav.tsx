@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Menu } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils/cn";
 import {
   User,
@@ -33,6 +33,14 @@ const tools = [
 export function TopNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+  const navRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (mobileOpen && navRef.current) {
+      const firstLink = navRef.current.querySelector("a");
+      firstLink?.focus();
+    }
+  }, [mobileOpen]);
 
   return (
     <>
@@ -59,9 +67,15 @@ export function TopNav() {
       </header>
 
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
+        <div
+          className="fixed inset-0 z-50 md:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation menu"
+          onKeyDown={(e) => { if (e.key === "Escape") setMobileOpen(false); }}
+        >
           <div className="absolute inset-0 bg-black/40" onClick={() => setMobileOpen(false)} />
-          <div className="absolute left-0 top-0 h-full w-72 bg-white shadow-xl">
+          <div ref={navRef} className="absolute left-0 top-0 h-full w-72 bg-white shadow-xl">
             <div className="flex h-14 items-center justify-between border-b border-neutral-150 px-4">
               <span className="font-bold text-neutral-800">CareerReady</span>
               <button

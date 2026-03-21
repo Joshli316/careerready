@@ -18,8 +18,11 @@ export async function POST(request: NextRequest) {
   }
 
   const { question, answer, jobContext } = (await request.json()) as { question: string; answer: string; jobContext?: string };
-  if (!question || !answer) {
-    return NextResponse.json({ error: "Missing question or answer" }, { status: 400 });
+  if (!question || typeof question !== "string" || !answer || typeof answer !== "string") {
+    return NextResponse.json({ error: "Missing or invalid question/answer" }, { status: 400 });
+  }
+  if (answer.length > 5000) {
+    return NextResponse.json({ error: "Answer too long (max 5000 chars)" }, { status: 400 });
   }
 
   try {
