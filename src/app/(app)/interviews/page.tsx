@@ -1,14 +1,11 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Interview Prep",
-  description: "Practice the 8 most common interview questions and build STAR stories you can reuse.",
-};
-import { Star, MessageCircle, Building2, ThumbsUp } from "lucide-react";
+import Link from "next/link";
+import { BookOpen, MessageCircle, Building2, ThumbsUp } from "lucide-react";
+import { ReadinessDashboard } from "./components/ReadinessDashboard";
 
 const sections = [
-  { title: "STAR Method Practice", description: "Build compelling behavioral interview responses.", href: "/interviews/star-method", icon: Star },
+  { title: "Storybank", description: "Build and manage your behavioral interview story collection.", href: "/interviews/star-method", icon: BookOpen },
   { title: "Common Questions", description: "Prepare answers to the 8 most common interview questions.", href: "/interviews/common-questions", icon: MessageCircle },
   { title: "Company Research", description: "Research framework to prepare for specific employers.", href: "/interviews/company-research", icon: Building2 },
   { title: "Thank You Notes", description: "Generate professional thank you notes after interviews.", href: "/interviews/thank-you", icon: ThumbsUp },
@@ -21,6 +18,7 @@ export default function InterviewsPage() {
         <h1 className="text-3xl font-bold text-neutral-800">Interviews</h1>
         <p className="mt-2 text-neutral-500">Prepare for interviews with structured frameworks and practice tools.</p>
       </div>
+      <ReadinessDashboard />
       <div className="grid gap-4 sm:grid-cols-2">
         {sections.map((s) => (
           <Link key={s.href} href={s.href} className="group flex gap-4 rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md hover:border-primary-300">

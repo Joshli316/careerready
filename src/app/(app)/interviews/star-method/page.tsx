@@ -5,15 +5,17 @@ import { useStorage } from "@/hooks/useStorage";
 import { useSaveIndicator } from "@/hooks/useSaveIndicator";
 import { useToast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/Textarea";
-import { Callout } from "@/components/ui/Callout";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { TabStrip } from "@/components/ui/TabStrip";
-import { CheckCircle, Star, Trash2 } from "lucide-react";
+import { CheckCircle, Trash2 } from "lucide-react";
 import { nanoid } from "nanoid";
-import type { StarStory, InterviewPrep } from "@/types/interview";
+import type { StarStory } from "@/types/interview";
+import { hydrateStory, computeQualityScore, isStoryComplete } from "./lib/storyUtils";
+import { StoryForm } from "./components/StoryForm";
+import { StoryMeta } from "./components/StoryMeta";
+import { StoryQualityBadge } from "./components/StoryQualityBadge";
+import { QuestionCoverage } from "./components/QuestionCoverage";
 
 const SAMPLE_QUESTIONS = [
   "Describe a difficult problem you solved.",
@@ -32,6 +34,12 @@ const emptyStory = (): StarStory => ({
   action: "",
   result: "",
   tags: [],
+  strength: 0,
+  earnedSecret: "",
+  primarySkill: "",
+  secondarySkill: "",
+  deployFor: "",
+  useCount: 0,
 });
 
 export default function StarMethodPage() {
@@ -45,7 +53,7 @@ export default function StarMethodPage() {
   useEffect(() => {
     storage.getInterviewPrep().then((prep) => {
       if (prep?.starStories?.length) {
-        setStories(prep.starStories);
+        setStories(prep.starStories.map(hydrateStory));
       }
     });
   }, [storage]);
@@ -66,7 +74,7 @@ export default function StarMethodPage() {
     }
   }, [storage, stories, showSaved, toast]);
 
-  function updateStory(field: keyof StarStory, value: string) {
+  function updateStory(field: keyof StarStory, value: string | number) {
     const updated = [...stories];
     updated[activeIndex] = { ...updated[activeIndex], [field]: value };
     setStories(updated);
@@ -87,15 +95,16 @@ export default function StarMethodPage() {
   }
 
   const story = stories[activeIndex];
+  const completeCount = stories.filter(isStoryComplete).length;
 
   return (
     <div>
       <Breadcrumb href="/interviews" label="Interviews" />
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-800">STAR Method Practice</h1>
+          <h1 className="text-2xl font-bold text-neutral-800">Storybank</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Build compelling behavioral interview responses using the Situation, Task, Action, Result framework.
+            Manage your behavioral interview stories. Rate quality, tag skills, and track question coverage.
           </p>
         </div>
         {saved && (
@@ -124,65 +133,28 @@ export default function StarMethodPage() {
 
       {/* Story tabs */}
       <TabStrip
-        tabs={stories.map((s, i) => ({ id: s.id, label: `Story ${i + 1}` }))}
+        tabs={stories.map((s, i) => ({
+          id: s.id,
+          label: (
+            <>
+              <span>Story {i + 1}</span>{" "}
+              <StoryQualityBadge score={computeQualityScore(s)} />
+            </>
+          ),
+        }))}
         activeId={stories[activeIndex]?.id ?? ""}
-        onSelect={(id) => { const idx = stories.findIndex((s) => s.id === id); if (idx >= 0) setActiveIndex(idx); }}
+        onSelect={(id) => {
+          const idx = stories.findIndex((s) => s.id === id);
+          if (idx >= 0) setActiveIndex(idx);
+        }}
         onAdd={addStory}
       />
-
-      {/* Suggested questions */}
-      <Callout type="tip" className="mb-4">
-        <strong>Pick a question to practice:</strong>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {SAMPLE_QUESTIONS.map((q) => (
-            <button
-              key={q}
-              onClick={() => updateStory("question", q)}
-              className="rounded-full border border-neutral-200 bg-white px-2.5 py-1 text-xs text-neutral-600 hover:border-primary-300 hover:text-primary-600"
-            >
-              {q}
-            </button>
-          ))}
-        </div>
-      </Callout>
 
       {/* Active story form */}
       {story && (
         <div className="space-y-4 rounded-xl border border-neutral-150 bg-white p-6 shadow-sm">
-          <Input
-            label="Behavioral Question"
-            placeholder="The interview question you're preparing for..."
-            value={story.question}
-            onChange={(e) => updateStory("question", e.target.value)}
-          />
-          <Textarea
-            label="Situation"
-            placeholder="Set the scene. What was happening? Where were you working/studying?"
-            value={story.situation}
-            onChange={(e) => updateStory("situation", e.target.value)}
-            rows={3}
-          />
-          <Textarea
-            label="Task"
-            placeholder="What was your responsibility or challenge?"
-            value={story.task}
-            onChange={(e) => updateStory("task", e.target.value)}
-            rows={3}
-          />
-          <Textarea
-            label="Action"
-            placeholder="What specific steps did you take? Focus on YOUR actions."
-            value={story.action}
-            onChange={(e) => updateStory("action", e.target.value)}
-            rows={3}
-          />
-          <Textarea
-            label="Result"
-            placeholder="What was the outcome? Use numbers when possible (%, $, time saved)."
-            value={story.result}
-            onChange={(e) => updateStory("result", e.target.value)}
-            rows={3}
-          />
+          <StoryForm story={story} onUpdate={updateStory} sampleQuestions={SAMPLE_QUESTIONS} />
+          <StoryMeta story={story} onUpdate={updateStory} />
 
           <div className="flex items-center justify-between border-t border-neutral-100 pt-4">
             {stories.length > 1 && (
@@ -201,15 +173,21 @@ export default function StarMethodPage() {
         </div>
       )}
 
+      <div className="mt-6">
+        <QuestionCoverage stories={stories} />
+      </div>
+
       {/* Summary */}
       <div className="mt-6 rounded-lg bg-neutral-50 border border-neutral-150 p-4 text-sm text-neutral-500">
-        You have <strong className="text-neutral-800">{stories.length}</strong> STAR {stories.length === 1 ? "story" : "stories"} saved.
-        Aim for 4-6 stories that cover different scenarios.
+        You have <strong className="text-neutral-800">{stories.length}</strong>{" "}
+        {stories.length === 1 ? "story" : "stories"} (
+        <strong className="text-neutral-800">{completeCount}</strong> complete).
+        Aim for 6-8 polished stories.
       </div>
 
       <ConfirmDialog
         open={deleteIndex !== null}
-        title="Delete STAR Story"
+        title="Delete Story"
         message="This story will be permanently deleted."
         onConfirm={() => {
           deleteStory(deleteIndex!);

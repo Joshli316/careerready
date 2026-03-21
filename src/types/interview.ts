@@ -1,3 +1,10 @@
+export const COMPETENCIES = [
+  "Leadership", "Teamwork", "Problem-Solving", "Communication",
+  "Adaptability", "Initiative", "Conflict Resolution",
+  "Time Management", "Customer Focus", "Technical Skills",
+] as const;
+export type Competency = (typeof COMPETENCIES)[number];
+
 export interface StarStory {
   id: string;
   question: string;
@@ -6,6 +13,12 @@ export interface StarStory {
   action: string;
   result: string;
   tags: string[];
+  strength: number;
+  earnedSecret: string;
+  primarySkill: Competency | "";
+  secondarySkill: Competency | "";
+  deployFor: string;
+  useCount: number;
 }
 
 export interface InterviewResponse {

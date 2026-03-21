@@ -1,10 +1,11 @@
 "use client";
 
+import { type ReactNode } from "react";
 import { Plus } from "lucide-react";
 
 interface Tab {
   id: string;
-  label: string;
+  label: string | ReactNode;
 }
 
 interface TabStripProps {
