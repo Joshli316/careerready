@@ -21,7 +21,7 @@ export function StrengthRating({ value, onChange }: StrengthRatingProps) {
             aria-label={`${n} star${n !== 1 ? "s" : ""}`}
             onClick={() => onChange(n)}
             type="button"
-            className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 rounded"
+            className="p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 rounded"
           >
             <Star
               size={20}

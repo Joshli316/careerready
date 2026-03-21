@@ -47,7 +47,7 @@ export function PastSessions({ sessions, onSelect, onDelete }: PastSessionsProps
             </button>
             <button
               onClick={() => setDeleteId(s.id)}
-              className="ml-2 rounded p-1 text-neutral-300 hover:text-red-500"
+              className="ml-2 rounded p-2 text-neutral-300 hover:text-red-500"
               aria-label={`Delete ${s.sourceLabel} session`}
             >
               <Trash2 className="h-3.5 w-3.5" />

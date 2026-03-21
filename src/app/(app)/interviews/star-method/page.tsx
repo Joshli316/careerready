@@ -136,7 +136,7 @@ export default function StarMethodPage() {
       </div>
 
       {/* STAR explanation */}
-      <div className="mb-6 grid grid-cols-4 gap-3">
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
           { letter: "S", label: "Situation", desc: "Share the situation you experienced." },
           { letter: "T", label: "Task", desc: "Describe the challenging task." },

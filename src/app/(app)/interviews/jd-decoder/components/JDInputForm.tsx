@@ -40,7 +40,7 @@ export function JDInputForm({
                 </button>
                 <button
                   onClick={() => setDeleteId(a.id)}
-                  className="rounded p-1 text-neutral-300 hover:text-red-500"
+                  className="rounded p-2 text-neutral-300 hover:text-red-500"
                   aria-label={`Delete ${a.jobTitle || "Untitled"} analysis`}
                 >
                   <Trash2 className="h-3.5 w-3.5" />
