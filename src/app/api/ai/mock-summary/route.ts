@@ -77,7 +77,17 @@ export async function POST(request: NextRequest) {
       .replace(/^```(?:json)?\s*\n?/, "")
       .replace(/\n?```\s*$/, "");
 
-    const result = JSON.parse(jsonText);
+    const parsed = JSON.parse(jsonText);
+
+    // Validate required fields
+    const result = {
+      overall: typeof parsed.overall === "string" ? parsed.overall : "",
+      strengths: Array.isArray(parsed.strengths) ? parsed.strengths : [],
+      improvements: Array.isArray(parsed.improvements) ? parsed.improvements : [],
+      confidenceRating: typeof parsed.confidenceRating === "number" ? parsed.confidenceRating : 5,
+      confidenceNote: typeof parsed.confidenceNote === "string" ? parsed.confidenceNote : "",
+    };
+
     return NextResponse.json({ result, remaining });
   } catch {
     return NextResponse.json(

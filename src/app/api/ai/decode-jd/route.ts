@@ -53,9 +53,10 @@ export async function POST(request: NextRequest) {
   const storiesText =
     stories && stories.length > 0
       ? stories
+          .filter((s) => s && s.id)
           .map(
             (s) =>
-              `[${s.id}] Q: ${s.question} | Skills: ${s.primarySkill}, ${s.secondarySkill} | S: ${s.situation.slice(0, 200)} | A: ${s.action.slice(0, 200)} | R: ${s.result.slice(0, 200)}`
+              `[${s.id}] Q: ${s.question || ""} | Skills: ${s.primarySkill || ""}, ${s.secondarySkill || ""} | S: ${(s.situation || "").slice(0, 500)} | A: ${(s.action || "").slice(0, 500)} | R: ${(s.result || "").slice(0, 500)}`
           )
           .join("\n")
       : "No stories available.";
@@ -69,7 +70,7 @@ export async function POST(request: NextRequest) {
       messages: [
         {
           role: "user",
-          content: `JOB DESCRIPTION:\n${jobDescription}\n\nUSER'S STAR STORIES:\n${storiesText}`,
+          content: `<job_description>\n${jobDescription}\n</job_description>\n\n<user_stories>\n${storiesText}\n</user_stories>`,
         },
       ],
     });
@@ -80,7 +81,20 @@ export async function POST(request: NextRequest) {
     // Strip markdown code fences if present
     const jsonText = rawText.replace(/^```(?:json)?\s*\n?/, "").replace(/\n?```\s*$/, "");
 
-    const result = JSON.parse(jsonText);
+    const parsed = JSON.parse(jsonText);
+
+    // Validate required fields are arrays (guard against malformed AI responses)
+    const result = {
+      jobTitle: typeof parsed.jobTitle === "string" ? parsed.jobTitle : "",
+      company: typeof parsed.company === "string" ? parsed.company : "",
+      summary: typeof parsed.summary === "string" ? parsed.summary : "",
+      requirements: Array.isArray(parsed.requirements) ? parsed.requirements : [],
+      storyMatches: Array.isArray(parsed.storyMatches) ? parsed.storyMatches : [],
+      gaps: Array.isArray(parsed.gaps) ? parsed.gaps : [],
+      mockQuestions: Array.isArray(parsed.mockQuestions) ? parsed.mockQuestions : [],
+      prepChecklist: Array.isArray(parsed.prepChecklist) ? parsed.prepChecklist : [],
+    };
+
     return NextResponse.json({ result, remaining });
   } catch {
     return NextResponse.json(

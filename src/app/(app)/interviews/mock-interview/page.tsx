@@ -6,11 +6,7 @@ import { useToast } from "@/components/ui/Toast";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { nanoid } from "nanoid";
 import type { JDAnalysis } from "../jd-decoder/types";
-import type {
-  MockInterviewQuestion,
-  MockInterviewExchange,
-  MockInterviewSession,
-} from "./types";
+import type { MockInterviewQuestion, MockInterviewExchange, MockInterviewSession } from "./types";
 import { SessionSetup } from "./components/SessionSetup";
 import { InterviewExchange } from "./components/InterviewExchange";
 import { FeedbackCard } from "./components/FeedbackCard";
@@ -30,13 +26,10 @@ interface SummaryData {
 export default function MockInterviewPage() {
   const storage = useStorage();
   const { toast } = useToast();
-
   const [jdAnalyses, setJDAnalyses] = useState<JDAnalysis[]>([]);
   const [savedSessions, setSavedSessions] = useState<MockInterviewSession[]>([]);
   const [phase, setPhase] = useState<Phase>("setup");
   const [loading, setLoading] = useState(false);
-
-  // Active session state
   const [questions, setQuestions] = useState<MockInterviewQuestion[]>([]);
   const [exchanges, setExchanges] = useState<MockInterviewExchange[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -54,122 +47,73 @@ export default function MockInterviewPage() {
 
   const handleStart = useCallback(
     (qs: MockInterviewQuestion[], ctx: string, label: string, type: "jd_analysis" | "generic") => {
-      setQuestions(qs);
-      setJobContext(ctx);
-      setSourceLabel(label);
-      setSourceType(type);
-      setExchanges([]);
-      setCurrentIndex(0);
-      setSessionId(nanoid());
-      setSummaryData(null);
-      setActiveSession(null);
-      setPhase("answering");
-    },
-    []
+      setQuestions(qs); setJobContext(ctx); setSourceLabel(label); setSourceType(type);
+      setExchanges([]); setCurrentIndex(0); setSessionId(nanoid());
+      setSummaryData(null); setActiveSession(null); setPhase("answering");
+    }, []
   );
 
-  const handleSubmitAnswer = useCallback(
-    async (answer: string) => {
-      setLoading(true);
-      try {
-        const res = await fetch("/api/ai/coach-response", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            question: questions[currentIndex].question,
-            answer,
-            jobContext,
-          }),
-        });
-        if (!res.ok) {
-          const errData = (await res.json()) as { error?: string };
-          toast(errData.error || "Failed to get feedback.", "error");
-          setLoading(false);
-          return;
-        }
-        const { result } = (await res.json()) as { result: string };
-        const exchange: MockInterviewExchange = {
-          question: questions[currentIndex].question,
-          type: questions[currentIndex].type,
-          answer,
-          feedback: result,
-        };
-        setExchanges((prev) => [...prev, exchange]);
-        setPhase("feedback");
-      } catch {
-        toast("Something went wrong. Please try again.", "error");
-      } finally {
-        setLoading(false);
+  const handleSubmitAnswer = useCallback(async (answer: string) => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/ai/coach-response", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: questions[currentIndex].question, answer, jobContext }),
+      });
+      if (!res.ok) {
+        const errData = (await res.json()) as { error?: string };
+        toast(errData.error || "Failed to get feedback.", "error");
+        return;
       }
-    },
-    [questions, currentIndex, jobContext, toast]
-  );
-
-  const handleNext = useCallback(() => {
-    setCurrentIndex((prev) => prev + 1);
-    setPhase("answering");
-  }, []);
+      const { result } = (await res.json()) as { result: string };
+      const exchange: MockInterviewExchange = {
+        question: questions[currentIndex].question, type: questions[currentIndex].type,
+        answer, feedback: result,
+      };
+      setExchanges((prev) => [...prev, exchange]);
+      setPhase("feedback");
+    } catch {
+      toast("Something went wrong. Please try again.", "error");
+    } finally { setLoading(false); }
+  }, [questions, currentIndex, jobContext, toast]);
 
   const handleFinish = useCallback(async () => {
-    setPhase("summary");
-    setLoading(true);
-
-    // Save the completed session
+    setPhase("summary"); setLoading(true);
     const session: MockInterviewSession = {
-      id: sessionId,
-      createdAt: new Date().toISOString(),
-      sourceType,
-      sourceLabel,
-      jobContext,
-      exchanges,
-      summary: null,
-      completed: true,
+      id: sessionId, createdAt: new Date().toISOString(), sourceType, sourceLabel,
+      jobContext, exchanges, summary: null, completed: true,
     };
     setActiveSession(session);
-
-    // Get AI summary
     try {
       const res = await fetch("/api/ai/mock-summary", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ jobContext, exchanges }),
       });
       if (res.ok) {
         const { result } = (await res.json()) as { result: SummaryData };
         setSummaryData(result);
         session.summary = result.overall;
+      } else {
+        toast("Summary not available. Your answers are still saved.", "warning");
       }
     } catch {
-      // Summary is optional — session still saves without it
+      toast("Summary not available. Your answers are still saved.", "warning");
     }
-
     await storage.saveMockSession(session);
     setSavedSessions((prev) => [...prev, session]);
     setLoading(false);
-  }, [sessionId, sourceType, sourceLabel, jobContext, exchanges, storage]);
+  }, [sessionId, sourceType, sourceLabel, jobContext, exchanges, storage, toast]);
 
   const handleNewSession = useCallback(() => {
-    setPhase("setup");
-    setQuestions([]);
-    setExchanges([]);
-    setCurrentIndex(0);
-    setSummaryData(null);
-    setActiveSession(null);
+    setPhase("setup"); setQuestions([]); setExchanges([]);
+    setCurrentIndex(0); setSummaryData(null); setActiveSession(null);
   }, []);
 
-  const handleReviewSession = useCallback((session: MockInterviewSession) => {
-    setActiveSession(session);
-    setPhase("review");
-  }, []);
-
-  const handleDeleteSession = useCallback(
-    async (id: string) => {
-      await storage.deleteMockSession(id);
-      setSavedSessions((prev) => prev.filter((s) => s.id !== id));
-      toast("Session deleted");
-    },
-    [storage, toast]
-  );
+  const handleDeleteSession = useCallback(async (id: string) => {
+    await storage.deleteMockSession(id);
+    setSavedSessions((prev) => prev.filter((s) => s.id !== id));
+    toast("Session deleted");
+  }, [storage, toast]);
 
   return (
     <div>
@@ -183,51 +127,28 @@ export default function MockInterviewPage() {
 
       {phase === "setup" && (
         <div className="space-y-6">
-          <PastSessions
-            sessions={savedSessions}
-            onSelect={handleReviewSession}
-            onDelete={handleDeleteSession}
-          />
+          <PastSessions sessions={savedSessions} onSelect={(s) => { setActiveSession(s); setPhase("review"); }} onDelete={handleDeleteSession} />
           <SessionSetup jdAnalyses={jdAnalyses} onStart={handleStart} />
         </div>
       )}
 
       {phase === "answering" && questions[currentIndex] && (
-        <InterviewExchange
-          questionIndex={currentIndex}
-          totalQuestions={questions.length}
-          question={questions[currentIndex]}
-          onSubmit={handleSubmitAnswer}
-          loading={loading}
-        />
+        <InterviewExchange questionIndex={currentIndex} totalQuestions={questions.length}
+          question={questions[currentIndex]} onSubmit={handleSubmitAnswer} loading={loading} />
       )}
 
       {phase === "feedback" && exchanges[exchanges.length - 1] && (
-        <FeedbackCard
-          exchange={exchanges[exchanges.length - 1]}
-          questionIndex={currentIndex}
-          isLast={currentIndex >= questions.length - 1}
-          onNext={handleNext}
-          onFinish={handleFinish}
-        />
+        <FeedbackCard exchange={exchanges[exchanges.length - 1]} questionIndex={currentIndex}
+          totalQuestions={questions.length} isLast={currentIndex >= questions.length - 1}
+          onNext={() => { setCurrentIndex((p) => p + 1); setPhase("answering"); }} onFinish={handleFinish} />
       )}
 
       {phase === "summary" && activeSession && (
-        <SessionSummary
-          session={activeSession}
-          summaryData={summaryData}
-          loading={loading}
-          onNewSession={handleNewSession}
-        />
+        <SessionSummary session={activeSession} summaryData={summaryData} loading={loading} onNewSession={handleNewSession} />
       )}
 
       {phase === "review" && activeSession && (
-        <SessionSummary
-          session={activeSession}
-          summaryData={null}
-          loading={false}
-          onNewSession={handleNewSession}
-        />
+        <SessionSummary session={activeSession} summaryData={null} loading={false} onNewSession={handleNewSession} />
       )}
     </div>
   );

@@ -6,6 +6,7 @@ import type { MockInterviewExchange } from "../types";
 interface FeedbackCardProps {
   exchange: MockInterviewExchange;
   questionIndex: number;
+  totalQuestions: number;
   isLast: boolean;
   onNext: () => void;
   onFinish: () => void;
@@ -14,6 +15,7 @@ interface FeedbackCardProps {
 export function FeedbackCard({
   exchange,
   questionIndex,
+  totalQuestions,
   isLast,
   onNext,
   onFinish,
@@ -21,7 +23,9 @@ export function FeedbackCard({
   return (
     <div className="space-y-4">
       <div className="rounded-xl border border-neutral-150 bg-white p-6 shadow-sm">
-        <p className="text-sm font-medium text-neutral-500">Question {questionIndex + 1}</p>
+        <p className="text-sm font-medium text-neutral-500">
+          Question {questionIndex + 1} of {totalQuestions}
+        </p>
         <p className="mt-1 text-neutral-800">{exchange.question}</p>
       </div>
 

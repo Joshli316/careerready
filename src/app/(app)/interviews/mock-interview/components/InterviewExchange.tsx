@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { QUESTION_TYPE_BADGE_STYLES, QUESTION_TYPE_LABELS } from "../../lib/questionConstants";
 import type { MockInterviewQuestion } from "../types";
 
 interface InterviewExchangeProps {
@@ -23,20 +24,6 @@ export function InterviewExchange({
   const [answer, setAnswer] = useState("");
   const [showHints, setShowHints] = useState(false);
 
-  const typeBadgeStyles: Record<string, string> = {
-    behavioral: "bg-blue-50 text-blue-700",
-    situational: "bg-purple-50 text-purple-700",
-    technical: "bg-emerald-50 text-emerald-700",
-    culture_fit: "bg-orange-50 text-orange-700",
-  };
-
-  const typeLabels: Record<string, string> = {
-    behavioral: "Behavioral",
-    situational: "Situational",
-    technical: "Technical",
-    culture_fit: "Culture Fit",
-  };
-
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
@@ -53,8 +40,8 @@ export function InterviewExchange({
 
       <div className="rounded-xl border border-neutral-150 bg-white p-6 shadow-sm">
         <div className="flex items-center gap-2 mb-3">
-          <span className={`rounded px-2 py-0.5 text-xs font-medium ${typeBadgeStyles[question.type] ?? "bg-neutral-100 text-neutral-600"}`}>
-            {typeLabels[question.type] ?? question.type}
+          <span className={`rounded px-2 py-0.5 text-xs font-medium ${QUESTION_TYPE_BADGE_STYLES[question.type] ?? "bg-neutral-100 text-neutral-600"}`}>
+            {QUESTION_TYPE_LABELS[question.type] ?? question.type}
           </span>
         </div>
         <p className="text-lg font-medium text-neutral-800">{question.question}</p>
@@ -62,6 +49,7 @@ export function InterviewExchange({
         {question.talkingPoints.length > 0 && (
           <button
             onClick={() => setShowHints(!showHints)}
+            aria-expanded={showHints}
             className="mt-3 flex items-center gap-1 text-xs text-neutral-500 hover:text-neutral-700"
           >
             {showHints ? <ChevronDown className="h-3.5 w-3.5" /> : <ChevronRight className="h-3.5 w-3.5" />}

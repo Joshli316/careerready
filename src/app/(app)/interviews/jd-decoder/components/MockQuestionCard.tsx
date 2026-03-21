@@ -2,26 +2,13 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { QUESTION_TYPE_BADGE_STYLES, QUESTION_TYPE_LABELS } from "../../lib/questionConstants";
 import type { MockQuestion } from "../types";
 
 interface MockQuestionCardProps {
   question: MockQuestion;
   index: number;
 }
-
-const typeBadgeStyles: Record<MockQuestion["type"], string> = {
-  behavioral: "bg-blue-50 text-blue-700",
-  situational: "bg-purple-50 text-purple-700",
-  technical: "bg-emerald-50 text-emerald-700",
-  culture_fit: "bg-orange-50 text-orange-700",
-};
-
-const typeLabels: Record<MockQuestion["type"], string> = {
-  behavioral: "Behavioral",
-  situational: "Situational",
-  technical: "Technical",
-  culture_fit: "Culture Fit",
-};
 
 export function MockQuestionCard({ question, index }: MockQuestionCardProps) {
   const [expanded, setExpanded] = useState(false);
@@ -30,6 +17,7 @@ export function MockQuestionCard({ question, index }: MockQuestionCardProps) {
     <div className="rounded-xl border border-neutral-150 bg-white p-4 shadow-sm">
       <button
         onClick={() => setExpanded(!expanded)}
+        aria-expanded={expanded}
         className="flex w-full items-start gap-3 text-left"
       >
         <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-neutral-100 text-xs font-medium text-neutral-600">
@@ -37,8 +25,8 @@ export function MockQuestionCard({ question, index }: MockQuestionCardProps) {
         </span>
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
-            <span className={`rounded px-2 py-0.5 text-xs font-medium ${typeBadgeStyles[question.type]}`}>
-              {typeLabels[question.type]}
+            <span className={`rounded px-2 py-0.5 text-xs font-medium ${QUESTION_TYPE_BADGE_STYLES[question.type] ?? "bg-neutral-100 text-neutral-600"}`}>
+              {QUESTION_TYPE_LABELS[question.type] ?? question.type}
             </span>
           </div>
           <p className="text-sm font-medium text-neutral-800">{question.question}</p>

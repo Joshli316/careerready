@@ -1,5 +1,7 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
+
 export function AnalysisLoading() {
   return (
     <div className="space-y-4 animate-pulse">
@@ -14,7 +16,10 @@ export function AnalysisLoading() {
           <div key={i} className="h-24 rounded-xl bg-neutral-100" />
         ))}
       </div>
-      <p className="text-center text-sm text-neutral-500">Analyzing job description...</p>
+      <div className="flex items-center justify-center gap-2 text-sm text-neutral-500">
+        <Loader2 className="h-4 w-4 animate-spin" />
+        Extracting requirements, matching stories, generating prep plan...
+      </div>
     </div>
   );
 }

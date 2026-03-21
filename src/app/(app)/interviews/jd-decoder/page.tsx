@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useStorage } from "@/hooks/useStorage";
 import { useToast } from "@/components/ui/Toast";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
@@ -56,14 +56,13 @@ export default function JDDecoderPage() {
           jobTitle: result.jobTitle || "Untitled Role",
           company: result.company || "",
           summary: result.summary || "",
-          requirements: result.requirements ?? [],
-          storyMatches: result.storyMatches ?? [],
-          gaps: result.gaps ?? [],
-          mockQuestions: result.mockQuestions ?? [],
-          prepChecklist: (result.prepChecklist ?? []).map((item) => ({
-            ...item,
-            done: false,
-          })),
+          requirements: Array.isArray(result.requirements) ? result.requirements : [],
+          storyMatches: Array.isArray(result.storyMatches) ? result.storyMatches : [],
+          gaps: Array.isArray(result.gaps) ? result.gaps : [],
+          mockQuestions: Array.isArray(result.mockQuestions) ? result.mockQuestions : [],
+          prepChecklist: (Array.isArray(result.prepChecklist) ? result.prepChecklist : []).map(
+            (item) => ({ ...item, done: false })
+          ),
         };
         await storage.saveJDAnalysis(analysis);
         setSavedAnalyses((prev) => [...prev, analysis]);
@@ -104,15 +103,18 @@ export default function JDDecoderPage() {
     [storage, activeAnalysis, toast]
   );
 
-  // Separate matched vs gap requirements
-  const matchedReqIds = new Set(activeAnalysis?.storyMatches.map((m) => m.requirementId) ?? []);
-  const gapReqIds = new Set(activeAnalysis?.gaps.map((g) => g.requirementId) ?? []);
-
-  const matchedReqs = activeAnalysis?.requirements.filter((r) => matchedReqIds.has(r.id)) ?? [];
-  const gapReqs = activeAnalysis?.requirements.filter((r) => gapReqIds.has(r.id)) ?? [];
-  const otherReqs = activeAnalysis?.requirements.filter(
-    (r) => !matchedReqIds.has(r.id) && !gapReqIds.has(r.id)
-  ) ?? [];
+  const { matchedReqs, gapReqs, otherReqs } = useMemo(() => {
+    if (!activeAnalysis) return { matchedReqs: [], gapReqs: [], otherReqs: [] };
+    const matchedIds = new Set(activeAnalysis.storyMatches.map((m) => m.requirementId));
+    const gapIds = new Set(activeAnalysis.gaps.map((g) => g.requirementId));
+    return {
+      matchedReqs: activeAnalysis.requirements.filter((r) => matchedIds.has(r.id)),
+      gapReqs: activeAnalysis.requirements.filter((r) => gapIds.has(r.id)),
+      otherReqs: activeAnalysis.requirements.filter(
+        (r) => !matchedIds.has(r.id) && !gapIds.has(r.id)
+      ),
+    };
+  }, [activeAnalysis]);
 
   return (
     <div>
@@ -144,9 +146,8 @@ export default function JDDecoderPage() {
         <div className="mt-6 space-y-8">
           <AnalysisSummary analysis={activeAnalysis} />
 
-          {/* Requirements — matched first, then gaps, then uncategorized */}
-          <section>
-            <h3 className="mb-3 text-lg font-semibold text-neutral-800">Requirements</h3>
+          <section aria-labelledby="req-heading">
+            <h2 id="req-heading" className="mb-3 text-lg font-semibold text-neutral-800">Requirements</h2>
             <div className="space-y-3">
               {matchedReqs.map((req) => (
                 <RequirementCard
@@ -167,34 +168,23 @@ export default function JDDecoderPage() {
                 />
               ))}
               {otherReqs.map((req) => (
-                <RequirementCard
-                  key={req.id}
-                  requirement={req}
-                  match={null}
-                  gap={null}
-                  stories={stories}
-                />
+                <RequirementCard key={req.id} requirement={req} match={null} gap={null} stories={stories} />
               ))}
             </div>
           </section>
 
-          {/* Prep Checklist */}
           {activeAnalysis.prepChecklist.length > 0 && (
-            <section>
-              <h3 className="mb-3 text-lg font-semibold text-neutral-800">Prep Checklist</h3>
+            <section aria-labelledby="checklist-heading">
+              <h2 id="checklist-heading" className="mb-3 text-lg font-semibold text-neutral-800">Prep Checklist</h2>
               <div className="rounded-xl border border-neutral-150 bg-white p-6 shadow-sm">
-                <PrepChecklist
-                  items={activeAnalysis.prepChecklist}
-                  onToggle={handleToggleChecklist}
-                />
+                <PrepChecklist items={activeAnalysis.prepChecklist} onToggle={handleToggleChecklist} />
               </div>
             </section>
           )}
 
-          {/* Mock Questions */}
           {activeAnalysis.mockQuestions.length > 0 && (
-            <section>
-              <h3 className="mb-3 text-lg font-semibold text-neutral-800">Mock Interview Questions</h3>
+            <section aria-labelledby="mock-heading">
+              <h2 id="mock-heading" className="mb-3 text-lg font-semibold text-neutral-800">Mock Interview Questions</h2>
               <div className="space-y-3">
                 {activeAnalysis.mockQuestions.map((q, i) => (
                   <MockQuestionCard key={i} question={q} index={i} />

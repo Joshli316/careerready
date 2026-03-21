@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Trash2 } from "lucide-react";
 import type { JDAnalysis } from "../types";
 
@@ -21,6 +22,7 @@ export function JDInputForm({
   loading,
 }: JDInputFormProps) {
   const [jdText, setJdText] = useState("");
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   return (
     <div className="space-y-4">
@@ -37,9 +39,9 @@ export function JDInputForm({
                   {a.jobTitle || "Untitled"}{a.company ? ` — ${a.company}` : ""}
                 </button>
                 <button
-                  onClick={() => onDeleteAnalysis(a.id)}
+                  onClick={() => setDeleteId(a.id)}
                   className="rounded p-1 text-neutral-400 opacity-0 group-hover:opacity-100 hover:text-red-500"
-                  aria-label={`Delete ${a.jobTitle} analysis`}
+                  aria-label={`Delete ${a.jobTitle || "Untitled"} analysis`}
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                 </button>
@@ -66,6 +68,17 @@ export function JDInputForm({
           {loading ? "Analyzing..." : "Decode JD"}
         </Button>
       </div>
+
+      <ConfirmDialog
+        open={deleteId !== null}
+        title="Delete Analysis"
+        message="This JD analysis and its prep plan will be permanently deleted."
+        onConfirm={() => {
+          if (deleteId) onDeleteAnalysis(deleteId);
+          setDeleteId(null);
+        }}
+        onCancel={() => setDeleteId(null)}
+      />
     </div>
   );
 }

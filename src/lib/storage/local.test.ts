@@ -162,6 +162,144 @@ describe("LocalStorageAdapter", () => {
       const result = await adapter.getInterviewPrep();
       expect(result?.commonResponses).toHaveLength(1);
     });
+
+    it("saves and retrieves starStories within InterviewPrep", async () => {
+      const story = {
+        id: "star-1",
+        question: "Tell me about a challenge.",
+        situation: "Tight deadline",
+        task: "Ship on time",
+        action: "Prioritized tasks",
+        result: "Shipped 2 days early",
+        tags: [],
+        strength: 4,
+        earnedSecret: "Delegation works",
+        primarySkill: "Leadership" as const,
+        secondarySkill: "Time Management" as const,
+        deployFor: "startup roles",
+        useCount: 1,
+      };
+      const prep = {
+        commonResponses: [],
+        starStories: [story],
+        companyResearch: [],
+        thankYouNotes: [],
+      };
+      await adapter.setInterviewPrep(prep);
+      const result = await adapter.getInterviewPrep();
+      expect(result?.starStories).toHaveLength(1);
+      expect(result?.starStories[0].id).toBe("star-1");
+      expect(result?.starStories[0].question).toBe("Tell me about a challenge.");
+      expect(result?.starStories[0].primarySkill).toBe("Leadership");
+    });
+
+    it("overwrites starStories on update", async () => {
+      const prep = {
+        commonResponses: [],
+        starStories: [
+          { id: "s1", question: "Q1", situation: "", task: "", action: "", result: "", tags: [], strength: 0, earnedSecret: "", primarySkill: "" as const, secondarySkill: "" as const, deployFor: "", useCount: 0 },
+        ],
+        companyResearch: [],
+        thankYouNotes: [],
+      };
+      await adapter.setInterviewPrep(prep);
+
+      const updated = {
+        ...prep,
+        starStories: [
+          { ...prep.starStories[0], question: "Updated Q1" },
+          { id: "s2", question: "Q2", situation: "", task: "", action: "", result: "", tags: [], strength: 0, earnedSecret: "", primarySkill: "" as const, secondarySkill: "" as const, deployFor: "", useCount: 0 },
+        ],
+      };
+      await adapter.setInterviewPrep(updated);
+
+      const result = await adapter.getInterviewPrep();
+      expect(result?.starStories).toHaveLength(2);
+      expect(result?.starStories[0].question).toBe("Updated Q1");
+      expect(result?.starStories[1].id).toBe("s2");
+    });
+  });
+
+  describe("JD analyses", () => {
+    const testAnalysis = {
+      id: "jd-1",
+      createdAt: "2026-03-21T00:00:00Z",
+      jobTitle: "Frontend Engineer",
+      company: "Acme",
+      rawJD: "We are looking for a frontend engineer...",
+      summary: "A frontend role at Acme.",
+      requirements: [],
+      storyMatches: [],
+      gaps: [],
+      mockQuestions: [],
+      prepChecklist: [],
+    };
+
+    it("returns empty array when no analyses exist", async () => {
+      expect(await adapter.getJDAnalyses()).toEqual([]);
+    });
+
+    it("saves and retrieves an analysis", async () => {
+      await adapter.saveJDAnalysis(testAnalysis);
+      const analyses = await adapter.getJDAnalyses();
+      expect(analyses).toHaveLength(1);
+      expect(analyses[0].jobTitle).toBe("Frontend Engineer");
+    });
+
+    it("upserts — replaces existing by id", async () => {
+      await adapter.saveJDAnalysis(testAnalysis);
+      await adapter.saveJDAnalysis({ ...testAnalysis, jobTitle: "Backend Engineer" });
+      const analyses = await adapter.getJDAnalyses();
+      expect(analyses).toHaveLength(1);
+      expect(analyses[0].jobTitle).toBe("Backend Engineer");
+    });
+
+    it("deletes an analysis by id", async () => {
+      await adapter.saveJDAnalysis(testAnalysis);
+      await adapter.deleteJDAnalysis("jd-1");
+      expect(await adapter.getJDAnalyses()).toHaveLength(0);
+    });
+  });
+
+  describe("mock sessions", () => {
+    const testSession = {
+      id: "ms-1",
+      createdAt: "2026-03-21T00:00:00Z",
+      sourceType: "generic" as const,
+      sourceLabel: "Generic Practice",
+      jobContext: "Entry-level position",
+      exchanges: [
+        { question: "Tell me about yourself.", type: "behavioral" as const, answer: "I am a developer.", feedback: "Good start." },
+      ],
+      summary: null,
+      completed: false,
+    };
+
+    it("returns empty array when no sessions exist", async () => {
+      expect(await adapter.getMockSessions()).toEqual([]);
+    });
+
+    it("saves and retrieves a session", async () => {
+      await adapter.saveMockSession(testSession);
+      const sessions = await adapter.getMockSessions();
+      expect(sessions).toHaveLength(1);
+      expect(sessions[0].sourceLabel).toBe("Generic Practice");
+    });
+
+    it("upserts — replaces existing by id", async () => {
+      await adapter.saveMockSession(testSession);
+      await adapter.saveMockSession({ ...testSession, completed: true, summary: "Done" });
+      const sessions = await adapter.getMockSessions();
+      expect(sessions).toHaveLength(1);
+      expect(sessions[0].completed).toBe(true);
+      expect(sessions[0].summary).toBe("Done");
+    });
+
+    it("deletes a session by id", async () => {
+      await adapter.saveMockSession(testSession);
+      await adapter.deleteMockSession("ms-1");
+      expect(await adapter.getMockSessions()).toHaveLength(0);
+    });
   });
 
   describe("cover letters", () => {

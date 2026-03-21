@@ -74,8 +74,9 @@ export default function StarMethodPage() {
         setActiveIndex(updated.length - 1);
         return updated;
       });
+      toast("New story created from JD Decoder", "success");
     }
-  }, [searchParams]);
+  }, [searchParams, toast]);
 
   const save = useCallback(async () => {
     try {

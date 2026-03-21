@@ -43,7 +43,7 @@ export function RequirementCard({ requirement, match, gap, stories }: Requiremen
           <p className="mt-2 text-sm text-neutral-700">{requirement.description}</p>
         </div>
         {match && (
-          <div className="flex shrink-0 gap-0.5">
+          <div className="flex shrink-0 items-center gap-1" aria-label={`Relevance: ${match.relevanceScore} of 5`}>
             {[1, 2, 3, 4, 5].map((dot) => (
               <div
                 key={dot}
@@ -60,6 +60,7 @@ export function RequirementCard({ requirement, match, gap, stories }: Requiremen
         <div className="mt-3">
           <button
             onClick={() => setExpanded(!expanded)}
+            aria-expanded={expanded}
             className="flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700"
           >
             {expanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}

@@ -31,6 +31,9 @@ export async function POST(request: NextRequest) {
   if (answer.length > 5000) {
     return NextResponse.json({ error: "Answer too long (max 5000 chars)" }, { status: 400 });
   }
+  if (jobContext && (typeof jobContext !== "string" || jobContext.length > 5000)) {
+    return NextResponse.json({ error: "Job context too long (max 5000 chars)" }, { status: 400 });
+  }
 
   try {
     const client = getAIClient(apiKey);

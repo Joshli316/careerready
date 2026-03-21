@@ -1,6 +1,8 @@
 "use client";
 
-import { Trash2, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { Trash2, ChevronRight, Clock } from "lucide-react";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import type { MockInterviewSession } from "../types";
 
 interface PastSessionsProps {
@@ -10,7 +12,16 @@ interface PastSessionsProps {
 }
 
 export function PastSessions({ sessions, onSelect, onDelete }: PastSessionsProps) {
-  if (sessions.length === 0) return null;
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+
+  if (sessions.length === 0) {
+    return (
+      <div className="rounded-xl border border-neutral-150 bg-neutral-50 p-5 text-center">
+        <Clock className="mx-auto h-6 w-6 text-neutral-400 mb-2" />
+        <p className="text-sm text-neutral-500">No past sessions yet. Start your first mock interview below.</p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -35,15 +46,26 @@ export function PastSessions({ sessions, onSelect, onDelete }: PastSessionsProps
               <ChevronRight className="h-4 w-4 text-neutral-400" />
             </button>
             <button
-              onClick={() => onDelete(s.id)}
+              onClick={() => setDeleteId(s.id)}
               className="ml-2 rounded p-1 text-neutral-400 opacity-0 group-hover:opacity-100 hover:text-red-500"
-              aria-label="Delete session"
+              aria-label={`Delete ${s.sourceLabel} session`}
             >
               <Trash2 className="h-3.5 w-3.5" />
             </button>
           </div>
         ))}
       </div>
+
+      <ConfirmDialog
+        open={deleteId !== null}
+        title="Delete Session"
+        message="This mock interview session will be permanently deleted."
+        onConfirm={() => {
+          if (deleteId) onDelete(deleteId);
+          setDeleteId(null);
+        }}
+        onCancel={() => setDeleteId(null)}
+      />
     </div>
   );
 }
