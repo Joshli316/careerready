@@ -29,7 +29,7 @@ export default function ContactLogError({
             Try again
           </button>
           <Link
-            href="/dashboard"
+            href="/"
             className="inline-flex items-center gap-2 rounded-lg border border-neutral-200 px-5 py-2.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
           >
             Back to dashboard

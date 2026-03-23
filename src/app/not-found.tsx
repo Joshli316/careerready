@@ -19,7 +19,7 @@ export default function NotFound() {
             Go to Homepage
           </Link>
           <Link
-            href="/dashboard"
+            href="/"
             className="inline-flex items-center gap-2 rounded-lg border border-neutral-200 px-5 py-2.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2"
           >
             Open Toolkit

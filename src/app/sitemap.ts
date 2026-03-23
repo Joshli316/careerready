@@ -5,7 +5,6 @@ const BASE_URL = "https://careerready.pages.dev";
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "/",
-    "/dashboard",
     "/know-yourself",
     "/know-yourself/skills",
     "/know-yourself/beliefs",
