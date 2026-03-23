@@ -66,7 +66,7 @@ export default function WorkValuesPage() {
 
       <Callout type="tip" className="mb-6">
         Use the arrows to reorder. #1 is most important to you.
-        Your values may change over time — revisit this periodically.
+        Your values may change over time. Revisit this periodically.
       </Callout>
 
       <div className="space-y-3">

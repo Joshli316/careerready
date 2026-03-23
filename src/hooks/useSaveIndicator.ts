@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 
 export function useSaveIndicator(timeout = 2000) {
   const [saved, setSaved] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const showSaved = useCallback(() => {
+    if (timerRef.current) clearTimeout(timerRef.current);
     setSaved(true);
-    const timer = setTimeout(() => setSaved(false), timeout);
-    return () => clearTimeout(timer);
+    timerRef.current = setTimeout(() => setSaved(false), timeout);
   }, [timeout]);
 
   return { saved, showSaved };

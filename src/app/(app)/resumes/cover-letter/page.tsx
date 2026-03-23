@@ -93,8 +93,8 @@ export default function CoverLetterPage() {
             ...prev,
             content: {
               ...prev.content,
-              recipientName: result.recipientName,
-              company: result.company || prev.content.company,
+              recipientName: result.recipientName || prev.content.recipientName,
+              company: prev.content.company || result.company,
               opening: result.opening,
               body: result.body,
               closing: result.closing,
@@ -159,7 +159,7 @@ export default function CoverLetterPage() {
           </section>
 
           <div className="flex justify-end gap-3">
-            <Button variant="secondary" size="lg" onClick={() => exportCoverLetter(letter, savedResume ? { name: savedResume.content.contactInfo.name, phone: savedResume.content.contactInfo.phone, email: savedResume.content.contactInfo.email } : undefined)} disabled={exporting}>
+            <Button variant="secondary" size="lg" onClick={() => exportCoverLetter(letter, savedResume?.content?.contactInfo ? { name: savedResume.content.contactInfo.name, phone: savedResume.content.contactInfo.phone, email: savedResume.content.contactInfo.email } : undefined)} disabled={exporting}>
               <Download className="mr-1.5 h-4 w-4" />
               {exporting ? "Exporting..." : "Export PDF"}
             </Button>
@@ -169,7 +169,7 @@ export default function CoverLetterPage() {
 
         {/* Preview */}
         <div className={`w-full md:w-[400px] shrink-0 ${showPreview ? "" : "hidden md:block"}`}>
-          <div className="sticky top-20 rounded-xl border border-neutral-150 bg-white p-6 shadow-sm text-xs leading-relaxed space-y-3">
+          <div className="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto rounded-xl border border-neutral-150 bg-white p-6 shadow-sm text-xs leading-relaxed space-y-3">
             <h3 className="text-sm font-medium text-neutral-500 mb-3">Preview</h3>
             <p className="text-neutral-500">{new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
             {letter.content.recipientName && (

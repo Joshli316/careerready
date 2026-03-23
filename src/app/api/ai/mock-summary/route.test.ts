@@ -5,19 +5,25 @@ vi.mock("@/lib/ai/client", () => ({
   getAIClient: vi.fn(),
 }));
 vi.mock("@/lib/ai/rate-limit", () => ({
-  checkRateLimit: vi.fn(),
+  checkRateLimitD1: vi.fn(),
 }));
 vi.mock("@/lib/ai/client-ip", () => ({
   getClientIp: vi.fn(() => "127.0.0.1"),
 }));
+vi.mock("@cloudflare/next-on-pages", () => ({
+  getRequestContext: vi.fn(() => ({ env: { DB: {} } })),
+}));
+vi.mock("@/lib/api/validate-origin", () => ({
+  validateOrigin: vi.fn(() => null),
+}));
 
 import { POST } from "./route";
 import { getAIClient } from "@/lib/ai/client";
-import { checkRateLimit } from "@/lib/ai/rate-limit";
+import { checkRateLimitD1 } from "@/lib/ai/rate-limit";
 
 const mockCreate = vi.fn();
 const mockGetAIClient = vi.mocked(getAIClient);
-const mockCheckRateLimit = vi.mocked(checkRateLimit);
+const mockCheckRateLimitD1 = vi.mocked(checkRateLimitD1);
 
 function makeRequest(body: unknown): NextRequest {
   return new NextRequest("http://localhost/api/ai/mock-summary", {
@@ -37,7 +43,7 @@ const sampleSummary = {
 
 beforeEach(() => {
   vi.clearAllMocks();
-  mockCheckRateLimit.mockReturnValue({ allowed: true, remaining: 4, limit: 5 });
+  mockCheckRateLimitD1.mockResolvedValue({ allowed: true, remaining: 4, limit: 5 });
   mockGetAIClient.mockReturnValue({
     messages: { create: mockCreate },
   } as unknown as ReturnType<typeof getAIClient>);
@@ -72,7 +78,7 @@ describe("POST /api/ai/mock-summary", () => {
 
   it("returns 429 when rate limited", async () => {
     process.env.CLAUDE_API_KEY = "test-key";
-    mockCheckRateLimit.mockReturnValue({ allowed: false, remaining: 0, limit: 5 });
+    mockCheckRateLimitD1.mockResolvedValue({ allowed: false, remaining: 0, limit: 5 });
     const res = await POST(makeRequest(validBody));
     expect(res.status).toBe(429);
   });
@@ -96,5 +102,38 @@ describe("POST /api/ai/mock-summary", () => {
     expect(res.status).toBe(200);
     const json = (await res.json()) as any;
     expect(json.result.confidenceRating).toBe(7);
+  });
+
+  it("returns 400 when exchanges have invalid structure", async () => {
+    process.env.CLAUDE_API_KEY = "test-key";
+    const res = await POST(makeRequest({
+      jobContext: "Test",
+      exchanges: [{ question: "Q1" }], // missing answer and feedback
+    }));
+    expect(res.status).toBe(400);
+    const json = (await res.json()) as any;
+    expect(json.code).toBe("INVALID_EXCHANGE");
+  });
+
+  it("returns 400 when too many exchanges", async () => {
+    process.env.CLAUDE_API_KEY = "test-key";
+    const exchanges = Array.from({ length: 21 }, (_, i) => ({
+      question: `Q${i}`, answer: `A${i}`, feedback: `F${i}`,
+    }));
+    const res = await POST(makeRequest({ jobContext: "Test", exchanges }));
+    expect(res.status).toBe(400);
+    const json = (await res.json()) as any;
+    expect(json.code).toBe("INPUT_TOO_LONG");
+  });
+
+  it("clamps confidence rating to 1-10 range", async () => {
+    process.env.CLAUDE_API_KEY = "test-key";
+    mockCreate.mockResolvedValue({
+      content: [{ type: "text", text: JSON.stringify({ ...sampleSummary, confidenceRating: 15 }) }],
+    });
+    const res = await POST(makeRequest(validBody));
+    expect(res.status).toBe(200);
+    const json = (await res.json()) as any;
+    expect(json.result.confidenceRating).toBe(10);
   });
 });

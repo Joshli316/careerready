@@ -61,6 +61,8 @@ export default function StarMethodPage() {
     });
   }, [storage]);
 
+  const pendingSaveRef = useRef(false);
+
   // Handle "Draft Story" deep link from JD Decoder
   useEffect(() => {
     if (deepLinkHandled.current) return;
@@ -74,6 +76,7 @@ export default function StarMethodPage() {
         setActiveIndex(updated.length - 1);
         return updated;
       });
+      pendingSaveRef.current = true;
       toast("Story added — fill in your STAR answer below.", "success");
     }
   }, [searchParams, toast]);
@@ -93,6 +96,14 @@ export default function StarMethodPage() {
       toast("Failed to save. Please try again.", "error");
     }
   }, [storage, stories, showSaved, toast]);
+
+  // Auto-save after deep-link story is added to state
+  useEffect(() => {
+    if (pendingSaveRef.current && stories.length > 0) {
+      pendingSaveRef.current = false;
+      save();
+    }
+  }, [stories, save]);
 
   function updateStory(field: keyof StarStory, value: string | number) {
     const updated = [...stories];

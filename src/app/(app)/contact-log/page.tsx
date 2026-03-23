@@ -6,20 +6,22 @@ import { useStorage } from "@/hooks/useStorage";
 import { useToast } from "@/components/ui/Toast";
 import { CardSkeleton } from "@/components/ui/Skeleton";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/Textarea";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { nanoid } from "nanoid";
 import type { EmployerContact, ContactStatus } from "@/types/contact";
+import { ContactStats } from "./components/ContactStats";
+import { ContactForm } from "./components/ContactForm";
+import { ContactCard } from "./components/ContactCard";
 
-const statusLabels: Record<string, { label: string; color: string }> = {
-  saved: { label: "Saved", color: "bg-neutral-100 text-neutral-600" },
-  applied: { label: "Applied", color: "bg-blue-50 text-blue-700" },
-  phone_screen: { label: "Phone Screen", color: "bg-cyan-50 text-cyan-700" },
-  interview: { label: "Interview", color: "bg-purple-50 text-purple-700" },
-  follow_up: { label: "Follow Up", color: "bg-orange-50 text-orange-700" },
-  offer: { label: "Offer", color: "bg-green-50 text-green-700" },
-  rejected: { label: "Rejected", color: "bg-red-50 text-red-700" },
-  accepted: { label: "Accepted", color: "bg-primary-50 text-primary-700" },
+const statusLabels: Record<string, { label: string }> = {
+  saved: { label: "Saved" },
+  applied: { label: "Applied" },
+  phone_screen: { label: "Phone Screen" },
+  interview: { label: "Interview" },
+  follow_up: { label: "Follow Up" },
+  offer: { label: "Offer" },
+  rejected: { label: "Rejected" },
+  accepted: { label: "Accepted" },
 };
 
 export default function ContactLogPage() {
@@ -33,6 +35,17 @@ export default function ContactLogPage() {
   const [formStatus, setFormStatus] = useState<ContactStatus>("applied");
   const [formNotes, setFormNotes] = useState("");
 
+  // Edit state
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editCompany, setEditCompany] = useState("");
+  const [editPosition, setEditPosition] = useState("");
+  const [editStatus, setEditStatus] = useState<ContactStatus>("applied");
+  const [editNotes, setEditNotes] = useState("");
+  const [editDateApplied, setEditDateApplied] = useState("");
+
+  // Delete confirmation state
+  const [deleteTarget, setDeleteTarget] = useState<EmployerContact | null>(null);
+
   useEffect(() => {
     storage.getContacts().then((data) => {
       setContacts(data);
@@ -41,7 +54,7 @@ export default function ContactLogPage() {
   }, [storage]);
 
   const addContact = useCallback(async () => {
-    if (!formCompany.trim()) return;
+    if (!formCompany.trim() || !formPosition.trim()) return;
     const now = new Date().toISOString();
     const contact: EmployerContact = {
       id: nanoid(),
@@ -63,44 +76,110 @@ export default function ContactLogPage() {
     toast("Contact added");
   }, [storage, formCompany, formPosition, formStatus, formNotes, toast]);
 
+  const startEditing = useCallback((contact: EmployerContact) => {
+    setEditingId(contact.id);
+    setEditCompany(contact.companyName);
+    setEditPosition(contact.position);
+    setEditStatus(contact.status);
+    setEditNotes(contact.notes ?? "");
+    setEditDateApplied(
+      contact.dateApplied
+        ? new Date(contact.dateApplied).toISOString().split("T")[0]
+        : ""
+    );
+  }, []);
+
+  const cancelEditing = useCallback(() => {
+    setEditingId(null);
+  }, []);
+
+  const saveEdit = useCallback(async () => {
+    if (!editingId) return;
+    if (!editCompany.trim() || !editPosition.trim()) {
+      toast("Company and position are required.", "error");
+      return;
+    }
+    const existing = contacts.find((c) => c.id === editingId);
+    if (!existing) return;
+
+    const updated: EmployerContact = {
+      ...existing,
+      companyName: editCompany.trim(),
+      position: editPosition.trim(),
+      status: editStatus,
+      notes: editNotes.trim() || undefined,
+      dateApplied: editDateApplied
+        ? new Date(editDateApplied).toISOString()
+        : existing.dateApplied,
+      updatedAt: new Date().toISOString(),
+    };
+
+    await storage.saveContact(updated);
+    setContacts(await storage.getContacts());
+    setEditingId(null);
+    toast("Contact updated");
+  }, [
+    editingId,
+    editCompany,
+    editPosition,
+    editStatus,
+    editNotes,
+    editDateApplied,
+    contacts,
+    storage,
+    toast,
+  ]);
+
+  const handleStatusChange = useCallback(
+    async (contact: EmployerContact, newStatus: ContactStatus) => {
+      const updated: EmployerContact = {
+        ...contact,
+        status: newStatus,
+        updatedAt: new Date().toISOString(),
+      };
+      await storage.saveContact(updated);
+      setContacts(await storage.getContacts());
+      toast(`Status changed to ${statusLabels[newStatus]?.label ?? newStatus}`);
+    },
+    [storage, toast]
+  );
+
+  const confirmDelete = useCallback(async () => {
+    if (!deleteTarget) return;
+    await storage.deleteContact(deleteTarget.id);
+    setContacts(await storage.getContacts());
+    setDeleteTarget(null);
+    toast("Contact deleted");
+  }, [deleteTarget, storage, toast]);
+
   return (
     <div>
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-neutral-800">Contact Log</h1>
           <p className="mt-2 text-neutral-500">
             Track every application, follow-up, and employer interaction.
           </p>
         </div>
-        <Button onClick={() => setShowForm(!showForm)} size="md">
+        <Button onClick={() => setShowForm(!showForm)} size="md" className="self-start sm:self-auto">
           <Plus className="mr-1.5 h-4 w-4" />
           Add Contact
         </Button>
       </div>
 
       {showForm && (
-        <div className="mb-6 rounded-xl border border-primary-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-4 font-semibold text-neutral-800">New Contact</h3>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Input label="Company" placeholder="Company name" value={formCompany} onChange={(e) => setFormCompany(e.target.value)} />
-            <Input label="Position" placeholder="Job title you applied for" value={formPosition} onChange={(e) => setFormPosition(e.target.value)} />
-            <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-neutral-700">Status</label>
-              <select value={formStatus} onChange={(e) => setFormStatus(e.target.value as ContactStatus)} className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm">
-                {Object.entries(statusLabels).map(([key, { label }]) => (
-                  <option key={key} value={key}>{label}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <div className="mt-4">
-            <Textarea label="Notes (optional)" placeholder="How you found this job, contact person, etc." value={formNotes} onChange={(e) => setFormNotes(e.target.value)} rows={2} />
-          </div>
-          <div className="mt-4 flex justify-end gap-3">
-            <Button variant="ghost" size="sm" onClick={() => setShowForm(false)}>Cancel</Button>
-            <Button size="sm" onClick={addContact}>Save Contact</Button>
-          </div>
-        </div>
+        <ContactForm
+          formCompany={formCompany}
+          formPosition={formPosition}
+          formStatus={formStatus}
+          formNotes={formNotes}
+          onCompanyChange={setFormCompany}
+          onPositionChange={setFormPosition}
+          onStatusChange={setFormStatus}
+          onNotesChange={setFormNotes}
+          onSave={addContact}
+          onCancel={() => setShowForm(false)}
+        />
       )}
 
       {loading ? (
@@ -110,54 +189,58 @@ export default function ContactLogPage() {
         </div>
       ) : (
       <>
-      {/* Stats */}
-      <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {[
-          { label: "Total", count: contacts.length },
-          { label: "Applied", count: contacts.filter((c) => c.status === "applied").length },
-          { label: "Interviews", count: contacts.filter((c) => c.status === "interview").length },
-          { label: "Offers", count: contacts.filter((c) => c.status === "offer" || c.status === "accepted").length },
-        ].map((stat) => (
-          <div key={stat.label} className="rounded-xl border border-neutral-150 bg-white p-4 text-center">
-            <div className="text-2xl font-bold text-neutral-800">{stat.count}</div>
-            <div className="text-xs text-neutral-500">{stat.label}</div>
-          </div>
-        ))}
-      </div>
+      <ContactStats contacts={contacts} />
 
       {contacts.length === 0 ? (
         <div className="rounded-xl border-2 border-dashed border-neutral-200 p-12 text-center">
           <Building2 className="mx-auto h-10 w-10 text-neutral-300" />
-          <h3 className="mt-4 font-semibold text-neutral-700">No contacts yet</h3>
+          <h3 className="mt-4 font-semibold text-neutral-700">Your job search starts here</h3>
           <p className="mt-1 text-sm text-neutral-500">
-            Click "Add Contact" above to start tracking your applications.
+            Add your first company to keep track of every application, follow-up, and offer.
           </p>
         </div>
       ) : (
         <div className="space-y-3">
-          {contacts.map((contact) => (
-            <div key={contact.id} className="rounded-xl border border-neutral-150 bg-white p-4">
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-semibold text-neutral-800">{contact.companyName}</h3>
-                  <p className="text-sm text-neutral-500">{contact.position}</p>
-                </div>
-                <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${statusLabels[contact.status]?.color}`}>
-                  {statusLabels[contact.status]?.label}
-                </span>
-              </div>
-              {contact.notes && <p className="mt-2 text-sm text-neutral-500">{contact.notes}</p>}
-              {contact.dateApplied && (
-                <p className="mt-1 text-xs text-neutral-400">
-                  Added {new Date(contact.dateApplied).toLocaleDateString()}
-                </p>
-              )}
-            </div>
+          {[...contacts].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()).map((contact) => (
+            <ContactCard
+              key={contact.id}
+              contact={contact}
+              isEditing={editingId === contact.id}
+              editCompany={editCompany}
+              editPosition={editPosition}
+              editStatus={editStatus}
+              editNotes={editNotes}
+              editDateApplied={editDateApplied}
+              onEditCompanyChange={setEditCompany}
+              onEditPositionChange={setEditPosition}
+              onEditStatusChange={setEditStatus}
+              onEditNotesChange={setEditNotes}
+              onEditDateChange={setEditDateApplied}
+              onStartEditing={startEditing}
+              onCancelEditing={cancelEditing}
+              onSaveEdit={saveEdit}
+              onStatusChange={handleStatusChange}
+              onDelete={setDeleteTarget}
+            />
           ))}
         </div>
       )}
       </>
       )}
+
+      {/* Delete confirmation dialog */}
+      <ConfirmDialog
+        open={deleteTarget !== null}
+        title="Delete Contact"
+        message={
+          deleteTarget
+            ? `Are you sure you want to delete "${deleteTarget.companyName}"? This action cannot be undone.`
+            : ""
+        }
+        confirmLabel="Delete"
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteTarget(null)}
+      />
     </div>
   );
 }

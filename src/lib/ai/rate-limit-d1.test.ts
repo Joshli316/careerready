@@ -28,11 +28,11 @@ describe("checkRateLimitD1", () => {
     vi.restoreAllMocks();
   });
 
-  it("allows first request (INSERT succeeds, no existing row)", async () => {
+  it("allows first request (atomic INSERT then SELECT shows 1)", async () => {
     const { mockD1, mockStatement } = createMockD1();
-    // SELECT returns null (no existing row)
-    mockStatement.first.mockResolvedValue(null);
+    // INSERT runs first (atomic upsert), then SELECT reads the new count
     mockStatement.run.mockResolvedValue({});
+    mockStatement.first.mockResolvedValue({ requests: 1 });
 
     const result = await checkRateLimitD1(mockD1, "user:123", false);
 
@@ -41,10 +41,11 @@ describe("checkRateLimitD1", () => {
     expect(result.limit).toBe(5);
   });
 
-  it("blocks when at limit (SELECT returns requests >= limit)", async () => {
+  it("blocks when at limit (INSERT increments past limit)", async () => {
     const { mockD1, mockStatement } = createMockD1();
-    // SELECT returns row at limit
-    mockStatement.first.mockResolvedValue({ requests: 5 });
+    // INSERT increments to 6, SELECT shows 6 (which is > limit of 5)
+    mockStatement.run.mockResolvedValue({});
+    mockStatement.first.mockResolvedValue({ requests: 6 });
 
     const result = await checkRateLimitD1(mockD1, "user:456", false);
 
@@ -55,27 +56,28 @@ describe("checkRateLimitD1", () => {
 
   it("returns correct remaining count", async () => {
     const { mockD1, mockStatement } = createMockD1();
-    // Authenticated user with 10 requests so far
-    mockStatement.first.mockResolvedValue({ requests: 10 });
+    // Authenticated user: INSERT increments, SELECT shows 11
     mockStatement.run.mockResolvedValue({});
+    mockStatement.first.mockResolvedValue({ requests: 11 });
 
     const result = await checkRateLimitD1(mockD1, "user:789", true);
 
     expect(result.allowed).toBe(true);
-    // AUTH_LIMIT(20) - (10 + 1) = 9
+    // AUTH_LIMIT(20) - 11 = 9
     expect(result.remaining).toBe(9);
     expect(result.limit).toBe(20);
   });
 
   it("falls back to in-memory when D1 throws", async () => {
     const { mockD1, mockStatement } = createMockD1();
-    mockStatement.first.mockRejectedValue(new Error("D1 unavailable"));
+    // Both INSERT and SELECT throw
+    mockStatement.run.mockRejectedValue(new Error("D1 unavailable"));
 
-    const result = await checkRateLimitD1(mockD1, "fallback-key", false);
+    const result = await checkRateLimitD1(mockD1, "fallback-d1-key", false);
 
-    // Should succeed via in-memory fallback
+    // Should succeed via in-memory fallback (halved limit: ceil(5/2) = 3)
     expect(result.allowed).toBe(true);
-    expect(result.limit).toBe(5);
-    expect(result.remaining).toBe(4);
+    expect(result.limit).toBe(3);
+    expect(result.remaining).toBe(2);
   });
 });

@@ -5,6 +5,7 @@ import { useProfileSave } from "@/hooks/useProfileSave";
 import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Plus, X } from "lucide-react";
@@ -101,7 +102,7 @@ export default function SkillsPage() {
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">Transferable Skills Inventory</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Identify the soft and hard skills you bring from all your experiences — jobs, internships,
+            Identify the soft and hard skills you bring from all your experiences: jobs, internships,
             volunteer work, campus activities, and coursework.
           </p>
         </div>
@@ -182,14 +183,14 @@ export default function SkillsPage() {
             onChange={(e) => setNewSkill(e.target.value)}
             className="flex-1"
           />
-          <select
+          <Select
+            aria-label="Skill category"
             value={newCategory}
             onChange={(e) => setNewCategory(e.target.value as "soft" | "hard")}
-            className="h-10 rounded-lg border border-neutral-200 bg-white px-3 text-sm"
           >
             <option value="soft">Soft Skill</option>
             <option value="hard">Hard Skill</option>
-          </select>
+          </Select>
           <Input
             placeholder="Where learned (optional)"
             value={newSource}

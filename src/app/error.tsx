@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 
 export default function GlobalError({
@@ -9,6 +10,10 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    console.error("[GlobalError]", error.message, error.digest ?? "");
+  }, [error]);
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-neutral-50 px-6">
       <div className="text-center">

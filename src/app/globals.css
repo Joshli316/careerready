@@ -4,10 +4,10 @@
   --color-primary-50: #F0F9EB;
   --color-primary-100: #D8F0C8;
   --color-primary-200: #B5E09A;
-  --color-primary-300: #8FCC6B;
-  --color-primary-400: #7AB648;
-  --color-primary-500: #6A9E3E;
-  --color-primary-600: #5A8634;
+  --color-primary-300: #5FA03A;
+  --color-primary-400: #4D8B31;
+  --color-primary-500: #3F7528;
+  --color-primary-600: #336620;
   --color-primary-700: #4A6E2A;
   --color-primary-800: #3A5620;
   --color-primary-900: #2A3E16;
@@ -29,6 +29,11 @@
   --color-error: #F44336;
   --color-info: #2196F3;
   --color-ai-accent: #8B5CF6;
+
+  --color-blue-500: #0075DE;
+  --color-blue-600: #0060B8;
+  --color-blue-700: #004D94;
+  --color-blue-50: #E6F3FE;
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;

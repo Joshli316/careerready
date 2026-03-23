@@ -28,7 +28,16 @@ const STORAGE_WARN_BYTES = 4 * 1024 * 1024; // 4MB — warn at ~80% of 5MB limit
 function setItem<T>(key: string, value: T): void {
   if (typeof window === "undefined") return;
   const json = JSON.stringify(value);
-  localStorage.setItem(`${PREFIX}${key}`, json);
+  try {
+    localStorage.setItem(`${PREFIX}${key}`, json);
+  } catch (err) {
+    if (err instanceof DOMException && err.name === "QuotaExceededError") {
+      throw new Error(
+        "Storage is full. Please delete some data (old resumes, contacts) to free up space."
+      );
+    }
+    throw err;
+  }
   checkStorageUsage();
 }
 

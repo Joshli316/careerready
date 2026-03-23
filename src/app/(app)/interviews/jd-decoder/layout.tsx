@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "JD Decoder — CareerReady",
+  title: "JD Decoder",
   description: "Paste a job posting to extract requirements, match your stories, and build a prep checklist.",
 };
 

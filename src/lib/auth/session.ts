@@ -7,7 +7,12 @@ export async function getSessionUser(lucia: Lucia) {
   if (!sessionId) return null;
 
   const { session, user } = await lucia.validateSession(sessionId);
-  if (!session) return null;
+  if (!session) {
+    // Clear the stale session cookie to avoid repeated DB lookups
+    const blankCookie = lucia.createBlankSessionCookie();
+    cookieStore.set(blankCookie.name, blankCookie.value, blankCookie.attributes);
+    return null;
+  }
 
   if (session.fresh) {
     const sessionCookie = lucia.createSessionCookie(session.id);

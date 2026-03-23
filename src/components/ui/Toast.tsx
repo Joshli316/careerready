@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, useRef, type ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useRef, useEffect, type ReactNode } from "react";
 import { cn } from "@/lib/utils/cn";
 import { CheckCircle, AlertTriangle, XCircle, X, Info } from "lucide-react";
 
@@ -39,23 +39,37 @@ const styles: Record<ToastType, string> = {
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const counterRef = useRef(0);
+  const timersRef = useRef(new Map<string, ReturnType<typeof setTimeout>>());
+
+  // Cleanup all timers on unmount
+  useEffect(() => {
+    const timers = timersRef.current;
+    return () => {
+      timers.forEach((timer) => clearTimeout(timer));
+      timers.clear();
+    };
+  }, []);
 
   const addToast = useCallback((message: string, type: ToastType = "success") => {
     const id = `toast-${++counterRef.current}`;
     setToasts((prev) => [...prev, { id, message, type }]);
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
+      timersRef.current.delete(id);
     }, 4000);
+    timersRef.current.set(id, timer);
   }, []);
 
   const removeToast = useCallback((id: string) => {
+    const timer = timersRef.current.get(id);
+    if (timer) { clearTimeout(timer); timersRef.current.delete(id); }
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
   return (
     <ToastContext.Provider value={{ toast: addToast }}>
       {children}
-      <div className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2">
+      <div className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2" aria-live="polite" aria-relevant="additions removals">
         {toasts.map((t) => {
           const Icon = icons[t.type];
           return (
@@ -73,7 +87,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               <span className="flex-1 text-sm">{t.message}</span>
               <button
                 onClick={() => removeToast(t.id)}
-                className="shrink-0 rounded p-1 hover:bg-black/5"
+                className="shrink-0 rounded p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-black/5"
                 aria-label="Dismiss notification"
               >
                 <X className="h-3.5 w-3.5" />

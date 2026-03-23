@@ -52,12 +52,10 @@ export default function AuditPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-neutral-800">Online Presence Audit</h1>
         <p className="mt-1 text-sm text-neutral-500">
-          Review your social media through an employer's eyes. 45% of employers research candidates online,
-          and 1 in 3 have rejected someone based on what they found.
+          Review your social media through an employer's eyes. Most hiring managers check candidates'
+          social profiles, and many have passed on a candidate based on what they found.
         </p>
       </div>
-
-      <SavedIndicator visible={saved} />
 
       <Callout type="warning" className="mb-6">
         Before starting your job search, Google yourself and review every social media profile.
@@ -98,12 +96,13 @@ export default function AuditPage() {
         </p>
         <div className="space-y-3">
           {auditCategories.map((cat) => (
-            <div key={cat.key} className="flex items-center justify-between rounded-lg border border-neutral-150 p-4">
+            <div key={cat.key} className="flex flex-col gap-3 rounded-lg border border-neutral-150 p-4 sm:flex-row sm:items-center sm:justify-between">
               <span className="text-sm text-neutral-700">{cat.category}</span>
-              <div className="flex gap-2">
+              <div className="flex gap-2 shrink-0">
                 <button
                   onClick={() => setResults({ ...results, [cat.key]: "pass" })}
-                  className={`flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                  aria-pressed={results[cat.key] === "pass"}
+                  className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors min-h-[44px] ${
                     results[cat.key] === "pass" ? "bg-green-50 text-green-700 border border-green-200" : "bg-neutral-50 text-neutral-500 hover:bg-green-50"
                   }`}
                 >
@@ -111,7 +110,8 @@ export default function AuditPage() {
                 </button>
                 <button
                   onClick={() => setResults({ ...results, [cat.key]: "fail" })}
-                  className={`flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                  aria-pressed={results[cat.key] === "fail"}
+                  className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors min-h-[44px] ${
                     results[cat.key] === "fail" ? "bg-red-50 text-red-700 border border-red-200" : "bg-neutral-50 text-neutral-500 hover:bg-red-50"
                   }`}
                 >
@@ -128,7 +128,8 @@ export default function AuditPage() {
         )}
       </section>
 
-      <div className="mt-6 flex justify-end">
+      <div className="mt-6 flex items-center justify-end gap-3">
+        <SavedIndicator visible={saved} />
         <Button onClick={handleSave} size="lg">Save Audit Results</Button>
       </div>
     </div>

@@ -84,7 +84,7 @@ export default function EmailGuidePage() {
         </section>
 
         <Callout type="warning">
-          Double check your spelling, grammar, and capitalization before sending. Proofread everything — emails create a first impression too.
+          Double check your spelling, grammar, and capitalization before sending. Proofread everything. Emails create a first impression too.
         </Callout>
 
         {/* Sample email */}
@@ -98,13 +98,13 @@ export default function EmailGuidePage() {
             <p>Hello Ms. Johnson,</p>
             <br />
             <p>
-              Attached please find a copy of my resume and cover letter for your review. I am a highly
-              motivated recent graduate with a degree in Marketing and internship experience in social media
-              management. I am interested in applying for the Marketing Coordinator position currently available.
+              I've attached my resume and cover letter for the Marketing Coordinator position. I recently
+              graduated with a degree in Marketing and have internship experience managing social media
+              campaigns. I'd love to bring that hands-on experience to your team.
             </p>
             <br />
             <p>
-              I look forward to hearing from you. In advance, thank you for your time and consideration.
+              Thank you for your time. I look forward to hearing from you.
             </p>
             <br />
             <p>Sincerely,</p>

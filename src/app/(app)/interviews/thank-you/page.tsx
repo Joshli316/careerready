@@ -81,7 +81,7 @@ ${senderEmail || "[Your Email]"}`;
       </div>
 
       <Callout type="tip" className="mb-6">
-        A quick thank you note makes you stand out — most candidates skip this step.
+        A quick thank you note makes you stand out. Most candidates skip this step.
         Send it within 24 hours while the conversation is still fresh.
       </Callout>
 

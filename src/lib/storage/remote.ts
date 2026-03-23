@@ -119,23 +119,29 @@ export class RemoteStorageAdapter implements StorageAdapter {
     await fetchJson(`/api/contacts/${id}`, { method: "DELETE" });
   }
 
+  // TODO: Implement remote storage for JD analyses when API routes are ready.
+  // Until then, authenticated users will not persist JD analysis data.
   async getJDAnalyses(): Promise<JDAnalysis[]> {
+    console.warn("RemoteStorageAdapter.getJDAnalyses: not implemented — returning empty array");
     return [];
   }
   async saveJDAnalysis(_analysis: JDAnalysis): Promise<void> {
-    // Remote storage not yet implemented for JD analyses
+    console.warn("RemoteStorageAdapter.saveJDAnalysis: not implemented — data not persisted");
   }
   async deleteJDAnalysis(_id: string): Promise<void> {
-    // Remote storage not yet implemented for JD analyses
+    console.warn("RemoteStorageAdapter.deleteJDAnalysis: not implemented");
   }
 
+  // TODO: Implement remote storage for mock sessions when API routes are ready.
+  // Until then, authenticated users will not persist mock interview sessions.
   async getMockSessions(): Promise<MockInterviewSession[]> {
+    console.warn("RemoteStorageAdapter.getMockSessions: not implemented — returning empty array");
     return [];
   }
   async saveMockSession(_session: MockInterviewSession): Promise<void> {
-    // Remote storage not yet implemented for mock sessions
+    console.warn("RemoteStorageAdapter.saveMockSession: not implemented — data not persisted");
   }
   async deleteMockSession(_id: string): Promise<void> {
-    // Remote storage not yet implemented for mock sessions
+    console.warn("RemoteStorageAdapter.deleteMockSession: not implemented");
   }
 }

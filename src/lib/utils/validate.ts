@@ -1,5 +1,6 @@
 export function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  // Require: non-empty local part, @ sign, domain with at least one dot, TLD with 2+ chars
+  return /^[^\s@]+@[^\s@.][^\s@]*\.[^\s@]{2,}$/.test(email);
 }
 
 export function isValidPhone(phone: string): boolean {

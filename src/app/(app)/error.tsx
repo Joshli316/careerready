@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+
 export default function Error({
   error,
   reset,
@@ -7,6 +9,10 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    console.error("[AppError]", error.message, error.digest ?? "");
+  }, [error]);
+
   return (
     <div className="flex min-h-[60vh] items-center justify-center px-6">
       <div className="text-center">
@@ -19,7 +25,7 @@ export default function Error({
         </p>
         <button
           onClick={reset}
-          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary-400 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-500"
+          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary-400 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2"
         >
           Try again
         </button>

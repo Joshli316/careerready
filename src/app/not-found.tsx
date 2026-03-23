@@ -9,14 +9,22 @@ export default function NotFound() {
         </div>
         <h1 className="text-2xl font-bold text-neutral-800">Page not found</h1>
         <p className="mt-2 text-neutral-500">
-          The page you're looking for doesn't exist or has moved.
+          We couldn't find that page. It may have been removed or the URL may be incorrect.
         </p>
-        <Link
-          href="/dashboard"
-          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary-400 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-500"
-        >
-          Back to Dashboard
-        </Link>
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 rounded-lg bg-primary-400 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2"
+          >
+            Go to Homepage
+          </Link>
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-2 rounded-lg border border-neutral-200 px-5 py-2.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2"
+          >
+            Open Toolkit
+          </Link>
+        </div>
       </div>
     </div>
   );

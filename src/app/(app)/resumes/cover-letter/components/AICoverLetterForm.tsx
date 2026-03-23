@@ -67,7 +67,7 @@ export function AICoverLetterForm({ savedResume, hasExistingContent, onGenerated
         return;
       }
 
-      const { result } = await res.json() as { result: { recipientName?: string; opening?: string; body?: string; closing?: string } };
+      const { result, remaining } = await res.json() as { result: { recipientName?: string; opening?: string; body?: string; closing?: string }; remaining?: number };
       onGenerated({
         recipientName: result.recipientName || "Hiring Manager",
         company: company.trim(),
@@ -76,7 +76,8 @@ export function AICoverLetterForm({ savedResume, hasExistingContent, onGenerated
         closing: result.closing || "",
       });
 
-      toast("Cover letter generated! Edit it below to make it yours.", "success");
+      const remainingMsg = typeof remaining === "number" ? ` (${remaining} AI uses left today)` : "";
+      toast(`Cover letter generated! Edit it below to make it yours.${remainingMsg}`, "success");
       setCollapsed(true);
     } catch {
       toast("Cover letter generation failed. Please try again.", "error");

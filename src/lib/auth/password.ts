@@ -1,6 +1,7 @@
 const ITERATIONS = 100000;
 const KEY_LENGTH = 32;
 const SALT_LENGTH = 16;
+const MIN_PASSWORD_LENGTH = 8;
 
 function toHex(buffer: ArrayBuffer): string {
   return Array.from(new Uint8Array(buffer))
@@ -17,6 +18,18 @@ function fromHex(hex: string): Uint8Array {
 }
 
 export async function hashPassword(password: string): Promise<string> {
+  if (!password || password.length < MIN_PASSWORD_LENGTH) {
+    throw new Error(
+      `Password must be at least ${MIN_PASSWORD_LENGTH} characters long.`
+    );
+  }
+  // Require at least one letter and one number for basic complexity
+  if (!/[a-zA-Z]/.test(password) || !/\d/.test(password)) {
+    throw new Error(
+      "Password must contain at least one letter and one number."
+    );
+  }
+
   const salt = crypto.getRandomValues(new Uint8Array(SALT_LENGTH));
   const keyMaterial = await crypto.subtle.importKey(
     "raw",
@@ -37,7 +50,9 @@ export async function verifyPassword(
   password: string,
   stored: string
 ): Promise<boolean> {
+  if (!stored || !stored.includes(":")) return false;
   const [saltHex, hashHex] = stored.split(":");
+  if (!saltHex || !hashHex) return false;
   const salt = fromHex(saltHex);
   const keyMaterial = await crypto.subtle.importKey(
     "raw",

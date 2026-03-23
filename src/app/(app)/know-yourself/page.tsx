@@ -22,7 +22,7 @@ const sections = [
   },
   {
     title: "Transferable Skills",
-    description: "Identify your soft and hard skills — these auto-fill your resume.",
+    description: "Identify your soft and hard skills. These auto-fill your resume.",
     href: "/know-yourself/skills",
     icon: Wrench,
   },
@@ -34,13 +34,13 @@ const sections = [
   },
   {
     title: "Personal Branding",
-    description: "Write your brand statement — it becomes your resume summary.",
+    description: "Write your brand statement. It becomes your resume summary.",
     href: "/know-yourself/branding",
     icon: Sparkles,
   },
   {
     title: "Power Statement",
-    description: "Build your elevator pitch — use it at networking events and in interviews.",
+    description: "Build your elevator pitch. Use it at networking events and in interviews.",
     href: "/know-yourself/power-statement",
     icon: Mic,
   },
@@ -52,8 +52,8 @@ export default function KnowYourselfPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-neutral-800">Know Yourself</h1>
         <p className="mt-2 text-neutral-500">
-          Figure out what you're good at and how to talk about it. What you write here
-          auto-fills your resume, cover letter, and interview prep.
+          This is the foundation of your entire job search. What you write here auto-fills
+          your resume, cover letter, and interview prep — so you only write it once.
         </p>
       </div>
 

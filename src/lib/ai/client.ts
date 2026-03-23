@@ -1,10 +1,13 @@
 import Anthropic from "@anthropic-ai/sdk";
 
-let client: Anthropic | null = null;
+let cachedClient: Anthropic | null = null;
+let cachedKey: string | null = null;
 
 export function getAIClient(apiKey: string): Anthropic {
-  if (!client) {
-    client = new Anthropic({ apiKey });
+  // Recreate client if the API key has changed (e.g., key rotation)
+  if (!cachedClient || cachedKey !== apiKey) {
+    cachedClient = new Anthropic({ apiKey });
+    cachedKey = apiKey;
   }
-  return client;
+  return cachedClient;
 }

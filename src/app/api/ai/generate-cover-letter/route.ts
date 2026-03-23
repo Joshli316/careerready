@@ -1,10 +1,8 @@
 export const runtime = "edge";
 
 import { NextRequest, NextResponse } from "next/server";
-import { getAIClient } from "@/lib/ai/client";
 import { PROMPTS } from "@/lib/ai/prompts";
-import { checkRateLimit } from "@/lib/ai/rate-limit";
-import { getClientIp } from "@/lib/ai/client-ip";
+import { rateLimitHeaders, getAIClient, getRateLimitResult, stripCodeFences } from "@/lib/api/ai-route-helpers";
 
 interface GenerateRequest {
   jobTitle?: string;
@@ -21,87 +19,100 @@ interface GeneratedLetter {
 }
 
 export async function POST(request: NextRequest) {
-  const apiKey = process.env.CLAUDE_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json(
-      { error: "AI features are not configured" },
-      { status: 503 }
-    );
-  }
+  const rlResult = await getRateLimitResult(request);
+  if (rlResult instanceof NextResponse) return rlResult;
+  const { remaining, limit } = rlResult;
 
-  const ip = getClientIp(request);
-  const { allowed, remaining } = checkRateLimit(`ai:ip:${ip}`, false);
-  if (!allowed) {
-    return NextResponse.json(
-      { error: "Daily AI limit reached. Try again tomorrow." },
-      { status: 429 }
-    );
-  }
+  const clientOrError = getAIClient();
+  if (clientOrError instanceof NextResponse) return clientOrError;
 
   let body: GenerateRequest;
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid JSON body.", code: "INVALID_JSON" }, { status: 400 });
   }
 
   const { jobTitle, company, jobDescription, resume } = body;
 
   if (!jobDescription || typeof jobDescription !== "string" || jobDescription.length > 15000) {
     return NextResponse.json(
-      { error: "Job description is required (max 15,000 characters)." },
+      { error: "Job description is required (max 15,000 characters).", code: "INVALID_INPUT" },
       { status: 400 }
     );
   }
   if (!resume || typeof resume !== "string" || resume.length > 15000) {
     return NextResponse.json(
-      { error: "Resume is required (max 15,000 characters)." },
+      { error: "Resume is required (max 15,000 characters).", code: "INVALID_INPUT" },
       { status: 400 }
     );
   }
 
   try {
-    const client = getAIClient(apiKey);
-    const message = await client.messages.create({
+    const message = await clientOrError.messages.create({
       model: "claude-sonnet-4-20250514",
       max_tokens: 1024,
       system: PROMPTS.generateCoverLetter,
       messages: [
         {
           role: "user",
-          content: `Job Title: ${jobTitle || "Not specified"}
-Company: ${company || "Not specified"}
+          content: `<job_title>${jobTitle || "Not specified"}</job_title>
+<company>${company || "Not specified"}</company>
 
-JOB DESCRIPTION:
-${jobDescription}
+<job_description>${jobDescription}</job_description>
 
-RESUME:
-${resume}`,
+<resume>${resume}</resume>`,
         },
       ],
     });
 
     const rawText =
-      message.content[0].type === "text" ? message.content[0].text : "";
+      message.content[0]?.type === "text" ? message.content[0].text : "";
 
-    // Try to parse structured JSON from Claude's response
+    // Strip markdown code fences that the AI sometimes wraps around JSON
+    const jsonText = stripCodeFences(rawText);
+
     let result: GeneratedLetter;
     try {
-      result = JSON.parse(rawText);
-    } catch {
-      // If Claude didn't return valid JSON, use the raw text as the body
+      const parsed = JSON.parse(jsonText);
       result = {
-        recipientName: "Hiring Manager",
-        opening: "",
-        body: rawText,
-        closing: "",
+        recipientName: typeof parsed.recipientName === "string" ? parsed.recipientName : "Hiring Manager",
+        opening: typeof parsed.opening === "string" ? parsed.opening : "",
+        body: typeof parsed.body === "string" ? parsed.body : "",
+        closing: typeof parsed.closing === "string" ? parsed.closing : "",
       };
+    } catch {
+      // If JSON parsing still fails, try to split the raw text into paragraphs
+      const paragraphs = rawText.split(/\n\n+/).filter((p) => p.trim());
+      if (paragraphs.length <= 1) {
+        result = {
+          recipientName: "Hiring Manager",
+          opening: "",
+          body: paragraphs[0] || rawText,
+          closing: "",
+        };
+      } else if (paragraphs.length === 2) {
+        result = {
+          recipientName: "Hiring Manager",
+          opening: paragraphs[0],
+          body: "",
+          closing: paragraphs[1],
+        };
+      } else {
+        result = {
+          recipientName: "Hiring Manager",
+          opening: paragraphs[0],
+          body: paragraphs.slice(1, -1).join("\n\n"),
+          closing: paragraphs[paragraphs.length - 1],
+        };
+      }
     }
 
-    return NextResponse.json({ result, remaining });
-  } catch {
+    return NextResponse.json({ result, remaining }, { headers: rateLimitHeaders(remaining, limit) });
+  } catch (err) {
+    console.error("[generate-cover-letter] AI request failed:", err);
     return NextResponse.json(
-      { error: "Cover letter generation failed. Please try again." },
+      { error: "Cover letter generation failed. Please try again.", code: "AI_REQUEST_FAILED" },
       { status: 500 }
     );
   }

@@ -60,15 +60,18 @@ export default function MockInterviewPage() {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: questions[currentIndex].question, answer, jobContext }),
       });
+      let feedbackText: string;
       if (!res.ok) {
-        const errData = (await res.json()) as { error?: string };
-        toast(errData.error || "Failed to get feedback.", "error");
-        return;
+        const errData = (await res.json().catch(() => ({}))) as { error?: string };
+        toast(errData.error || "Failed to get feedback. You can still continue.", "warning");
+        feedbackText = "(Feedback unavailable — AI service was temporarily unavailable.)";
+      } else {
+        const { result } = (await res.json()) as { result: string };
+        feedbackText = result;
       }
-      const { result } = (await res.json()) as { result: string };
       const exchange: MockInterviewExchange = {
         question: questions[currentIndex].question, type: questions[currentIndex].type,
-        answer, feedback: result,
+        answer, feedback: feedbackText,
       };
       setExchanges((prev) => [...prev, exchange]);
       setPhase("feedback");
@@ -148,7 +151,7 @@ export default function MockInterviewPage() {
       )}
 
       {phase === "review" && activeSession && (
-        <SessionSummary session={activeSession} summaryData={null} loading={false} onNewSession={handleNewSession} />
+        <SessionSummary session={activeSession} summaryData={summaryData} loading={false} onNewSession={handleNewSession} />
       )}
     </div>
   );

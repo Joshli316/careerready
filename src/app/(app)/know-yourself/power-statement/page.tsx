@@ -47,7 +47,7 @@ export default function PowerStatementPage() {
         <ul className="space-y-2 text-sm text-neutral-600">
           <li className="flex gap-2"><span className="text-primary-400">&#10003;</span> Be brief and conversational, but not too wordy</li>
           <li className="flex gap-2"><span className="text-primary-400">&#10003;</span> Emphasize your brand and show enthusiasm</li>
-          <li className="flex gap-2"><span className="text-primary-400">&#10003;</span> Speak in results — avoid overused phrases like "I am a team player"</li>
+          <li className="flex gap-2"><span className="text-primary-400">&#10003;</span> Speak in results, not cliches like "I am a team player"</li>
           <li className="flex gap-2"><span className="text-primary-400">&#10003;</span> Focus on the benefits you bring to the employer</li>
         </ul>
       </section>

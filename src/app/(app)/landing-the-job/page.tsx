@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 import { Briefcase, BarChart3 } from "lucide-react";
 
 const sections = [
-  { title: "Workplace Success", description: "Tips for thriving in your new professional role.", href: "/landing-the-job/workplace-success", icon: Briefcase },
+  { title: "Workplace Success", description: "Tips for doing well in your first job.", href: "/landing-the-job/workplace-success", icon: Briefcase },
   { title: "Self-Evaluation", description: "Track your performance during your first months on the job.", href: "/landing-the-job/self-evaluation", icon: BarChart3 },
 ];
 
@@ -17,7 +17,7 @@ export default function LandingTheJobPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-neutral-800">Landing the Job</h1>
-        <p className="mt-2 text-neutral-500">Succeed in your new role with workplace guidance and self-evaluation tools.</p>
+        <p className="mt-2 text-neutral-500">Do well at your new job with workplace tips and a monthly self-check.</p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         {sections.map((s) => (

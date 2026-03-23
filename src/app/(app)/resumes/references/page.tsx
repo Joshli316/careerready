@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Plus, Trash2 } from "lucide-react";
@@ -72,14 +73,15 @@ export default function ReferencesPage() {
             <div className="mb-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-neutral-600">Reference {i + 1}</span>
-                <select
+                <Select
+                  aria-label={`Reference ${i + 1} relationship type`}
                   value={ref.relationship}
                   onChange={(e) => update(i, "relationship", e.target.value)}
-                  className="rounded border border-neutral-200 px-2 py-0.5 text-xs"
+                  className="h-auto rounded border px-2 py-0.5 text-xs"
                 >
                   <option value="professional">Professional</option>
                   <option value="personal">Personal</option>
-                </select>
+                </Select>
               </div>
               {references.length > 1 && (
                 <button onClick={() => remove(i)} className="text-neutral-400 hover:text-error">

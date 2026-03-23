@@ -12,10 +12,10 @@ export function Sidebar() {
     <aside className="hidden md:flex md:w-60 md:flex-col md:border-r md:border-neutral-150 md:bg-white">
       <div className="flex h-16 items-center border-b border-neutral-150 px-6">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-400">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-neutral-900">
             <span className="text-sm font-bold text-white">CR</span>
           </div>
-          <span className="text-lg font-bold text-neutral-800">CareerReady</span>
+          <span className="text-base font-semibold text-neutral-800">CareerReady</span>
         </Link>
       </div>
       <nav aria-label="Main navigation" className="flex-1 overflow-y-auto px-3 py-4">
@@ -30,7 +30,7 @@ export function Sidebar() {
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                     isActive
-                      ? "border-l-2 border-l-primary-400 bg-primary-50 text-primary-700"
+                      ? "bg-primary-50 text-primary-700 font-semibold"
                       : "text-neutral-600 hover:bg-neutral-100 hover:text-neutral-800"
                   )}
                 >

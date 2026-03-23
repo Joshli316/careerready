@@ -1,79 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { toolsConfig } from "@/lib/config/tools";
 
 export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Your job search toolkit — 8 free tools from self-discovery to landing the job.",
+  title: "Your Toolkit",
+  description: "Your job search toolkit: 8 free tools from knowing your strengths to landing the job.",
 };
-import {
-  User,
-  FileText,
-  ScrollText,
-  MessageSquare,
-  Search,
-  Globe,
-  Trophy,
-  BookOpen,
-} from "lucide-react";
 
-const tools = [
-  {
-    name: "Know Yourself",
-    description: "Figure out your strengths, goals, and elevator pitch before applying anywhere.",
-    href: "/know-yourself",
-    icon: User,
-    phase: "Know Yourself",
-  },
-  {
-    name: "Applications",
-    description: "Fill out any application faster with a master form and keyword tips.",
-    href: "/applications",
-    icon: FileText,
-    phase: "Market Your Brand",
-  },
-  {
-    name: "Resumes",
-    description: "Create your resume, cover letter, and reference page — export as PDF.",
-    href: "/resumes",
-    icon: ScrollText,
-    phase: "Market Your Brand",
-  },
-  {
-    name: "Interviews",
-    description: "Practice the 8 most common questions and build STAR stories you can reuse.",
-    href: "/interviews",
-    icon: MessageSquare,
-    phase: "Market Your Brand",
-  },
-  {
-    name: "Job Search",
-    description: "Networking scripts, job board strategy, and a checklist to stay on track.",
-    href: "/job-search",
-    icon: Search,
-    phase: "Market Your Brand",
-  },
-  {
-    name: "Social Media",
-    description: "Audit your profiles before employers Google you.",
-    href: "/social-media",
-    icon: Globe,
-    phase: "Market Your Brand",
-  },
-  {
-    name: "Landing the Job",
-    description: "Tips for your first 90 days and a monthly self-evaluation tracker.",
-    href: "/landing-the-job",
-    icon: Trophy,
-    phase: "Prove Yourself",
-  },
-  {
-    name: "Contact Log",
-    description: "Log every application so nothing falls through the cracks.",
-    href: "/contact-log",
-    icon: BookOpen,
-    phase: "Prove Yourself",
-  },
-];
+const tools = toolsConfig.map((t) => ({
+  name: t.name,
+  description: t.longDesc,
+  href: t.href,
+  icon: t.icon,
+  phase: t.phase,
+}));
 
 const phases = ["Know Yourself", "Market Your Brand", "Prove Yourself"] as const;
 
@@ -87,14 +27,14 @@ export default function DashboardPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-neutral-800">Your Job Search Toolkit</h1>
+        <h1 className="text-2xl font-bold text-neutral-800 sm:text-3xl">Your Job Search Toolkit</h1>
         <p className="mt-2 text-neutral-500">
           Everything you need to go from "where do I start?" to "I got the job."
         </p>
       </div>
 
       {/* Phase indicators */}
-      <div className="mb-8 flex items-center gap-2 text-sm">
+      <div className="mb-8 flex flex-wrap items-center gap-2 text-sm">
         {phases.map((phase, i) => (
           <div key={phase} className="flex items-center gap-2">
             {i > 0 && <span className="text-neutral-300">&rarr;</span>}
@@ -106,12 +46,12 @@ export default function DashboardPage() {
       </div>
 
       {/* Tool grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {tools.map((tool) => (
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {tools.map((tool, i) => (
           <Link
             key={tool.href}
             href={tool.href}
-            className="group rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md hover:border-primary-300"
+            className={`group rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md hover:border-primary-300 ${i === 0 ? "sm:col-span-2 lg:col-span-1 lg:row-span-2 flex flex-col justify-between" : ""}`}
           >
             <div className="mb-3 flex items-center justify-between">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-50 text-primary-400 transition-colors group-hover:bg-primary-100">
@@ -132,8 +72,14 @@ export default function DashboardPage() {
         <h3 className="font-semibold text-primary-800">Start here</h3>
         <p className="mt-1 text-sm text-primary-700">
           Open <strong>Know Yourself</strong> first. The skills and brand statement you write there
-          will auto-fill your resume, cover letter, and interview prep — so you only write them once.
+          will auto-fill your resume, cover letter, and interview prep, so you only write them once.
         </p>
+        <Link
+          href="/know-yourself"
+          className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-800"
+        >
+          Open Know Yourself &rarr;
+        </Link>
       </div>
     </div>
   );

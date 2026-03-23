@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useStorage } from "@/hooks/useStorage";
 import { useSaveIndicator } from "@/hooks/useSaveIndicator";
 import { usePdfExport } from "@/hooks/usePdfExport";
@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
+import { Select } from "@/components/ui/Select";
 import { Callout } from "@/components/ui/Callout";
 import { ContactInfoSection } from "./components/ContactInfoSection";
 import { ExperienceSection } from "./components/ExperienceSection";
@@ -37,6 +38,7 @@ export default function ResumeBuilderPage() {
   const [resumes, setResumes] = useState<Resume[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [skillInput, setSkillInput] = useState("");
+  const [initialLoading, setInitialLoading] = useState(true);
   const { saved, showSaved } = useSaveIndicator();
   const { exportResume, exporting } = usePdfExport();
   const { toast } = useToast();
@@ -45,13 +47,41 @@ export default function ResumeBuilderPage() {
     setResume((r) => ({ ...r, content: { ...r.content, ...patch } }));
   }, []);
 
+  const isDirty = useRef(false);
+
   useEffect(() => {
-    Promise.all([storage.getResumes(), storage.getProfile()]).then(([lr, lp]) => {
-      setResumes(lr);
-      setProfile(lp);
-      if (lr.length > 0) { setResume(lr[0]); setActiveId(lr[0].id); }
+    Promise.all([storage.getResumes(), storage.getProfile()]).then(([savedResumes, savedProfile]) => {
+      // Filter out corrupted resume objects that lack required structure
+      const validResumes = (savedResumes ?? []).filter(
+        (r): r is Resume =>
+          r != null &&
+          typeof r === "object" &&
+          typeof r.id === "string" &&
+          r.content != null &&
+          typeof r.content === "object" &&
+          r.content.contactInfo != null
+      );
+      setResumes(validResumes);
+      setProfile(savedProfile);
+      if (validResumes.length > 0) { setResume(validResumes[0]); setActiveId(validResumes[0].id); }
+      setInitialLoading(false);
     });
   }, [storage]);
+
+  // Warn before navigating away with unsaved changes
+  useEffect(() => {
+    const handler = (e: BeforeUnloadEvent) => {
+      if (isDirty.current) { e.preventDefault(); }
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, []);
+
+  // Mark dirty on any resume content change (after initial load)
+  const setContentWithDirty = useCallback((patch: Partial<Resume["content"]>) => {
+    isDirty.current = true;
+    setContent(patch);
+  }, [setContent]);
 
   const save = useCallback(async () => {
     try {
@@ -59,19 +89,33 @@ export default function ResumeBuilderPage() {
       await storage.saveResume(updated);
       setResume(updated);
       setResumes(await storage.getResumes());
+      isDirty.current = false;
       showSaved();
       toast("Resume saved successfully");
     } catch { toast("Failed to save resume", "error"); }
   }, [storage, resume, showSaved, toast]);
 
+  // Ctrl/Cmd+S keyboard shortcut to save
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "s") {
+        e.preventDefault();
+        save();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [save]);
+
   function updateContact(field: keyof Resume["content"]["contactInfo"], value: string) {
+    isDirty.current = true;
     setResume((r) => ({ ...r, content: { ...r.content, contactInfo: { ...r.content.contactInfo, [field]: value } } }));
   }
 
   function updateExperience(index: number, field: string, value: string) {
     const exp = [...resume.content.experience];
     exp[index] = { ...exp[index], [field]: value };
-    setContent({ experience: exp });
+    setContentWithDirty({ experience: exp });
   }
 
   function updateBullet(expIdx: number, bIdx: number, value: string) {
@@ -79,38 +123,38 @@ export default function ResumeBuilderPage() {
     const bullets = [...exp[expIdx].bullets];
     bullets[bIdx] = value;
     exp[expIdx] = { ...exp[expIdx], bullets };
-    setContent({ experience: exp });
+    setContentWithDirty({ experience: exp });
   }
 
   function addBullet(expIdx: number) {
     const exp = [...resume.content.experience];
     exp[expIdx] = { ...exp[expIdx], bullets: [...exp[expIdx].bullets, ""] };
-    setContent({ experience: exp });
+    setContentWithDirty({ experience: exp });
   }
 
   function removeBullet(expIdx: number, bIdx: number) {
     const exp = [...resume.content.experience];
     const bullets = exp[expIdx].bullets.filter((_, i) => i !== bIdx);
     exp[expIdx] = { ...exp[expIdx], bullets: bullets.length ? bullets : [""] };
-    setContent({ experience: exp });
+    setContentWithDirty({ experience: exp });
   }
 
-  function addExperience() { setContent({ experience: [...resume.content.experience, emptyExperience()] }); }
-  function removeExperience(i: number) { setContent({ experience: resume.content.experience.filter((_, idx) => idx !== i) }); }
+  function addExperience() { setContentWithDirty({ experience: [...resume.content.experience, emptyExperience()] }); }
+  function removeExperience(i: number) { setContentWithDirty({ experience: resume.content.experience.filter((_, idx) => idx !== i) }); }
 
   function updateEducation(index: number, field: string, value: string) {
     const edu = [...resume.content.education];
     edu[index] = { ...edu[index], [field]: value };
-    setContent({ education: edu });
+    setContentWithDirty({ education: edu });
   }
 
-  function addEducation() { setContent({ education: [...resume.content.education, emptyEducation()] }); }
-  function removeEducation(i: number) { setContent({ education: resume.content.education.filter((_, idx) => idx !== i) }); }
+  function addEducation() { setContentWithDirty({ education: [...resume.content.education, emptyEducation()] }); }
+  function removeEducation(i: number) { setContentWithDirty({ education: resume.content.education.filter((_, idx) => idx !== i) }); }
 
   function autoPopulateFromProfile() {
     if (!profile) return;
     const c = resume.content;
-    setContent({
+    setContentWithDirty({
       profileOverview: profile.brandStatement || profile.powerStatement || c.profileOverview,
       skills: profile.skills?.map((s) => s.name) ?? c.skills,
     });
@@ -118,14 +162,40 @@ export default function ResumeBuilderPage() {
 
   function addSkill(skill: string) {
     if (!skill.trim() || resume.content.skills.includes(skill.trim())) return;
-    setContent({ skills: [...resume.content.skills, skill.trim()] });
+    setContentWithDirty({ skills: [...resume.content.skills, skill.trim()] });
   }
-  function removeSkill(i: number) { setContent({ skills: resume.content.skills.filter((_, idx) => idx !== i) }); }
+  function removeSkill(i: number) { setContentWithDirty({ skills: resume.content.skills.filter((_, idx) => idx !== i) }); }
 
-  function newResume() { const r = emptyResume(); setResume(r); setActiveId(r.id); }
+  function newResume() { const r = emptyResume(); setResume(r); setActiveId(r.id); isDirty.current = false; }
   function switchResume(id: string) {
     const found = resumes.find((r) => r.id === id);
-    if (found) { setResume(found); setActiveId(found.id); }
+    if (found) { setResume(found); setActiveId(found.id); isDirty.current = false; }
+  }
+  async function deleteResume(id: string) {
+    if (resumes.length <= 1) {
+      toast("You need at least one resume.", "warning");
+      return;
+    }
+    await storage.deleteResume(id);
+    const remaining = await storage.getResumes();
+    setResumes(remaining);
+    if (resume.id === id) {
+      const next = remaining[0] || emptyResume();
+      setResume(next);
+      setActiveId(next.id);
+    }
+    isDirty.current = false;
+    toast("Resume deleted");
+  }
+
+  if (initialLoading) {
+    return (
+      <div className="space-y-4 py-8">
+        <div className="h-6 w-48 animate-pulse rounded bg-neutral-200" />
+        <div className="h-4 w-64 animate-pulse rounded bg-neutral-100" />
+        <div className="h-40 animate-pulse rounded-xl bg-neutral-100" />
+      </div>
+    );
   }
 
   return (
@@ -134,7 +204,7 @@ export default function ResumeBuilderPage() {
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">Resume Builder</h1>
-          <p className="mt-1 text-sm text-neutral-500">Build a professional resume step by step.</p>
+          <p className="mt-1 text-sm text-neutral-500">Fill in each section and see your resume update in real time.</p>
         </div>
         <div className="flex items-center gap-2">
           <SavedIndicator visible={saved} />
@@ -166,14 +236,11 @@ export default function ResumeBuilderPage() {
           <div className="rounded-xl border border-neutral-150 bg-white p-5 shadow-sm">
             <div className="grid gap-4 sm:grid-cols-2">
               <Input label="Resume Title" value={resume.title} onChange={(e) => setResume({ ...resume, title: e.target.value })} placeholder="e.g., Marketing Resume" />
-              <div className="space-y-1.5">
-                <label className="block text-sm font-medium text-neutral-700">Template</label>
-                <select value={resume.template} onChange={(e) => setResume({ ...resume, template: e.target.value as ResumeTemplate })} className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm">
+              <Select label="Template" value={resume.template} onChange={(e) => setResume({ ...resume, template: e.target.value as ResumeTemplate })}>
                   <option value="chronological">Chronological</option>
                   <option value="functional">Functional</option>
                   <option value="combination">Combination</option>
-                </select>
-              </div>
+              </Select>
             </div>
           </div>
 
@@ -182,7 +249,7 @@ export default function ResumeBuilderPage() {
           <section className="rounded-xl border-l-4 border-l-primary-400 bg-white p-5 shadow-sm">
             <h2 className="mb-2 text-lg font-semibold text-neutral-800">Profile Overview</h2>
             <p className="mb-3 text-sm text-neutral-500">A branding statement, summary, or list of qualifications. This is the top third of your resume.</p>
-            <Textarea value={resume.content.profileOverview} onChange={(e) => setContent({ profileOverview: e.target.value })} placeholder="e.g., Detail-oriented computer science graduate skilled in full-stack development..." rows={4} />
+            <Textarea value={resume.content.profileOverview} onChange={(e) => setContentWithDirty({ profileOverview: e.target.value })} placeholder="e.g., Detail-oriented computer science graduate skilled in full-stack development..." rows={4} />
           </section>
 
           <ExperienceSection experience={resume.content.experience} onUpdate={updateExperience} onUpdateBullet={updateBullet} onAddBullet={addBullet} onRemoveBullet={removeBullet} onAdd={addExperience} onRemove={removeExperience} />
@@ -197,13 +264,13 @@ export default function ResumeBuilderPage() {
               <div key={i} className="mb-3 rounded-lg border border-neutral-100 p-4 last:mb-0">
                 <div className="mb-3 flex items-center justify-between">
                   <span className="text-sm font-medium text-neutral-600">Education {i + 1}</span>
-                  <button onClick={() => removeEducation(i)} className="text-neutral-400 hover:text-error"><Trash2 className="h-4 w-4" /></button>
+                  <button onClick={() => removeEducation(i)} className="text-neutral-400 hover:text-error" aria-label={`Remove education ${i + 1}`}><Trash2 className="h-4 w-4" /></button>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <Input placeholder="School / Institution" value={edu.school} onChange={(e) => updateEducation(i, "school", e.target.value)} />
                   <Input placeholder="Degree / Certificate" value={edu.degree} onChange={(e) => updateEducation(i, "degree", e.target.value)} />
                   <Input placeholder="Location" value={edu.location} onChange={(e) => updateEducation(i, "location", e.target.value)} />
-                  <Input placeholder="Dates" value={edu.dates} onChange={(e) => updateEducation(i, "dates", e.target.value)} />
+                  <Input placeholder="Dates" helperText="e.g., Aug 2022 – May 2026" value={edu.dates} onChange={(e) => updateEducation(i, "dates", e.target.value)} />
                 </div>
               </div>
             ))}
@@ -215,25 +282,35 @@ export default function ResumeBuilderPage() {
               {resume.content.skills.map((skill, i) => (
                 <span key={i} className="inline-flex items-center gap-1 rounded-full border border-primary-200 bg-primary-50 px-3 py-1 text-sm text-primary-700">
                   {skill}
-                  <button onClick={() => removeSkill(i)} className="ml-0.5 hover:text-error"><Trash2 className="h-3 w-3" /></button>
+                  <button onClick={() => removeSkill(i)} className="ml-0.5 p-1 rounded-full hover:text-error hover:bg-red-50 min-w-[28px] min-h-[28px] flex items-center justify-center" aria-label={`Remove skill ${skill}`}><Trash2 className="h-3.5 w-3.5" /></button>
                 </span>
               ))}
             </div>
             <div className="flex gap-2">
-              <Input placeholder="Add a skill..." value={skillInput} onChange={(e) => setSkillInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addSkill(skillInput); setSkillInput(""); } }} className="flex-1" />
+              <Input placeholder="Add a skill..." helperText="e.g., Python, Excel, project management" value={skillInput} onChange={(e) => setSkillInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addSkill(skillInput); setSkillInput(""); } }} className="flex-1" />
               <Button variant="secondary" size="md" onClick={() => { addSkill(skillInput); setSkillInput(""); }}>Add</Button>
             </div>
           </section>
 
-          <div className="flex justify-end gap-3">
-            <Button variant="secondary" size="lg" onClick={() => exportResume(resume)} disabled={exporting}>
-              <Download className="mr-1.5 h-4 w-4" /> {exporting ? "Exporting..." : "Export PDF"}
-            </Button>
-            <Button onClick={save} size="lg">Save Resume</Button>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            {resumes.length > 1 && (
+              <button
+                onClick={() => { if (window.confirm(`Delete "${resume.title}"? This cannot be undone.`)) deleteResume(resume.id); }}
+                className="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-error"
+              >
+                <Trash2 className="h-4 w-4" /> Delete this resume
+              </button>
+            )}
+            <div className="flex flex-col gap-3 sm:flex-row sm:ml-auto">
+              <Button variant="secondary" size="lg" onClick={() => exportResume(resume)} disabled={exporting} className="w-full sm:w-auto">
+                <Download className="mr-1.5 h-4 w-4" /> {exporting ? "Exporting..." : "Export PDF"}
+              </Button>
+              <Button onClick={save} size="lg" className="w-full sm:w-auto">Save Resume</Button>
+            </div>
           </div>
         </div>
 
-        <div className={`w-full md:w-[400px] lg:w-[480px] shrink-0 ${showPreview ? "" : "hidden md:block"}`}>
+        <div className={`w-full md:w-[320px] lg:w-[400px] xl:w-[480px] shrink-0 ${showPreview ? "" : "hidden md:block"}`}>
           <ResumePreview resume={resume} />
         </div>
       </div>

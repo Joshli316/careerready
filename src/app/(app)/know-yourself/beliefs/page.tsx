@@ -13,7 +13,6 @@ import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 export default function BeliefsPage() {
   const { saved, save, storage } = useProfileSave();
-  const [mindset, setMindset] = useState("");
   const [iAm, setIAm] = useState("");
   const [iCan, setICan] = useState("");
   const [iHave, setIHave] = useState("");

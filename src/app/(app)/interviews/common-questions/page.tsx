@@ -40,7 +40,7 @@ const QUESTIONS: Array<{ question: string; tips: string[] }> = [
     question: "What are your strengths?",
     tips: [
       "Identify 3 skills that qualify you for the job.",
-      "Be genuine and strategic — choose strengths you can back up.",
+      "Be genuine. Choose strengths you can back up with examples.",
       "Provide specific examples for each strength.",
     ],
   },
@@ -140,7 +140,7 @@ export default function CommonQuestionsPage() {
       <Callout type="tip" className="mb-6">
         <strong>Every response should include these 4 points:</strong> (1) How your experience matches the job,
         (2) Use the employer's language with concrete examples, (3) A confident, positive answer,
-        (4) Stay focused — don't overshare.
+        (4) Stay focused and don't overshare.
       </Callout>
 
       {powerStatement && (

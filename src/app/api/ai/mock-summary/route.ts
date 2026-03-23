@@ -1,10 +1,8 @@
 export const runtime = "edge";
 
 import { NextRequest, NextResponse } from "next/server";
-import { getAIClient } from "@/lib/ai/client";
 import { PROMPTS } from "@/lib/ai/prompts";
-import { checkRateLimit } from "@/lib/ai/rate-limit";
-import { getClientIp } from "@/lib/ai/client-ip";
+import { rateLimitHeaders, getAIClient, getRateLimitResult, stripCodeFences } from "@/lib/api/ai-route-helpers";
 
 interface Exchange {
   question: string;
@@ -18,48 +16,59 @@ interface SummaryRequest {
 }
 
 export async function POST(request: NextRequest) {
-  const apiKey = process.env.CLAUDE_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json(
-      { error: "AI features are not available right now." },
-      { status: 503 }
-    );
-  }
+  const rlResult = await getRateLimitResult(request);
+  if (rlResult instanceof NextResponse) return rlResult;
+  const { remaining, limit } = rlResult;
 
-  const ip = getClientIp(request);
-  const { allowed, remaining } = checkRateLimit(`ai:ip:${ip}`, false);
-  if (!allowed) {
-    return NextResponse.json(
-      { error: "Daily AI limit reached. Try again tomorrow." },
-      { status: 429 }
-    );
-  }
+  const clientOrError = getAIClient();
+  if (clientOrError instanceof NextResponse) return clientOrError;
 
   let body: SummaryRequest;
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid request.", code: "INVALID_JSON" }, { status: 400 });
   }
 
   const { jobContext, exchanges } = body;
   if (!exchanges || !Array.isArray(exchanges) || exchanges.length === 0) {
     return NextResponse.json(
-      { error: "At least one exchange is required." },
+      { error: "At least one exchange is required.", code: "MISSING_FIELDS" },
       { status: 400 }
     );
   }
 
+  // Validate each exchange has the required string fields
+  const validExchanges = exchanges.every(
+    (e): e is Exchange =>
+      e && typeof e.question === "string" && typeof e.answer === "string" && typeof e.feedback === "string"
+  );
+  if (!validExchanges) {
+    return NextResponse.json(
+      { error: "Each exchange must have question, answer, and feedback fields.", code: "INVALID_EXCHANGE" },
+      { status: 400 }
+    );
+  }
+
+  if (exchanges.length > 20) {
+    return NextResponse.json(
+      { error: "Too many exchanges (max 20).", code: "INPUT_TOO_LONG" },
+      { status: 400 }
+    );
+  }
+
+  const truncate = (text: string, max: number) =>
+    text.length > max ? text.slice(0, max) + "..." : text;
+
   const transcript = exchanges
     .map(
       (e, i) =>
-        `Q${i + 1}: ${e.question}\nAnswer: ${e.answer}\nFeedback: ${e.feedback}`
+        `Q${i + 1}: ${truncate(e.question, 500)}\nAnswer: ${truncate(e.answer, 2000)}\nFeedback: ${truncate(e.feedback, 1000)}`
     )
     .join("\n\n");
 
   try {
-    const client = getAIClient(apiKey);
-    const message = await client.messages.create({
+    const message = await clientOrError.messages.create({
       model: "claude-sonnet-4-20250514",
       max_tokens: 1024,
       system: PROMPTS.mockInterviewSummary,
@@ -72,26 +81,24 @@ export async function POST(request: NextRequest) {
     });
 
     const rawText =
-      message.content[0].type === "text" ? message.content[0].text : "";
-    const jsonText = rawText
-      .replace(/^```(?:json)?\s*\n?/, "")
-      .replace(/\n?```\s*$/, "");
+      message.content[0]?.type === "text" ? message.content[0].text : "";
+    const jsonText = stripCodeFences(rawText);
 
     const parsed = JSON.parse(jsonText);
 
-    // Validate required fields
     const result = {
       overall: typeof parsed.overall === "string" ? parsed.overall : "",
       strengths: Array.isArray(parsed.strengths) ? parsed.strengths : [],
       improvements: Array.isArray(parsed.improvements) ? parsed.improvements : [],
-      confidenceRating: typeof parsed.confidenceRating === "number" ? parsed.confidenceRating : 5,
+      confidenceRating: typeof parsed.confidenceRating === "number" ? Math.min(10, Math.max(1, Math.round(parsed.confidenceRating))) : 5,
       confidenceNote: typeof parsed.confidenceNote === "string" ? parsed.confidenceNote : "",
     };
 
-    return NextResponse.json({ result, remaining });
-  } catch {
+    return NextResponse.json({ result, remaining }, { headers: rateLimitHeaders(remaining, limit) });
+  } catch (err) {
+    console.error("[mock-summary] AI request failed:", err);
     return NextResponse.json(
-      { error: "Could not generate summary. Try again." },
+      { error: "Could not generate summary. Try again.", code: "AI_REQUEST_FAILED" },
       { status: 500 }
     );
   }

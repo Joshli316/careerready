@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { useProfileSave } from "./useProfileSave";
-import type { StorageAdapter } from "@/lib/storage/adapter";
+import { createMockStorage } from "@/test/createMockStorage";
 
 // Mock dependencies
 const mockShowSaved = vi.fn();
@@ -23,35 +23,8 @@ vi.mock("@/components/ui/Toast", () => ({
 import { useStorage } from "@/hooks/useStorage";
 const mockUseStorage = vi.mocked(useStorage);
 
-function createMockStorage(overrides: Partial<StorageAdapter> = {}): StorageAdapter {
-  return {
-    getProfile: vi.fn().mockResolvedValue(null),
-    setProfile: vi.fn().mockResolvedValue(undefined),
-    getResumes: vi.fn().mockResolvedValue([]),
-    getResume: vi.fn().mockResolvedValue(null),
-    saveResume: vi.fn().mockResolvedValue(undefined),
-    deleteResume: vi.fn().mockResolvedValue(undefined),
-    getCoverLetters: vi.fn().mockResolvedValue([]),
-    saveCoverLetter: vi.fn().mockResolvedValue(undefined),
-    deleteCoverLetter: vi.fn().mockResolvedValue(undefined),
-    getInterviewPrep: vi.fn().mockResolvedValue(null),
-    setInterviewPrep: vi.fn().mockResolvedValue(undefined),
-    getContacts: vi.fn().mockResolvedValue([]),
-    getContact: vi.fn().mockResolvedValue(null),
-    saveContact: vi.fn().mockResolvedValue(undefined),
-    deleteContact: vi.fn().mockResolvedValue(undefined),
-    getJDAnalyses: vi.fn().mockResolvedValue([]),
-    saveJDAnalysis: vi.fn().mockResolvedValue(undefined),
-    deleteJDAnalysis: vi.fn().mockResolvedValue(undefined),
-    getMockSessions: vi.fn().mockResolvedValue([]),
-    saveMockSession: vi.fn().mockResolvedValue(undefined),
-    deleteMockSession: vi.fn().mockResolvedValue(undefined),
-    ...overrides,
-  };
-}
-
 describe("useProfileSave", () => {
-  let mockStorage: StorageAdapter;
+  let mockStorage: ReturnType<typeof createMockStorage>;
 
   beforeEach(() => {
     vi.clearAllMocks();

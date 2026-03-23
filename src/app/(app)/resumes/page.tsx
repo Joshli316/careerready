@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 import { PenTool, FileSignature, Users, Mail } from "lucide-react";
 
 const sections = [
-  { title: "Resume Builder", description: "Build a professional resume with guided templates.", href: "/resumes/builder", icon: PenTool },
+  { title: "Resume Builder", description: "Fill in each section and see a live preview as you type.", href: "/resumes/builder", icon: PenTool },
   { title: "Cover Letter Builder", description: "Write a cover letter that matches each job you apply for.", href: "/resumes/cover-letter", icon: FileSignature },
   { title: "Reference Page", description: "Build a formatted reference page matching your resume.", href: "/resumes/references", icon: Users },
   { title: "Email Guide", description: "Templates for emailing your resume to employers.", href: "/resumes/email-guide", icon: Mail },
@@ -19,7 +19,7 @@ export default function ResumesPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-neutral-800">Resumes</h1>
-        <p className="mt-2 text-neutral-500">Build professional resumes, cover letters, and supporting documents.</p>
+        <p className="mt-2 text-neutral-500">Build your resume, cover letter, and reference page, then export as PDF.</p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         {sections.map((s) => (

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Menu } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { cn } from "@/lib/utils/cn";
 import { X } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -12,6 +12,13 @@ export function TopNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const navRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  const closeMobileNav = useCallback(() => {
+    setMobileOpen(false);
+    // Restore focus to the menu button after closing
+    requestAnimationFrame(() => menuButtonRef.current?.focus());
+  }, []);
 
   useEffect(() => {
     if (mobileOpen && navRef.current) {
@@ -25,6 +32,7 @@ export function TopNav() {
       <header className="sticky top-0 z-50 flex h-14 items-center justify-between border-b border-neutral-150 bg-white px-4 md:h-16 md:px-6">
         <div className="flex items-center gap-3 md:hidden">
           <button
+            ref={menuButtonRef}
             onClick={() => setMobileOpen(true)}
             className="rounded-lg p-2 text-neutral-600 hover:bg-neutral-100"
             aria-label="Open menu"
@@ -32,15 +40,15 @@ export function TopNav() {
             <Menu className="h-5 w-5" />
           </button>
           <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary-400">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-neutral-900">
               <span className="text-xs font-bold text-white">CR</span>
             </div>
-            <span className="font-bold text-neutral-800">CareerReady</span>
+            <span className="text-base font-semibold text-neutral-800">CareerReady</span>
           </Link>
         </div>
         <div className="hidden md:block" />
         <div className="flex items-center gap-2">
-          <span className="text-xs text-neutral-400">Your data saves in this browser</span>
+          <span className="text-xs text-neutral-400">All changes saved to this browser</span>
         </div>
       </header>
 
@@ -50,14 +58,14 @@ export function TopNav() {
           role="dialog"
           aria-modal="true"
           aria-label="Navigation menu"
-          onKeyDown={(e) => { if (e.key === "Escape") setMobileOpen(false); }}
+          onKeyDown={(e) => { if (e.key === "Escape") closeMobileNav(); }}
         >
-          <div className="absolute inset-0 bg-black/40" onClick={() => setMobileOpen(false)} />
-          <div ref={navRef} className="absolute left-0 top-0 h-full w-72 bg-white shadow-xl">
+          <div className="absolute inset-0 bg-black/40" role="presentation" onClick={closeMobileNav} />
+          <div ref={navRef} className="absolute left-0 top-0 h-full w-72 bg-white shadow-xl animate-in slide-in-from-left duration-200">
             <div className="flex h-14 items-center justify-between border-b border-neutral-150 px-4">
-              <span className="font-bold text-neutral-800">CareerReady</span>
+              <span className="text-base font-semibold text-neutral-800">CareerReady</span>
               <button
-                onClick={() => setMobileOpen(false)}
+                onClick={closeMobileNav}
                 className="rounded-lg p-2 text-neutral-600 hover:bg-neutral-100"
                 aria-label="Close menu"
               >
@@ -72,7 +80,7 @@ export function TopNav() {
                     <li key={tool.href}>
                       <Link
                         href={tool.href}
-                        onClick={() => setMobileOpen(false)}
+                        onClick={closeMobileNav}
                         className={cn(
                           "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium",
                           isActive

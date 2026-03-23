@@ -7,20 +7,28 @@ vi.mock("@/lib/ai/client", () => ({
 }));
 
 vi.mock("@/lib/ai/rate-limit", () => ({
-  checkRateLimit: vi.fn(),
+  checkRateLimitD1: vi.fn(),
 }));
 
 vi.mock("@/lib/ai/client-ip", () => ({
   getClientIp: vi.fn(() => "127.0.0.1"),
 }));
 
+vi.mock("@cloudflare/next-on-pages", () => ({
+  getRequestContext: vi.fn(() => ({ env: { DB: {} } })),
+}));
+
+vi.mock("@/lib/api/validate-origin", () => ({
+  validateOrigin: vi.fn(() => null),
+}));
+
 import { POST } from "./route";
 import { getAIClient } from "@/lib/ai/client";
-import { checkRateLimit } from "@/lib/ai/rate-limit";
+import { checkRateLimitD1 } from "@/lib/ai/rate-limit";
 
 const mockCreate = vi.fn();
 const mockGetAIClient = vi.mocked(getAIClient);
-const mockCheckRateLimit = vi.mocked(checkRateLimit);
+const mockCheckRateLimitD1 = vi.mocked(checkRateLimitD1);
 
 function makeRequest(body: unknown): NextRequest {
   return new NextRequest("http://localhost/api/ai/decode-jd", {
@@ -43,7 +51,7 @@ const sampleResult = {
 
 beforeEach(() => {
   vi.clearAllMocks();
-  mockCheckRateLimit.mockReturnValue({ allowed: true, remaining: 4, limit: 5 });
+  mockCheckRateLimitD1.mockResolvedValue({ allowed: true, remaining: 4, limit: 5 });
   mockGetAIClient.mockReturnValue({
     messages: { create: mockCreate },
   } as unknown as ReturnType<typeof getAIClient>);
@@ -81,7 +89,7 @@ describe("POST /api/ai/decode-jd", () => {
 
   it("returns 429 when rate limited", async () => {
     process.env.CLAUDE_API_KEY = "test-key";
-    mockCheckRateLimit.mockReturnValue({ allowed: false, remaining: 0, limit: 5 });
+    mockCheckRateLimitD1.mockResolvedValue({ allowed: false, remaining: 0, limit: 5 });
     const res = await POST(makeRequest({ jobDescription: "Test JD content here" }));
     expect(res.status).toBe(429);
     const json = (await res.json()) as any;

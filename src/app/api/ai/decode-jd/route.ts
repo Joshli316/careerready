@@ -1,10 +1,8 @@
 export const runtime = "edge";
 
 import { NextRequest, NextResponse } from "next/server";
-import { getAIClient } from "@/lib/ai/client";
 import { PROMPTS } from "@/lib/ai/prompts";
-import { checkRateLimit } from "@/lib/ai/rate-limit";
-import { getClientIp } from "@/lib/ai/client-ip";
+import { rateLimitHeaders, getAIClient, getRateLimitResult, stripCodeFences } from "@/lib/api/ai-route-helpers";
 import type { StarStory } from "@/types/interview";
 
 interface DecodeRequest {
@@ -13,28 +11,18 @@ interface DecodeRequest {
 }
 
 export async function POST(request: NextRequest) {
-  const apiKey = process.env.CLAUDE_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json(
-      { error: "AI features are not available right now." },
-      { status: 503 }
-    );
-  }
+  const rlResult = await getRateLimitResult(request);
+  if (rlResult instanceof NextResponse) return rlResult;
+  const { remaining, limit } = rlResult;
 
-  const ip = getClientIp(request);
-  const { allowed, remaining } = checkRateLimit(`ai:ip:${ip}`, false);
-  if (!allowed) {
-    return NextResponse.json(
-      { error: "Daily AI limit reached. Try again tomorrow." },
-      { status: 429 }
-    );
-  }
+  const clientOrError = getAIClient();
+  if (clientOrError instanceof NextResponse) return clientOrError;
 
   let body: DecodeRequest;
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid request.", code: "INVALID_JSON" }, { status: 400 });
   }
 
   const { jobDescription, stories } = body;
@@ -45,7 +33,7 @@ export async function POST(request: NextRequest) {
     jobDescription.length > 15000
   ) {
     return NextResponse.json(
-      { error: "Job description is required (max 15,000 characters)." },
+      { error: "Job description is required (max 15,000 characters).", code: "INVALID_INPUT" },
       { status: 400 }
     );
   }
@@ -54,6 +42,7 @@ export async function POST(request: NextRequest) {
     stories && stories.length > 0
       ? stories
           .filter((s) => s && s.id)
+          .slice(0, 20) // Limit to 20 stories to control token usage
           .map(
             (s) =>
               `[${s.id}] Q: ${s.question || ""} | Skills: ${s.primarySkill || ""}, ${s.secondarySkill || ""} | S: ${(s.situation || "").slice(0, 500)} | A: ${(s.action || "").slice(0, 500)} | R: ${(s.result || "").slice(0, 500)}`
@@ -62,8 +51,7 @@ export async function POST(request: NextRequest) {
       : "No stories available.";
 
   try {
-    const client = getAIClient(apiKey);
-    const message = await client.messages.create({
+    const message = await clientOrError.messages.create({
       model: "claude-sonnet-4-20250514",
       max_tokens: 4096,
       system: PROMPTS.decodeJD,
@@ -76,14 +64,12 @@ export async function POST(request: NextRequest) {
     });
 
     const rawText =
-      message.content[0].type === "text" ? message.content[0].text : "";
+      message.content[0]?.type === "text" ? message.content[0].text : "";
 
-    // Strip markdown code fences if present
-    const jsonText = rawText.replace(/^```(?:json)?\s*\n?/, "").replace(/\n?```\s*$/, "");
+    const jsonText = stripCodeFences(rawText);
 
     const parsed = JSON.parse(jsonText);
 
-    // Validate required fields are arrays (guard against malformed AI responses)
     const result = {
       jobTitle: typeof parsed.jobTitle === "string" ? parsed.jobTitle : "",
       company: typeof parsed.company === "string" ? parsed.company : "",
@@ -95,10 +81,11 @@ export async function POST(request: NextRequest) {
       prepChecklist: Array.isArray(parsed.prepChecklist) ? parsed.prepChecklist : [],
     };
 
-    return NextResponse.json({ result, remaining });
-  } catch {
+    return NextResponse.json({ result, remaining }, { headers: rateLimitHeaders(remaining, limit) });
+  } catch (err) {
+    console.error("[decode-jd] AI request failed:", err);
     return NextResponse.json(
-      { error: "Could not analyze this job posting. Try again." },
+      { error: "Could not analyze this job posting. Try again.", code: "AI_REQUEST_FAILED" },
       { status: 500 }
     );
   }

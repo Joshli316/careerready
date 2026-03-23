@@ -51,7 +51,7 @@ export default function MasterBuilderPage() {
       </div>
 
       <Callout type="tip" className="mb-6">
-        A master application saves time and keeps your info consistent. Include ALL experience — paid, unpaid, volunteer, and temporary.
+        A master application saves time and keeps your info consistent. Include ALL experience: paid, unpaid, volunteer, and temporary.
       </Callout>
 
       <div className="space-y-6">

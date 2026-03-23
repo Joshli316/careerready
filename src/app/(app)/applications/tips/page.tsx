@@ -16,12 +16,12 @@ const tips = [
   {
     number: 2,
     title: "Gather detailed information",
-    description: "Work history, education, references — create a master application with complete and accurate employment information to have on hand.",
+    description: "Work history, education, references: create a master application with complete and accurate employment information to have on hand.",
   },
   {
     number: 3,
     title: "Follow instructions carefully",
-    description: "Read all directions before completing each section. Follow the date format given (MM/DD/YY vs. MM/YYYY). List employment history as requested.",
+    description: "Read all directions before completing each section. Use the exact date format requested. List employment history in the order specified.",
   },
   {
     number: 4,
@@ -72,8 +72,8 @@ export default function ApplicationTipsPage() {
       </div>
 
       <Callout type="tip" className="mb-6">
-        Over 50% of applications are rejected because of errors or failure to tailor the application.
-        Following up within 3-5 days shows your commitment and brings your name to the employer's attention.
+        Many applications are rejected because of errors or failure to tailor the content.
+        Following up within 3&#8211;5 days shows your commitment and keeps your name on the employer&#8217;s radar.
       </Callout>
 
       <div className="space-y-4">

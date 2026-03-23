@@ -19,7 +19,9 @@ export const sessions = sqliteTable("sessions", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   expiresAt: integer("expires_at").notNull(),
-});
+}, (table) => [
+  index("idx_sessions_user_id").on(table.userId),
+]);
 
 export const userProfiles = sqliteTable("user_profiles", {
   userId: text("user_id")
@@ -72,7 +74,9 @@ export const resumes = sqliteTable("resumes", {
   updatedAt: integer("updated_at", { mode: "timestamp" })
     .notNull()
     .default(sql`(unixepoch())`),
-});
+}, (table) => [
+  index("idx_resumes_user_id").on(table.userId),
+]);
 
 export const coverLetters = sqliteTable("cover_letters", {
   id: text("id").primaryKey(),
@@ -87,7 +91,10 @@ export const coverLetters = sqliteTable("cover_letters", {
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
     .default(sql`(unixepoch())`),
-});
+}, (table) => [
+  index("idx_cover_letters_user_id").on(table.userId),
+  index("idx_cover_letters_resume_id").on(table.resumeId),
+]);
 
 export const interviewPrep = sqliteTable("interview_prep", {
   userId: text("user_id")
@@ -137,7 +144,9 @@ export const selfEvaluations = sqliteTable("self_evaluations", {
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
     .default(sql`(unixepoch())`),
-});
+}, (table) => [
+  index("idx_self_evaluations_user_id").on(table.userId),
+]);
 
 export const employerContacts = sqliteTable("employer_contacts", {
   id: text("id").primaryKey(),
@@ -162,7 +171,11 @@ export const employerContacts = sqliteTable("employer_contacts", {
   updatedAt: integer("updated_at", { mode: "timestamp" })
     .notNull()
     .default(sql`(unixepoch())`),
-});
+}, (table) => [
+  index("idx_employer_contacts_user_id").on(table.userId),
+  index("idx_employer_contacts_status").on(table.status),
+  index("idx_employer_contacts_follow_up").on(table.followUpDate),
+]);
 
 export const rateLimits = sqliteTable("rate_limits", {
   key: text("key").notNull(),
@@ -170,4 +183,5 @@ export const rateLimits = sqliteTable("rate_limits", {
   requests: integer("requests").notNull().default(0),
 }, (table) => [
   primaryKey({ columns: [table.key, table.date] }),
+  index("idx_rate_limits_date").on(table.date),
 ]);

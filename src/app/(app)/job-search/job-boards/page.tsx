@@ -4,7 +4,7 @@ import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 export const metadata: Metadata = {
   title: "Job Boards & Websites",
-  description: "The best job search websites for recent graduates — LinkedIn, Indeed, Handshake, and more. Tips for each platform.",
+  description: "Job search websites for recent graduates: LinkedIn, Indeed, Handshake, and others. Tips for each platform.",
 };
 
 const boards = [
@@ -12,7 +12,7 @@ const boards = [
   { name: "Indeed", type: "Job Aggregator", tip: "Upload resume, set daily email alerts by keyword" },
   { name: "Glassdoor", type: "Reviews + Jobs", tip: "Research company culture and salary ranges" },
   { name: "Handshake", type: "College-Focused", tip: "Connect with employers recruiting from your school" },
-  { name: "Google Jobs", type: "Search Engine", tip: "Search 'jobs near me' — aggregates from multiple sites" },
+  { name: "Google Jobs", type: "Search Engine", tip: "Search 'jobs near me'. It pulls listings from multiple sites." },
   { name: "Company Websites", type: "Direct Apply", tip: "Visit the Careers page of companies you admire" },
   { name: "USAJobs.gov", type: "Government", tip: "Federal job listings with structured applications" },
   { name: "AngelList / Wellfound", type: "Startups", tip: "Startup and tech company opportunities" },
@@ -24,7 +24,7 @@ export default function JobBoardsPage() {
       <Breadcrumb href="/job-search" label="Job Search" />
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-neutral-800">Job Boards & Websites</h1>
-        <p className="mt-1 text-sm text-neutral-500">Use multiple job search platforms to maximize your opportunities.</p>
+        <p className="mt-1 text-sm text-neutral-500">Post your resume on multiple sites and set up alerts so openings come to you.</p>
       </div>
 
       <Callout type="tip" className="mb-6">

@@ -4,7 +4,7 @@
 
 CareerReady is a job preparation web app for college graduates. It provides 8 interactive tools that guide users from self-discovery to landing their first job.
 
-- **Stack**: Next.js 15 (App Router) + TypeScript + Tailwind CSS
+- **Stack**: Next.js 16 (App Router) + TypeScript + Tailwind CSS
 - **Hosting**: Cloudflare Pages + Workers (`@cloudflare/next-on-pages`)
 - **Database**: Cloudflare D1 with Drizzle ORM
 - **Auth**: Lucia Auth (session-based, optional — app works without login)
@@ -90,7 +90,6 @@ Skills, brand statement, and power statement from "Know Yourself" flow into othe
 
 - **Unit tests**: Vitest for utilities, data transformations, storage adapter
 - **Component tests**: Vitest + Testing Library for interactive components
-- **E2E tests**: Playwright for critical user flows (complete a worksheet → see data in resume builder)
 - Test files: colocated with source (`*.test.ts` / `*.test.tsx`)
 - Minimum coverage: storage adapter and cross-tool data flow must be tested
 
@@ -134,7 +133,6 @@ Skills, brand statement, and power statement from "Know Yourself" flow into othe
 | Add a storage method | `src/lib/storage/adapter.ts` |
 | Add a PDF template | `src/lib/pdf/templates/` |
 | Run tests | `pnpm test` |
-| Run E2E tests | `pnpm test:e2e` |
 | Deploy to Cloudflare | `npx @cloudflare/next-on-pages && npx wrangler pages deploy .vercel/output/static` |
 | Deploy preview | Push to any branch (auto-deploys) |
 | Deploy production | Merge to `main` |

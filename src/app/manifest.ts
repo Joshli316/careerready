@@ -1,0 +1,26 @@
+import type { MetadataRoute } from "next";
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: "CareerReady — Job Prep Toolkit",
+    short_name: "CareerReady",
+    description:
+      "8 free tools that help recent graduates build resumes, practice interviews, and land their first job.",
+    start_url: "/dashboard",
+    display: "standalone",
+    background_color: "#FAFAFA",
+    theme_color: "#4D8B31",
+    icons: [
+      {
+        src: "/icon",
+        sizes: "32x32",
+        type: "image/png",
+      },
+      {
+        src: "/apple-icon",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+  };
+}

@@ -1,22 +1,22 @@
 import type { MetadataRoute } from "next";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://careerready.pages.dev";
+const BASE_URL = "https://careerready.pages.dev";
 
+export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "/",
     "/dashboard",
     "/know-yourself",
-    "/know-yourself/beliefs",
-    "/know-yourself/focus-goals",
     "/know-yourself/skills",
+    "/know-yourself/beliefs",
     "/know-yourself/work-values",
+    "/know-yourself/focus-goals",
     "/know-yourself/branding",
     "/know-yourself/power-statement",
     "/applications",
     "/applications/tips",
-    "/applications/experience-gap",
     "/applications/master-builder",
+    "/applications/experience-gap",
     "/resumes",
     "/resumes/builder",
     "/resumes/cover-letter",
@@ -27,10 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/interviews/common-questions",
     "/interviews/company-research",
     "/interviews/thank-you",
+    "/interviews/jd-decoder",
+    "/interviews/mock-interview",
     "/job-search",
     "/job-search/networking",
-    "/job-search/job-boards",
     "/job-search/checklist",
+    "/job-search/job-boards",
     "/social-media",
     "/social-media/audit",
     "/landing-the-job",
@@ -39,10 +41,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact-log",
   ];
 
+  const topLevelTools = new Set([
+    "/dashboard", "/know-yourself", "/applications", "/resumes",
+    "/interviews", "/job-search", "/social-media", "/landing-the-job", "/contact-log",
+  ]);
+
   return routes.map((route) => ({
-    url: `${baseUrl}${route}`,
+    url: `${BASE_URL}${route}`,
     lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: route === "/" ? 1 : route.split("/").length <= 2 ? 0.8 : 0.6,
+    changeFrequency: (route === "/" ? "weekly" : "monthly") as "weekly" | "monthly",
+    priority: route === "/" ? 1 : topLevelTools.has(route) ? 0.9 : 0.7,
   }));
 }

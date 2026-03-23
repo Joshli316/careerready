@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 import { Users, Monitor, CheckSquare } from "lucide-react";
 
 const sections = [
-  { title: "Networking", description: "Build your professional and personal network.", href: "/job-search/networking", icon: Users },
-  { title: "Job Boards & Websites", description: "Strategy for using job search websites effectively.", href: "/job-search/job-boards", icon: Monitor },
+  { title: "Networking", description: "List people who can help and plan how to reach out.", href: "/job-search/networking", icon: Users },
+  { title: "Job Boards & Websites", description: "Where to search online and how to get results from each site.", href: "/job-search/job-boards", icon: Monitor },
   { title: "Job Search Checklist", description: "Track your progress across all search methods.", href: "/job-search/checklist", icon: CheckSquare },
 ];
 
@@ -18,7 +18,7 @@ export default function JobSearchPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-neutral-800">Job Search</h1>
-        <p className="mt-2 text-neutral-500">Find opportunities through multiple channels and track your efforts.</p>
+        <p className="mt-2 text-neutral-500">Find openings through networking, job boards, and direct outreach.</p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         {sections.map((s) => (
