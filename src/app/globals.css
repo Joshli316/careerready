@@ -35,6 +35,13 @@
   --color-blue-700: #004D94;
   --color-blue-50: #E6F3FE;
 
+  --color-purple-50: #F3EEFF;
+  --color-purple-700: #6B21A8;
+
+  --color-surface-dark: #191919;
+  --color-accent-blue: #2382E2;
+  --color-accent-blue-hover: #1A6EC4;
+
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
@@ -50,8 +57,8 @@ body {
 }
 
 ::selection {
-  background-color: var(--color-primary-200);
-  color: var(--color-primary-900);
+  background-color: var(--color-accent-blue);
+  color: white;
 }
 
 @media print {
