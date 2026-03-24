@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 
 const BASE_URL = "https://careerready.pages.dev";
 
+const LAST_UPDATED = new Date("2026-03-23");
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "/",
@@ -41,13 +43,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const topLevelTools = new Set([
-    "/dashboard", "/know-yourself", "/applications", "/resumes",
+    "/know-yourself", "/applications", "/resumes",
     "/interviews", "/job-search", "/social-media", "/landing-the-job", "/contact-log",
   ]);
 
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,
-    lastModified: new Date(),
+    lastModified: LAST_UPDATED,
     changeFrequency: (route === "/" ? "weekly" : "monthly") as "weekly" | "monthly",
     priority: route === "/" ? 1 : topLevelTools.has(route) ? 0.9 : 0.7,
   }));

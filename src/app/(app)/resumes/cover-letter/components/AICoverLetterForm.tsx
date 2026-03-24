@@ -107,7 +107,7 @@ export function AICoverLetterForm({ savedResume, hasExistingContent, onGenerated
       {!collapsed && (
         <div className="space-y-4 px-5 pb-5">
           <p className="text-sm text-neutral-600">
-            Paste a job description and your resume. The AI writes a first draft that maps your experience to the job — you edit it before saving.
+            Paste a job description and your resume. The AI writes a first draft that maps your experience to the job. Edit it before saving.
           </p>
 
           {/* Job details */}

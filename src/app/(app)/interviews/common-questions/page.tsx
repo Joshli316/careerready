@@ -143,10 +143,18 @@ export default function CommonQuestionsPage() {
         (4) Stay focused and don't overshare.
       </Callout>
 
-      {powerStatement && (
+      {powerStatement ? (
         <div className="mb-6 rounded-lg border border-primary-100 bg-primary-50 p-4">
           <div className="mb-1 text-xs font-medium text-primary-600">Your Power Statement (reference for Q1)</div>
-          <p className="text-sm text-primary-800 italic">"{powerStatement}"</p>
+          <p className="text-sm text-primary-800 italic">&ldquo;{powerStatement}&rdquo;</p>
+        </div>
+      ) : (
+        <div className="mb-6 rounded-lg border border-neutral-200 bg-neutral-50 p-4">
+          <p className="text-sm text-neutral-600">
+            Write your{" "}
+            <a href="/know-yourself/power-statement" className="font-medium text-primary-600 underline hover:text-primary-700">Power Statement</a>{" "}
+            first. It&apos;s your answer to &ldquo;Tell me about yourself.&rdquo;
+          </p>
         </div>
       )}
 

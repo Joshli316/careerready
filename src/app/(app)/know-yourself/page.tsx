@@ -3,28 +3,29 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Know Yourself",
-  description: "Identify your skills, values, and personal brand. What you write here auto-fills your resume and interview prep.",
+  description: "Figure out your skills, values, and brand. What you write here auto-fills your resume and interview prep.",
 };
 import { Brain, Target, Wrench, Heart, Sparkles, Mic } from "lucide-react";
 
-const sections = [
+const sections: { title: string; description: string; href: string; icon: typeof Brain; recommended?: boolean }[] = [
   {
     title: "Challenge Your Beliefs",
-    description: "Identify positive beliefs and convert challenges into affirmations.",
+    description: "Replace negative thoughts with positive ones that help your job search.",
     href: "/know-yourself/beliefs",
     icon: Brain,
   },
   {
     title: "Goal Setting with FOCUS",
-    description: "Create structured employment goals using the FOCUS framework.",
+    description: "Set clear job search goals with the FOCUS method.",
     href: "/know-yourself/focus-goals",
     icon: Target,
   },
   {
     title: "Transferable Skills",
-    description: "Identify your soft and hard skills. These auto-fill your resume.",
+    description: "Pick your top skills. They auto-fill your resume.",
     href: "/know-yourself/skills",
     icon: Wrench,
+    recommended: true,
   },
   {
     title: "Work Values",
@@ -40,7 +41,7 @@ const sections = [
   },
   {
     title: "Power Statement",
-    description: "Build your elevator pitch. Use it at networking events and in interviews.",
+    description: "Write your 30-second pitch for networking events and interviews.",
     href: "/know-yourself/power-statement",
     icon: Mic,
   },
@@ -53,7 +54,7 @@ export default function KnowYourselfPage() {
         <h1 className="text-3xl font-bold text-neutral-800">Know Yourself</h1>
         <p className="mt-2 text-neutral-500">
           This is the foundation of your entire job search. What you write here auto-fills
-          your resume, cover letter, and interview prep — so you only write it once.
+          your resume, cover letter, and interview prep. You only write it once.
         </p>
       </div>
 
@@ -68,11 +69,24 @@ export default function KnowYourselfPage() {
               <section.icon className="h-5 w-5" />
             </div>
             <div>
-              <h2 className="font-semibold text-neutral-800">{section.title}</h2>
+              <div className="flex items-center gap-2">
+                <h2 className="font-semibold text-neutral-800">{section.title}</h2>
+                {section.recommended && (
+                  <span className="rounded-full bg-primary-50 px-2 py-0.5 text-[11px] font-semibold text-primary-700">Start here</span>
+                )}
+              </div>
               <p className="mt-1 text-sm text-neutral-500">{section.description}</p>
             </div>
           </Link>
         ))}
+      </div>
+
+      <div className="mt-8 rounded-xl border border-blue-200 bg-blue-50 p-4">
+        <p className="text-sm text-blue-800">
+          <span className="font-semibold">Next step:</span> Once you&apos;ve identified your skills and brand statement, head to{" "}
+          <Link href="/resumes/builder" className="font-medium underline hover:text-blue-900">Resume Builder</Link>{" "}
+          where your data auto-fills.
+        </p>
       </div>
     </div>
   );

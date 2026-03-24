@@ -15,16 +15,17 @@ export const metadata: Metadata = {
     template: "%s — CareerReady",
   },
   description:
-    "Your first job starts here. 8 free tools that walk you from figuring out your strengths to acing the interview. No account needed.",
+    "Build your resume, practice interviews, and track applications with 8 free, connected tools. No sign-up needed — start in 30 seconds.",
   keywords: [
     "resume builder", "interview prep", "job search", "college graduates",
     "cover letter", "STAR method", "career tools", "free resume maker",
-    "entry level jobs", "job application tracker",
+    "entry level jobs", "job application tracker", "first job", "new grad jobs",
+    "mock interview", "job prep", "career readiness",
   ],
   openGraph: {
     title: "CareerReady — Free Job Prep Tools for College Graduates",
     description:
-      "8 free tools that help recent graduates build resumes, practice interviews, and land their first job.",
+      "Build your resume, practice interviews, and track applications with 8 free tools. No account required.",
     type: "website",
     siteName: "CareerReady",
     images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
@@ -33,13 +34,13 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "CareerReady — Free Job Prep Tools for College Graduates",
     description:
-      "8 free tools that help recent graduates build resumes, practice interviews, and land their first job.",
+      "Build your resume, practice interviews, and track applications with 8 free tools. No account required.",
   },
   alternates: {
     canonical: "/",
   },
   other: {
-    "theme-color": "#4D8B31",
+    "theme-color": "#0B1120",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
   },
@@ -50,7 +51,7 @@ const jsonLd = {
   "@type": "WebApplication",
   "name": "CareerReady",
   "url": "https://careerready.pages.dev",
-  "description": "8 free job preparation tools for college graduates — resumes, interviews, applications, and more.",
+  "description": "8 connected job prep tools for college graduates: skills inventory, resume builder, interview prep, and application tracker.",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Any",
   "offers": {

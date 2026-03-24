@@ -14,15 +14,15 @@ export function ToggleButton({ label, checked, onToggle }: ToggleButtonProps) {
       onClick={onToggle}
       role="checkbox"
       aria-checked={checked}
-      className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 ${
+      className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 ${
         checked
           ? "border-primary-400 bg-primary-50 text-primary-700"
           : "border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300"
       }`}
     >
       <div
-        className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border ${
-          checked ? "border-primary-400 bg-primary-400" : "border-neutral-300"
+        className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border forced-colors:border-[ButtonText] ${
+          checked ? "border-primary-400 bg-primary-400 forced-colors:bg-[Highlight]" : "border-neutral-300"
         }`}
       >
         {checked && <CheckCircle className="h-3 w-3 text-white" />}

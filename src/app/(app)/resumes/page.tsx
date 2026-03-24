@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Resume Builder",
-  description: "Build a professional resume, cover letter, and reference page. Export to PDF for free.",
+  description: "Create your resume, cover letter, and reference page. Export to PDF.",
 };
 import { PenTool, FileSignature, Users, Mail } from "lucide-react";
 

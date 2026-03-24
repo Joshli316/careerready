@@ -2,7 +2,7 @@ export const runtime = "edge";
 
 import { NextRequest, NextResponse } from "next/server";
 import { PROMPTS } from "@/lib/ai/prompts";
-import { rateLimitHeaders, getAIClient, getRateLimitResult } from "@/lib/api/ai-route-helpers";
+import { rateLimitHeaders, getAIClient, getRateLimitResult, AI_MODEL } from "@/lib/api/ai-route-helpers";
 
 export async function POST(request: NextRequest) {
   const rlResult = await getRateLimitResult(request);
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const message = await clientOrError.messages.create({
-      model: "claude-sonnet-4-20250514",
+      model: AI_MODEL,
       max_tokens: 512,
       system: PROMPTS.coachResponse,
       messages: [

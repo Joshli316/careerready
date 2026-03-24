@@ -2,7 +2,7 @@ export const runtime = "edge";
 
 import { NextRequest, NextResponse } from "next/server";
 import { PROMPTS } from "@/lib/ai/prompts";
-import { rateLimitHeaders, getAIClient, getRateLimitResult, stripCodeFences } from "@/lib/api/ai-route-helpers";
+import { rateLimitHeaders, getAIClient, getRateLimitResult, stripCodeFences, AI_MODEL } from "@/lib/api/ai-route-helpers";
 
 interface GenerateRequest {
   jobTitle?: string;
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const message = await clientOrError.messages.create({
-      model: "claude-sonnet-4-20250514",
+      model: AI_MODEL,
       max_tokens: 1024,
       system: PROMPTS.generateCoverLetter,
       messages: [

@@ -50,22 +50,24 @@ export default function ResumeBuilderPage() {
   const isDirty = useRef(false);
 
   useEffect(() => {
-    Promise.all([storage.getResumes(), storage.getProfile()]).then(([savedResumes, savedProfile]) => {
-      // Filter out corrupted resume objects that lack required structure
-      const validResumes = (savedResumes ?? []).filter(
-        (r): r is Resume =>
-          r != null &&
-          typeof r === "object" &&
-          typeof r.id === "string" &&
-          r.content != null &&
-          typeof r.content === "object" &&
-          r.content.contactInfo != null
-      );
-      setResumes(validResumes);
-      setProfile(savedProfile);
-      if (validResumes.length > 0) { setResume(validResumes[0]); setActiveId(validResumes[0].id); }
-      setInitialLoading(false);
-    });
+    Promise.all([storage.getResumes(), storage.getProfile()])
+      .then(([savedResumes, savedProfile]) => {
+        // Filter out corrupted resume objects that lack required structure
+        const validResumes = (savedResumes ?? []).filter(
+          (r): r is Resume =>
+            r != null &&
+            typeof r === "object" &&
+            typeof r.id === "string" &&
+            r.content != null &&
+            typeof r.content === "object" &&
+            r.content.contactInfo != null
+        );
+        setResumes(validResumes);
+        setProfile(savedProfile);
+        if (validResumes.length > 0) { setResume(validResumes[0]); setActiveId(validResumes[0].id); }
+      })
+      .catch((err) => console.error("[ResumeBuilder] Failed to load data:", err))
+      .finally(() => setInitialLoading(false));
   }, [storage]);
 
   // Warn before navigating away with unsaved changes

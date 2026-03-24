@@ -63,7 +63,7 @@ export default function FocusGoalsPage() {
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">Goal Setting with FOCUS</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Create structured employment goals using the FOCUS framework.
+            Set your job search goals using the FOCUS method.
           </p>
         </div>
         <SavedIndicator visible={saved} />

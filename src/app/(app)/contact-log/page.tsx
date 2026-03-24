@@ -47,11 +47,11 @@ export default function ContactLogPage() {
   const [deleteTarget, setDeleteTarget] = useState<EmployerContact | null>(null);
 
   useEffect(() => {
-    storage.getContacts().then((data) => {
-      setContacts(data);
-      setLoading(false);
-    });
-  }, [storage]);
+    storage.getContacts()
+      .then((data) => setContacts(data))
+      .catch(() => toast("Could not load contacts", "error"))
+      .finally(() => setLoading(false));
+  }, [storage, toast]);
 
   const addContact = useCallback(async () => {
     if (!formCompany.trim() || !formPosition.trim()) return;

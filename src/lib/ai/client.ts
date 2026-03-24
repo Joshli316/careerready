@@ -1,5 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 
+export const AI_MODEL = "claude-sonnet-4-20250514";
+
 let cachedClient: Anthropic | null = null;
 let cachedKey: string | null = null;
 

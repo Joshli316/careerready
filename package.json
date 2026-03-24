@@ -1,8 +1,8 @@
 {
   "name": "careerready",
   "version": "1.0.0",
+  "private": true,
   "description": "Free job preparation tools for college graduates — resumes, interviews, applications, and more.",
-  "main": "index.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -15,8 +15,8 @@
     "pages:preview": "npx wrangler pages dev .vercel/output/static",
     "pages:deploy": "npx wrangler pages deploy .vercel/output/static",
     "db:generate": "npx drizzle-kit generate",
-    "db:migrate:local": "npx wrangler d1 execute careerready-db --local --file=./drizzle/0000_initial.sql",
-    "db:migrate:remote": "npx wrangler d1 execute careerready-db --remote --file=./drizzle/0000_initial.sql"
+    "db:migrate:local": "for f in ./drizzle/*.sql; do npx wrangler d1 execute careerready-db --local --file=$f; done",
+    "db:migrate:remote": "for f in ./drizzle/*.sql; do npx wrangler d1 execute careerready-db --remote --file=$f; done"
   },
   "keywords": [],
   "author": "",

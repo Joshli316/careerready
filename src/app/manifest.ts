@@ -6,10 +6,10 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "CareerReady",
     description:
       "8 free tools that help recent graduates build resumes, practice interviews, and land their first job.",
-    start_url: "/dashboard",
+    start_url: "/know-yourself",
     display: "standalone",
     background_color: "#FAFAFA",
-    theme_color: "#4D8B31",
+    theme_color: "#0B1120",
     icons: [
       {
         src: "/icon",

@@ -11,7 +11,7 @@ export default function GlobalError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error("[GlobalError]", error.message, error.digest ?? "");
+    console.error("[GlobalError]", error);
   }, [error]);
 
   return (
@@ -22,12 +22,12 @@ export default function GlobalError({
         </div>
         <h1 className="text-2xl font-bold text-neutral-800">Something went wrong</h1>
         <p className="mt-2 text-sm text-neutral-500">
-          An unexpected error occurred. Please try again.
+          Something broke on our end, not yours. Your data is safe in your browser.
         </p>
         <div className="mt-6 flex items-center justify-center gap-3">
           <button
             onClick={reset}
-            className="rounded-lg bg-primary-400 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-500"
+            className="rounded-lg bg-primary-400 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2"
           >
             Try again
           </button>
@@ -35,7 +35,7 @@ export default function GlobalError({
             href="/"
             className="rounded-lg border border-neutral-200 px-5 py-2.5 text-sm font-medium text-neutral-600 hover:bg-neutral-100"
           >
-            Go to Dashboard
+            Go to Homepage
           </Link>
         </div>
       </div>

@@ -1,15 +1,17 @@
-export function stripCodeFences(text: string): string {
-  return text.replace(/^```(?:json)?\s*\n?/, "").replace(/\n?```\s*$/, "");
-}
-
 import { NextRequest, NextResponse } from "next/server";
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import { getAIClient as getClient } from "@/lib/ai/client";
+import { getAIClient as getClient, AI_MODEL } from "@/lib/ai/client";
 import { checkRateLimitD1 } from "@/lib/ai/rate-limit";
 import { getClientIp } from "@/lib/ai/client-ip";
 import { validateOrigin } from "@/lib/api/validate-origin";
 import type { RateLimitResult } from "@/lib/ai/rate-limit";
 import type Anthropic from "@anthropic-ai/sdk";
+
+export { AI_MODEL };
+
+export function stripCodeFences(text: string): string {
+  return text.replace(/^```(?:json)?\s*\n?/, "").replace(/\n?```\s*$/, "");
+}
 
 export function rateLimitHeaders(remaining: number, limit: number) {
   return {
@@ -62,8 +64,15 @@ export async function getRateLimitResult(
   }
 
   const ip = getClientIp(request);
-  const { env } = getRequestContext();
-  const result = await checkRateLimitD1(env.DB, `ai:ip:${ip}`, false);
+  let result: RateLimitResult;
+  try {
+    const { env } = getRequestContext();
+    result = await checkRateLimitD1(env.DB, `ai:ip:${ip}`, false);
+  } catch {
+    // Fallback to in-memory rate limiting during local dev (getRequestContext throws outside Workers)
+    const { checkRateLimit } = await import("@/lib/ai/rate-limit");
+    result = checkRateLimit(`ai:ip:${ip}`, false);
+  }
 
   if (!result.allowed) {
     return NextResponse.json(

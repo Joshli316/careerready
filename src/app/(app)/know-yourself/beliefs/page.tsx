@@ -65,7 +65,7 @@ export default function BeliefsPage() {
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">Challenge Your Belief System</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Identify positive beliefs about yourself and convert challenges into affirmations.
+            Name what you believe about yourself, then turn challenges into positive statements.
           </p>
         </div>
         <SavedIndicator visible={saved} />

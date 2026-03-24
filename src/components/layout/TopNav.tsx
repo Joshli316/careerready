@@ -48,7 +48,7 @@ export function TopNav() {
         </div>
         <div className="hidden md:block" />
         <div className="flex items-center gap-2">
-          <span className="text-xs text-neutral-400">All changes saved to this browser</span>
+          <span className="text-xs text-neutral-400">Data saved locally in your browser</span>
         </div>
       </header>
 
@@ -60,7 +60,7 @@ export function TopNav() {
           aria-label="Navigation menu"
           onKeyDown={(e) => { if (e.key === "Escape") closeMobileNav(); }}
         >
-          <div className="absolute inset-0 bg-black/40" role="presentation" onClick={closeMobileNav} />
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" role="presentation" onClick={closeMobileNav} />
           <div ref={navRef} className="absolute left-0 top-0 h-full w-72 bg-white shadow-xl animate-in slide-in-from-left duration-200">
             <div className="flex h-14 items-center justify-between border-b border-neutral-150 px-4">
               <span className="text-base font-semibold text-neutral-800">CareerReady</span>

@@ -117,7 +117,7 @@ export default function SkillsPage() {
       <section className="mb-8">
         <h2 className="mb-3 text-lg font-semibold text-neutral-800">Soft Skills</h2>
         <p className="mb-4 text-sm text-neutral-500">
-          People skills and personal qualities. Select all that apply to you.
+          People skills and personal qualities. Select all that apply. Aim for at least 5.
         </p>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {SOFT_SKILLS.map((skill) => (
