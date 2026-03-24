@@ -147,7 +147,29 @@ Skills, brand statement, and power statement from "Know Yourself" flow into othe
 - **`AICoverLetterForm`** — AI cover letter generator in `resumes/cover-letter/components/`.
 - **`resumeToText`** — converts Resume object to plain text for AI prompts.
 
+## AI Routes
+
+- **`AI_MODEL`** constant in `src/lib/ai/client.ts` — single source of truth for the Claude model version used across all 7 AI routes. Change it once to update everywhere.
+- All AI routes import `AI_MODEL` via `src/lib/api/ai-route-helpers.ts` re-export.
+- Rate limiting falls back to in-memory when `getRequestContext()` is unavailable (local dev).
+
 ## Session Log
+
+### 2026-03-23 — main
+
+**What was done:**
+- Expert panel review: 10 executives × 3 rounds + 30 anti-AI text fixes = 180 findings applied
+- Extracted `AI_MODEL` constant across 7 AI routes
+- Fixed rate limiter crash in local dev, timer leak in `useSaveIndicator`
+- Added skip-to-content, `focus-visible` consistency, backdrop blur
+- Rewrote all tool descriptions to be outcome-focused and conversational
+- Deployed to Cloudflare Pages (commit `dbb7f58`)
+
+**Open items:**
+- Same as 2026-03-20 (API key, D1 migrations, CI workflow)
+- 12 components exceed 150-line limit per coding standards (noted, not refactored)
+
+**Next session:** Run `npx wrangler secret put CLAUDE_API_KEY` and D1 migrations
 
 ### 2026-03-20 — main
 
