@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" role="status" aria-label="Loading page">
       <div className="space-y-2">
         <div className="h-8 w-1/3 animate-pulse rounded-lg bg-neutral-200" />
         <div className="h-4 w-2/3 animate-pulse rounded-lg bg-neutral-200" />

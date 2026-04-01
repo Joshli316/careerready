@@ -50,7 +50,7 @@ export async function verifyPassword(
   password: string,
   stored: string
 ): Promise<boolean> {
-  if (!stored || !stored.includes(":")) return false;
+  if (!password || !stored || !stored.includes(":")) return false;
   const [saltHex, hashHex] = stored.split(":");
   if (!saltHex || !hashHex) return false;
   const salt = fromHex(saltHex);

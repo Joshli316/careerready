@@ -32,7 +32,7 @@ export function Sidebar() {
                   href={tool.href}
                   aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                    "flex items-center gap-3 rounded-lg px-3 py-2.5 min-h-[44px] text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400",
                     isActive
                       ? "bg-primary-50 text-primary-700"
                       : "text-neutral-600 hover:bg-neutral-100 hover:text-neutral-800"

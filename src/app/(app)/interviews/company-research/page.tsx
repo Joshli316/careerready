@@ -52,11 +52,11 @@ export default function CompanyResearchPage() {
       };
       await storage.setInterviewPrep({ ...prep, companyResearch: entries });
       showSaved();
-      toast("Saved successfully", "success");
+      toast(t("common.savedSuccessfully"), "success");
     } catch {
-      toast("Failed to save. Please try again.", "error");
+      toast(t("common.saveFailed"), "error");
     }
-  }, [storage, entries, showSaved, toast]);
+  }, [storage, entries, showSaved, toast, t]);
 
   const entry = entries[active];
 

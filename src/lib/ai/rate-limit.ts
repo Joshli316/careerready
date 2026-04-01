@@ -39,6 +39,13 @@ export function checkRateLimit(
   const limit = Math.ceil((isAuthenticated ? AUTH_LIMIT : ANON_LIMIT) / FALLBACK_LIMIT_DIVISOR);
   const today = new Date().toISOString().split("T")[0];
 
+  // Evict stale entries from previous days to prevent unbounded map growth
+  if (counts.size > 100) {
+    for (const [k, v] of counts) {
+      if (v.date !== today) counts.delete(k);
+    }
+  }
+
   const entry = counts.get(key);
   if (!entry || entry.date !== today) {
     counts.set(key, { date: today, count: 1 });

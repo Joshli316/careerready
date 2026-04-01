@@ -83,36 +83,24 @@ export default function BeliefsPage() {
           {t("knowYourself.beliefs.positiveTitle")}
         </h2>
         <div className="space-y-4">
-          <div>
-            <label className="mb-1 block text-sm font-medium text-neutral-600">
-              {t("knowYourself.beliefs.iAm")}
-            </label>
-            <Input
-              placeholder={t("knowYourself.beliefs.iAmPlaceholder")}
-              value={iAm}
-              onChange={(e) => setIAm(e.target.value)}
-            />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-neutral-600">
-              {t("knowYourself.beliefs.iCan")}
-            </label>
-            <Input
-              placeholder={t("knowYourself.beliefs.iCanPlaceholder")}
-              value={iCan}
-              onChange={(e) => setICan(e.target.value)}
-            />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-neutral-600">
-              {t("knowYourself.beliefs.iHave")}
-            </label>
-            <Input
-              placeholder={t("knowYourself.beliefs.iHavePlaceholder")}
-              value={iHave}
-              onChange={(e) => setIHave(e.target.value)}
-            />
-          </div>
+          <Input
+            label={t("knowYourself.beliefs.iAm")}
+            placeholder={t("knowYourself.beliefs.iAmPlaceholder")}
+            value={iAm}
+            onChange={(e) => setIAm(e.target.value)}
+          />
+          <Input
+            label={t("knowYourself.beliefs.iCan")}
+            placeholder={t("knowYourself.beliefs.iCanPlaceholder")}
+            value={iCan}
+            onChange={(e) => setICan(e.target.value)}
+          />
+          <Input
+            label={t("knowYourself.beliefs.iHave")}
+            placeholder={t("knowYourself.beliefs.iHavePlaceholder")}
+            value={iHave}
+            onChange={(e) => setIHave(e.target.value)}
+          />
         </div>
       </section>
 
@@ -142,9 +130,10 @@ export default function BeliefsPage() {
               {challenges.length > 1 && (
                 <button
                   onClick={() => removeChallenge(i)}
-                  className="mt-2 rounded-lg p-2 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600"
+                  className="mt-2 rounded-lg p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600"
+                  aria-label={t("knowYourself.beliefs.removeChallenge")}
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-4 w-4" aria-hidden="true" />
                 </button>
               )}
             </div>
@@ -152,9 +141,9 @@ export default function BeliefsPage() {
         </div>
         <button
           onClick={addChallenge}
-          className="mt-3 flex items-center gap-1.5 text-sm font-medium text-primary-400 hover:text-primary-500"
+          className="mt-3 inline-flex items-center gap-1.5 min-h-[44px] text-sm font-medium text-primary-400 hover:text-primary-500"
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="h-4 w-4" aria-hidden="true" />
           {t("knowYourself.beliefs.addChallenge")}
         </button>
       </section>

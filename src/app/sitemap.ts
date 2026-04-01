@@ -1,23 +1,20 @@
 import type { MetadataRoute } from "next";
 
-const BASE_URL = "https://careerready.pages.dev";
-
-const LAST_UPDATED = new Date("2026-03-23");
+const BASE = "https://careerready.pages.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = [
-    "/",
+  const toolPages = [
     "/know-yourself",
-    "/know-yourself/skills",
     "/know-yourself/beliefs",
-    "/know-yourself/work-values",
     "/know-yourself/focus-goals",
+    "/know-yourself/skills",
+    "/know-yourself/work-values",
     "/know-yourself/branding",
     "/know-yourself/power-statement",
     "/applications",
     "/applications/tips",
-    "/applications/master-builder",
     "/applications/experience-gap",
+    "/applications/master-builder",
     "/resumes",
     "/resumes/builder",
     "/resumes/cover-letter",
@@ -25,15 +22,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/resumes/email-guide",
     "/interviews",
     "/interviews/star-method",
+    "/interviews/jd-decoder",
+    "/interviews/mock-interview",
     "/interviews/common-questions",
     "/interviews/company-research",
     "/interviews/thank-you",
-    "/interviews/jd-decoder",
-    "/interviews/mock-interview",
     "/job-search",
     "/job-search/networking",
-    "/job-search/checklist",
     "/job-search/job-boards",
+    "/job-search/checklist",
     "/social-media",
     "/social-media/audit",
     "/landing-the-job",
@@ -42,15 +39,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact-log",
   ];
 
-  const topLevelTools = new Set([
-    "/know-yourself", "/applications", "/resumes",
-    "/interviews", "/job-search", "/social-media", "/landing-the-job", "/contact-log",
-  ]);
-
-  return routes.map((route) => ({
-    url: `${BASE_URL}${route}`,
-    lastModified: LAST_UPDATED,
-    changeFrequency: (route === "/" ? "weekly" : "monthly") as "weekly" | "monthly",
-    priority: route === "/" ? 1 : topLevelTools.has(route) ? 0.9 : 0.7,
-  }));
+  return [
+    {
+      url: BASE,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+    ...toolPages.map((path) => ({
+      url: `${BASE}${path}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+  ];
 }

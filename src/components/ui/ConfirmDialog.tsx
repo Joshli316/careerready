@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useId } from "react";
 import { Button } from "./Button";
 import { AlertTriangle } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -21,6 +22,10 @@ export function ConfirmDialog({
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
+  const { t } = useLanguage();
+  const uniqueId = useId();
+  const titleId = `${uniqueId}-title`;
+  const messageId = `${uniqueId}-message`;
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -37,8 +42,8 @@ export function ConfirmDialog({
     <dialog
       ref={dialogRef}
       role="alertdialog"
-      aria-labelledby="confirm-dialog-title"
-      aria-describedby="confirm-dialog-message"
+      aria-labelledby={titleId}
+      aria-describedby={messageId}
       className="fixed inset-0 z-50 m-auto w-full max-w-sm rounded-xl border border-neutral-150 bg-white p-6 shadow-xl backdrop:bg-black/40 backdrop:backdrop-blur-sm"
       onClose={onCancel}
     >
@@ -47,13 +52,13 @@ export function ConfirmDialog({
           <AlertTriangle className="h-5 w-5 text-error" />
         </div>
         <div>
-          <h3 id="confirm-dialog-title" className="font-semibold text-neutral-800">{title}</h3>
-          <p id="confirm-dialog-message" className="mt-1 text-sm text-neutral-500">{message}</p>
+          <h3 id={titleId} className="font-semibold text-neutral-800">{title}</h3>
+          <p id={messageId} className="mt-1 text-sm text-neutral-500">{message}</p>
         </div>
       </div>
       <div className="mt-6 flex justify-end gap-3">
         <Button variant="ghost" size="sm" onClick={onCancel}>
-          Cancel
+          {t("common.cancel")}
         </Button>
         <Button variant="danger" size="sm" onClick={onConfirm}>
           {confirmLabel}

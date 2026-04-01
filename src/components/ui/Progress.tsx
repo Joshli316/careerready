@@ -16,7 +16,7 @@ export function Progress({ value, className, label }: ProgressProps) {
           <span className="font-medium text-neutral-700">{Math.round(clamped)}%</span>
         </div>
       )}
-      <div className="h-1.5 w-full rounded-full bg-neutral-150">
+      <div className="h-2 w-full rounded-full bg-neutral-150">
         <div
           className="h-full rounded-full bg-primary-400 transition-all duration-300"
           style={{ width: `${clamped}%` }}
@@ -24,6 +24,7 @@ export function Progress({ value, className, label }: ProgressProps) {
           aria-valuenow={clamped}
           aria-valuemin={0}
           aria-valuemax={100}
+          aria-label={label || "Progress"}
         />
       </div>
     </div>

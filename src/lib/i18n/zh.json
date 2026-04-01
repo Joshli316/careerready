@@ -11,6 +11,7 @@
     "tryAgain": "重试",
     "goBack": "返回",
     "getStartedFree": "免费开始",
+    "seeTheTools": "查看工具",
     "skipToContent": "跳到主要内容",
     "backToDashboard": "返回首页",
     "preview": "预览",
@@ -49,7 +50,8 @@
     "removeBullet": "删除要点",
     "addBullet": "+ 添加要点",
     "next": "下一步",
-    "untitled": "未命名"
+    "untitled": "未命名",
+    "opensInNewTab": "在新标签页中打开"
   },
   "nav": {
     "home": "首页",
@@ -66,12 +68,12 @@
     "knowYourself": {
       "name": "认识自己",
       "shortDesc": "在开始求职前，先了解你的技能、价值观和个人品牌。",
-      "longDesc": "带着对自己清晰的认知，自信地面对每一次求职。"
+      "longDesc": "梳理技能、写品牌陈述、准备30秒自我介绍。这里的内容会自动同步到简历。"
     },
     "applications": {
       "name": "求职申请",
       "shortDesc": "实用技巧和一份一次填写、处处可用的主表格。",
-      "longDesc": "不再重复填写相同信息。一份主表格搞定所有申请。"
+      "longDesc": "把所有信息集中在一份主表格里。下次雇主问同样的问题，直接调出来用。"
     },
     "resumes": {
       "name": "简历",
@@ -81,7 +83,7 @@
     "interviews": {
       "name": "面试",
       "shortDesc": "练习 STAR 面试法、准备回答、研究目标公司。",
-      "longDesc": "用练好的 STAR 故事和 AI 模拟面试，自信作答。"
+      "longDesc": "写好 STAR 故事，练习回答问题，在真正面试前获得反馈。"
     },
     "jobSearch": {
       "name": "找工作",
@@ -96,7 +98,7 @@
     "landingTheJob": {
       "name": "入职准备",
       "shortDesc": "职场成功技巧和自我评估跟踪器。",
-      "longDesc": "用职场技巧和自我评估表，搞定入职前90天。"
+      "longDesc": "用职场好习惯和每月自我评估清单，顺利度过入职的头90天。"
     },
     "contactLog": {
       "name": "联系记录",
@@ -111,45 +113,45 @@
   },
   "landing": {
     "heroTitle": "一步步拿到你的第一份工作。",
-    "heroSubtitle": "8 个相互关联的工具，引导你从发现优势到通过面试。写一次，自动填充到各处。",
+    "heroSubtitle": "8 个相互关联的工具，带你从搞清楚自己的优势到搞定面试。专为应届生打造。写一次，自动填充到各处。",
     "seeHowItWorks": "了解使用方法",
-    "startKnowYourself": "开始「认识自己」",
+    "startKnowYourself": "从发现你的优势开始",
     "yourToolkit": "你的工具箱",
-    "trustBadge": "基于已帮助 10,000+ 毕业生找到第一份工作的职业准备课程。",
+    "trustBadge": "无需注册，无需付费。打开工具，直接开始。",
     "benefits": {
       "noAccount": "无需注册，立即开始",
       "privateData": "数据保存在您的浏览器，隐私安全",
       "autoFill": "从技能清单自动填充简历",
       "exportPdf": "一键导出 PDF",
-      "freeForever": "永久免费，无隐藏收费"
+      "freeForever": "全部 8 个工具，永久免费"
     },
     "howItWorks": "使用方法",
     "toolsNav": "工具",
-    "phaseSectionTitle": "从自我发现到签约入职。",
-    "phaseSectionSubtitle": "三个阶段，八个工具。按顺序使用或直接跳到你需要的。数据在工具间自动流转。",
+    "phaseSectionTitle": "从「我擅长什么？」到签约入职。",
+    "phaseSectionSubtitle": "三个阶段，八个工具。按顺序来，或直接跳到你需要的。你在一个工具里写的内容，其他工具也能用。",
     "phase1": {
-      "tagline": "发现你的优势。",
-      "desc": "在投递简历之前，先搞清楚你能带来什么。梳理你的技能，排列工作价值观，准备一段30秒的自我介绍。",
+      "tagline": "搞清楚你到底擅长什么。",
+      "desc": "在投简历之前，先弄明白你能带来什么。梳理技能，排列工作价值观，写一段社交场合能用的30秒自我介绍。",
       "tools": ["技能清单", "工作价值观", "FOCUS 目标", "个人陈述"]
     },
     "phase2": {
-      "tagline": "从人群中脱颖而出。",
-      "desc": "你的品牌陈述会自动填充到简历、求职信和面试准备中。练习回答，有策略地搜索，自信地申请。",
+      "tagline": "做简历，练面试。",
+      "desc": "品牌陈述会自动填充到简历、求职信和面试准备中。练习 STAR 故事，搜索招聘网站，用真正匹配岗位的材料去申请。",
       "tools": ["简历生成器", "求职信", "面试准备", "找工作"]
     },
     "phase3": {
-      "tagline": "拿到工作，持续成长。",
-      "desc": "记录每一次申请，设置跟进提醒，获取入职前90天的实用建议。不遗漏任何机会。",
+      "tagline": "追踪申请，搞定前 90 天。",
+      "desc": "记录每一次投递的申请，设置跟进提醒避免遗漏，用自我评估清单帮你顺利度过入职的头几个月。",
       "tools": ["联系记录", "职场成功", "自我评估"]
     },
-    "toolsGridTitle": "八个环环相扣的工具",
-    "toolsGridSubtitle": "从自我认知开始，然后准备材料，最后去拿到工作。每个工具为下一个提供数据。",
-    "quoteText": "只需写一次你的技能和品牌陈述，就能自动填充到简历、求职信和面试准备中。",
-    "quoteAttribution": "写一次，处处可用。",
-    "ctaTitle": "准备好了？从这里开始。",
-    "ctaDesc": "从「认识自己」开始。你在那里写下的技能和品牌陈述会自动填充到简历、求职信和面试准备中。",
+    "toolsGridTitle": "选一个工具，开始吧",
+    "toolsGridSubtitle": "建议按顺序使用，但你也可以直接跳到现在最需要的。点击任意卡片开始。",
+    "quoteText": "在「认识自己」里写一次你的技能和品牌陈述，之后它们会自动填充到简历、求职信和面试准备中。不用复制粘贴。",
+    "quoteAttribution": "这就是核心理念：写一次，处处可用。",
+    "ctaTitle": "第一步只要 5 分钟。",
+    "ctaDesc": "打开「认识自己」，选出核心技能，写一段品牌陈述。后面的一切都从这里开始。",
     "footer": {
-      "tagline": "为想按自己节奏准备求职的应届生打造。数据保存在您的浏览器，隐私安全。",
+      "tagline": "应届生求职工具。按自己的节奏准备，数据保存在浏览器中。",
       "coreTools": "核心工具",
       "moreTools": "更多工具",
       "getStarted": "快速开始",
@@ -159,8 +161,8 @@
       "step2": "2. 制作你的简历",
       "step3": "3. 准备 STAR 故事",
       "step4": "4. 追踪你的申请",
-      "bottomLine": "100% 免费，无需注册。",
-      "startNow": "现在开始求职准备"
+      "bottomLine": "免费开放，数据保存在你的浏览器中。",
+      "startNow": "免费开始求职准备"
     }
   },
   "knowYourself": {
@@ -169,7 +171,7 @@
     "nextStep": "下一步：",
     "nextStepText": "确定好你的技能和品牌陈述后，前往",
     "resumeBuilderLink": "简历生成器",
-    "nextStepSuffix": "，你的数据会自动填充。",
+    "nextStepSuffix": "，你的数据会自动填充。你的技能和品牌陈述也会自动出现在求职信和面试准备中。",
     "sections": {
       "beliefs": {
         "title": "挑战你的信念",
@@ -200,7 +202,7 @@
     "skills": {
       "title": "可迁移技能清单",
       "description": "盘点你从所有经历中获得的软技能和硬技能：工作、实习、志愿服务、校园活动和课程项目。",
-      "callout": "你在这里选择的技能将可用于自动填充你的简历和面试准备。",
+      "callout": "你在这里选的技能会自动出现在简历和面试准备中。",
       "softSkillsTitle": "软技能",
       "softSkillsDesc": "人际交往能力和个人素质。选择所有适用的，建议至少选5项。",
       "hardSkillsTitle": "硬技能",
@@ -245,7 +247,7 @@
     "beliefs": {
       "title": "挑战你的信念系统",
       "description": "说出你对自己的看法，然后把挑战转化为积极的陈述。",
-      "callout": "消极的自我对话（\"我没有足够的经验\"）会毁掉面试。这个练习帮助你重新构建这些想法，让你能自信地向雇主介绍自己。",
+      "callout": "\"我没有足够的经验\"——这类想法会毁掉面试。这个练习帮你把它们翻转过来，让你能自信地介绍自己。",
       "positiveTitle": "分享关于自己的积极信念",
       "iAm": "我是……",
       "iAmPlaceholder": "例如：\"开朗外向，能和各种人相处融洽\"",
@@ -258,12 +260,13 @@
       "challengePlaceholder": "我曾经在……方面遇到过挑战",
       "solutionPlaceholder": "但我可以通过……来克服它",
       "addChallenge": "添加另一个挑战",
+      "removeChallenge": "删除此挑战",
       "saveBeliefs": "保存信念"
     },
     "branding": {
       "title": "个人品牌",
       "description": "用1-2句话告诉雇主你擅长什么以及为什么。",
-      "callout": "你的品牌陈述可以用在简历、LinkedIn 个人资料和社交场合中。它应该用1-2句话概括你最擅长什么、为谁服务、以及你独特的做事方式。",
+      "callout": "品牌陈述用在简历、LinkedIn 和任何自我介绍的场合。保持1-2句话：你最擅长什么、为谁做、你有什么不同。",
       "identifyTitle": "发现你的品牌",
       "fieldLabel": "目标行业 / 领域",
       "fieldPlaceholder": "例如：市场营销、医疗保健",
@@ -486,9 +489,9 @@
     "builder": {
       "title": "简历生成器",
       "description": "填写各部分内容，实时查看简历更新。",
-      "autoFillPrompt": "从「认识自己」数据中自动填充技能和简介？",
+      "autoFillPrompt": "要导入你在「认识自己」里写的技能和品牌陈述吗？",
       "autoFill": "自动填充",
-      "noDataCallout": "请先完成「认识自己」工具，才能自动填充你的技能和简介。",
+      "noDataCallout": "先去「认识自己」填写你的技能和品牌陈述，填完后这里会自动导入。",
       "resumeTitle": "简历标题",
       "resumeTitlePlaceholder": "例如：市场营销简历",
       "template": "模板",
@@ -526,7 +529,7 @@
       "linkedinLabel": "LinkedIn（选填）",
       "linkedinPlaceholder": "linkedin.com/in/yourname",
       "experience": "工作经历",
-      "noExperience": "尚未添加经历。包括工作、实习、志愿服务和校园职务。",
+      "noExperience": "尚未添加经历。包括工作、实习、志愿服务和校园职务。不确定什么算经历？试试「求职申请」里的经验空白解决器。",
       "positionN": "职位 {n}",
       "jobTitlePlaceholder": "职位名称",
       "companyPlaceholder": "公司",
@@ -538,7 +541,7 @@
     "coverLetter": {
       "title": "求职信生成器",
       "description": "用三段话写一封求职信：为什么感兴趣、你能带来什么、下一步计划。",
-      "callout": "不要重复简历内容。相反，把你的经历和这份工作的具体需求联系起来。告诉他们你为什么想在那里工作。",
+      "callout": "求职信不是简历的复读。选1-2段和职位描述匹配的经历，解释它们之间的关联，并说明为什么对这家公司感兴趣。",
       "recipient": "收件人",
       "hiringManagerName": "招聘经理姓名",
       "hiringManagerPlaceholder": "\"张经理\" 或 \"招聘负责人\"",
@@ -637,7 +640,7 @@
   },
   "interviews": {
     "title": "面试",
-    "description": "面试所需的一切，从准备故事到发感谢信。",
+    "description": "准备故事、练习回答、研究公司、写感谢信。",
     "sections": {
       "storybank": {
         "title": "故事库",
@@ -666,7 +669,7 @@
     },
     "starMethod": {
       "title": "故事库",
-      "description": "管理你的行为面试故事。评估质量、标记技能、追踪问题覆盖率。",
+      "description": "编写和打磨你的行为面试故事。标记技能，追踪你能回答哪些问题。",
       "situation": "情境 (Situation)",
       "situationDesc": "描述你经历的情境。",
       "task": "任务 (Task)",
@@ -680,7 +683,7 @@
       "deleteStoryTitle": "删除故事",
       "deleteStoryConfirm": "这个故事将被永久删除。",
       "saveStories": "保存故事",
-      "summary": "你有 {count} 个{storyWord}（{complete} 个完成）。建议准备6-8个精心打磨的故事。",
+      "summary": "你有 {count} 个{storyWord}（{complete} 个完成）。建议准备6-8个四个 STAR 字段都填写完整的故事。",
       "story": "故事",
       "stories": "故事",
       "sampleQuestions": {
@@ -699,7 +702,7 @@
       "responsePlaceholder": "在这里写下你的回答……",
       "saveResponses": "保存回答",
       "answeredCount": "已回答 {answered} / {total} 个问题",
-      "generalTips": "每个回答都应包含这4点：(1) 你的经验如何匹配该职位，(2) 使用雇主的语言并举具体例子，(3) 自信积极的回答，(4) 保持专注，不要过多透露。",
+      "generalTips": "每个回答都要包含这4点：(1) 把你的经验和职位联系起来，(2) 用他们的语言举真实的例子，(3) 听起来自信，不要像背稿，(4) 保持专注，别说跑题。",
       "powerStatementRef": "你的个人陈述（第1题参考）",
       "powerStatementPrompt": "先写好你的个人陈述。它就是\"请介绍一下你自己\"的答案。",
       "questions": {
@@ -981,7 +984,7 @@
     },
     "workplaceSuccess": {
       "title": "长期职场成功",
-      "description": "良好的工作习惯让你保持就业并获得晋升。以下是管理者真正看重的。",
+      "description": "让你被注意到并获得晋升的习惯。以下是管理者真正关注的。",
       "callout": "这些习惯在你职业生涯的每个阶段都很重要。上班第一周前就要了解，然后每月回顾保持正轨。",
       "categories": {
         "workHabits": {
@@ -1147,7 +1150,7 @@
     },
     "app": {
       "title": "出了点问题",
-      "description": "发生了意外错误。你保存的数据是安全的。"
+      "description": "是我们这边出了问题，不是你的。你保存的数据在浏览器中是安全的。"
     }
   }
 }

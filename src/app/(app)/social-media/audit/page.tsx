@@ -83,24 +83,24 @@ export default function AuditPage() {
           {bgCheckItems.map((item, i) => (
             <div key={auditKeys[i]} className="flex flex-col gap-3 rounded-lg border border-neutral-150 p-4 sm:flex-row sm:items-center sm:justify-between">
               <span className="text-sm text-neutral-700">{item}</span>
-              <div className="flex gap-2 shrink-0">
+              <div className="flex gap-2 shrink-0 w-full sm:w-auto">
                 <button
                   onClick={() => setResults({ ...results, [auditKeys[i]]: "pass" })}
                   aria-pressed={results[auditKeys[i]] === "pass"}
-                  className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors min-h-[44px] ${
+                  className={`flex flex-1 sm:flex-initial items-center justify-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 ${
                     results[auditKeys[i]] === "pass" ? "bg-green-50 text-green-700 border border-green-200" : "bg-neutral-50 text-neutral-500 hover:bg-green-50"
                   }`}
                 >
-                  <CheckCircle className="h-4 w-4" /> {t("common.pass")}
+                  <CheckCircle className="h-4 w-4" aria-hidden="true" /> {t("common.pass")}
                 </button>
                 <button
                   onClick={() => setResults({ ...results, [auditKeys[i]]: "fail" })}
                   aria-pressed={results[auditKeys[i]] === "fail"}
-                  className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors min-h-[44px] ${
+                  className={`flex flex-1 sm:flex-initial items-center justify-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 ${
                     results[auditKeys[i]] === "fail" ? "bg-red-50 text-red-700 border border-red-200" : "bg-neutral-50 text-neutral-500 hover:bg-red-50"
                   }`}
                 >
-                  <XCircle className="h-4 w-4" /> {t("common.needsWork")}
+                  <XCircle className="h-4 w-4" aria-hidden="true" /> {t("common.needsWork")}
                 </button>
               </div>
             </div>

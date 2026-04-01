@@ -52,7 +52,7 @@ export default function ExperienceGapPage() {
           <section key={cat.key} className="rounded-xl border border-neutral-150 bg-white p-5 shadow-sm">
             <h2 className="mb-1 font-semibold text-neutral-800">{cat.title}</h2>
             <p className="mb-3 text-sm text-neutral-500">{cat.description}</p>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
               {cat.items.map((item) => (
                   <ToggleButton
                     key={item}

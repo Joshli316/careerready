@@ -20,7 +20,7 @@ export function Callout({ type = "tip", children, className }: CalloutProps) {
   const { borderColor, bgColor, iconColor, icon: Icon } = config[type];
   return (
     <div className={cn("flex gap-3 rounded-lg border-l-4 p-4", borderColor, bgColor, className)}>
-      <Icon className={cn("h-5 w-5 shrink-0 mt-0.5", iconColor)} />
+      <Icon className={cn("h-5 w-5 shrink-0 mt-0.5", iconColor)} aria-hidden="true" />
       <div className="text-sm">{children}</div>
     </div>
   );

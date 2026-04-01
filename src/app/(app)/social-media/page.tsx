@@ -24,7 +24,7 @@ export default function SocialMediaPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-neutral-800">{t("socialMedia.title")}</h1>
-        <p className="mt-2 text-neutral-500">{t("socialMedia.description")}</p>
+        <p className="mt-2 text-base text-neutral-500">{t("socialMedia.description")}</p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         {sections.map((s) => (
@@ -38,8 +38,8 @@ export default function SocialMediaPage() {
       <h2 className="mt-10 mb-4 text-xl font-bold text-neutral-800">{t("socialMedia.platformTips.title")}</h2>
       <div className="grid gap-4 sm:grid-cols-2">
         {platformKeys.map((key) => (
-          <a key={key} href={platformUrls[key]} target="_blank" rel="noopener noreferrer" className="group rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md hover:border-primary-300">
-            <h3 className="font-semibold text-neutral-800 group-hover:text-primary-400">{t(`socialMedia.platformTips.${key}.name`)}</h3>
+          <a key={key} href={platformUrls[key]} target="_blank" rel="noopener noreferrer" className="group rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md hover:border-primary-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400">
+            <h3 className="font-semibold text-neutral-800 group-hover:text-primary-400">{t(`socialMedia.platformTips.${key}.name`)}<span className="sr-only"> ({t("common.opensInNewTab")})</span></h3>
             <p className="mt-1 text-sm text-neutral-500">{t(`socialMedia.platformTips.${key}.tip`)}</p>
           </a>
         ))}

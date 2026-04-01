@@ -10,7 +10,8 @@ import type Anthropic from "@anthropic-ai/sdk";
 export { AI_MODEL };
 
 export function stripCodeFences(text: string): string {
-  return text.replace(/^```(?:json)?\s*\n?/, "").replace(/\n?```\s*$/, "");
+  // Strip opening fence with any language identifier (json, JSON, jsonc, etc.)
+  return text.replace(/^```\w*\s*\n?/, "").replace(/\n?```\s*$/, "");
 }
 
 export function rateLimitHeaders(remaining: number, limit: number) {

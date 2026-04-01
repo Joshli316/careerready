@@ -21,7 +21,7 @@ export default function InterviewsPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-neutral-800">{t("interviews.title")}</h1>
-        <p className="mt-2 text-neutral-500">{t("interviews.description")}</p>
+        <p className="mt-2 text-base text-neutral-500">{t("interviews.description")}</p>
       </div>
       <ReadinessDashboard />
       <div className="mt-6 grid gap-4 sm:grid-cols-2">

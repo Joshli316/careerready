@@ -180,16 +180,20 @@ export default function ResumeBuilderPage() {
       toast(t("resumes.builder.needOneResume"), "warning");
       return;
     }
-    await storage.deleteResume(id);
-    const remaining = await storage.getResumes();
-    setResumes(remaining);
-    if (resume.id === id) {
-      const next = remaining[0] || emptyResume();
-      setResume(next);
-      setActiveId(next.id);
+    try {
+      await storage.deleteResume(id);
+      const remaining = await storage.getResumes();
+      setResumes(remaining);
+      if (resume.id === id) {
+        const next = remaining[0] || emptyResume();
+        setResume(next);
+        setActiveId(next.id);
+      }
+      isDirty.current = false;
+      toast(t("resumes.builder.resumeDeleted"));
+    } catch {
+      toast(t("resumes.builder.saveFailed"), "error");
     }
-    isDirty.current = false;
-    toast(t("resumes.builder.resumeDeleted"));
   }
 
   if (initialLoading) {
@@ -290,9 +294,9 @@ export default function ResumeBuilderPage() {
                 </span>
               ))}
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row">
               <Input placeholder={t("resumes.builder.addSkillPlaceholder")} helperText={t("resumes.builder.skillExample")} value={skillInput} onChange={(e) => setSkillInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addSkill(skillInput); setSkillInput(""); } }} className="flex-1" />
-              <Button variant="secondary" size="md" onClick={() => { addSkill(skillInput); setSkillInput(""); }}>{t("common.add")}</Button>
+              <Button variant="secondary" size="md" onClick={() => { addSkill(skillInput); setSkillInput(""); }} className="w-full sm:w-auto">{t("common.add")}</Button>
             </div>
           </section>
 
@@ -300,9 +304,9 @@ export default function ResumeBuilderPage() {
             {resumes.length > 1 && (
               <button
                 onClick={() => { if (window.confirm(t("resumes.builder.deleteResumeConfirm").replace("{title}", resume.title))) deleteResume(resume.id); }}
-                className="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-error"
+                className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm text-neutral-400 hover:text-error hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error"
               >
-                <Trash2 className="h-4 w-4" /> {t("resumes.builder.deleteResume")}
+                <Trash2 className="h-4 w-4" aria-hidden="true" /> {t("resumes.builder.deleteResume")}
               </button>
             )}
             <div className="flex flex-col gap-3 sm:flex-row sm:ml-auto">

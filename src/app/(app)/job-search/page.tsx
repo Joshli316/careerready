@@ -17,7 +17,7 @@ export default function JobSearchPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-neutral-800">{t("jobSearch.title")}</h1>
-        <p className="mt-2 text-neutral-500">{t("jobSearch.description")}</p>
+        <p className="mt-2 text-base text-neutral-500">{t("jobSearch.description")}</p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         {sections.map((s) => (

@@ -37,10 +37,10 @@ export function TopNav() {
           <button
             ref={menuButtonRef}
             onClick={() => setMobileOpen(true)}
-            className="rounded-lg p-2 text-neutral-600 hover:bg-neutral-100"
+            className="rounded-lg p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-neutral-600 hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
             aria-label={t("common.openMenu")}
           >
-            <Menu className="h-5 w-5" />
+            <Menu className="h-5 w-5" aria-hidden="true" />
           </button>
           <Link href="/" className="flex items-center gap-2">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-neutral-900">
@@ -70,10 +70,10 @@ export function TopNav() {
               <span className="text-base font-semibold text-neutral-800">CareerReady</span>
               <button
                 onClick={closeMobileNav}
-                className="rounded-lg p-2 text-neutral-600 hover:bg-neutral-100"
+                className="rounded-lg p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-neutral-600 hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
                 aria-label={t("common.closeMenu")}
               >
-                <X className="h-5 w-5" />
+                <X className="h-5 w-5" aria-hidden="true" />
               </button>
             </div>
             <nav className="px-3 py-4">
@@ -86,13 +86,13 @@ export function TopNav() {
                         href={tool.href}
                         onClick={closeMobileNav}
                         className={cn(
-                          "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium",
+                          "flex items-center gap-3 rounded-lg px-3 py-2.5 min-h-[44px] text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400",
                           isActive
                             ? "bg-primary-50 text-primary-700"
                             : "text-neutral-600 hover:bg-neutral-100"
                         )}
                       >
-                        <tool.icon className="h-5 w-5" />
+                        <tool.icon className="h-5 w-5" aria-hidden="true" />
                         {tool.nameKey ? t(tool.nameKey) : tool.name}
                       </Link>
                     </li>

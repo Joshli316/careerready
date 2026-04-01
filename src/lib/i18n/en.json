@@ -11,6 +11,7 @@
     "tryAgain": "Try again",
     "goBack": "Back to",
     "getStartedFree": "Get Started Free",
+    "seeTheTools": "See the Tools",
     "skipToContent": "Skip to content",
     "backToDashboard": "Back to dashboard",
     "preview": "Preview",
@@ -49,7 +50,8 @@
     "removeBullet": "Remove bullet point",
     "addBullet": "+ Add bullet",
     "next": "Next",
-    "untitled": "Untitled"
+    "untitled": "Untitled",
+    "opensInNewTab": "opens in new tab"
   },
   "nav": {
     "home": "Home",
@@ -66,12 +68,12 @@
     "knowYourself": {
       "name": "Know Yourself",
       "shortDesc": "Figure out your skills, values, and brand before you start applying.",
-      "longDesc": "Walk into every application knowing exactly what you bring to the table."
+      "longDesc": "Map your skills, write a brand statement, and build a 30-second pitch. Everything here feeds into your resume."
     },
     "applications": {
       "name": "Applications",
       "shortDesc": "Tips and a master form that saves you from re-typing your info.",
-      "longDesc": "Stop re-typing the same info. One master form fills every application."
+      "longDesc": "Keep one master form with all your info. Pull from it whenever an employer asks the same questions again."
     },
     "resumes": {
       "name": "Resumes",
@@ -81,7 +83,7 @@
     "interviews": {
       "name": "Interviews",
       "shortDesc": "Practice the STAR method, prep answers, and research companies.",
-      "longDesc": "Answer confidently with practiced STAR stories and AI-powered mock interviews."
+      "longDesc": "Write STAR stories, practice answering questions, and get feedback before the real thing."
     },
     "jobSearch": {
       "name": "Job Search",
@@ -91,12 +93,12 @@
     "socialMedia": {
       "name": "Social Media",
       "shortDesc": "Audit and clean up your profiles before employers look.",
-      "longDesc": "Clean up your profiles before employers Google you. Takes 10 minutes."
+      "longDesc": "Clean up your profiles before employers search for you online. Takes 10 minutes."
     },
     "landingTheJob": {
       "name": "Landing the Job",
       "shortDesc": "Workplace success tips and self-evaluation tracker.",
-      "longDesc": "Crush your first 90 days with workplace tips and a self-evaluation tracker."
+      "longDesc": "Nail your first 90 days with workplace habits and a monthly self-evaluation checklist."
     },
     "contactLog": {
       "name": "Contact Log",
@@ -111,45 +113,45 @@
   },
   "landing": {
     "heroTitle": "Land your first job, step by step.",
-    "heroSubtitle": "8 connected tools that guide you from identifying your strengths to acing the interview. Write once, auto-fill everywhere.",
+    "heroSubtitle": "8 connected tools that walk you from figuring out your strengths to nailing the interview. Built for new grads. Write once, auto-fill everywhere.",
     "seeHowItWorks": "See how it works",
-    "startKnowYourself": "Start Know Yourself",
+    "startKnowYourself": "Start with Your Strengths",
     "yourToolkit": "Your Toolkit",
-    "trustBadge": "Built on a career readiness curriculum that has guided 10,000+ graduates into their first jobs.",
+    "trustBadge": "No sign-up. No paywall. Just open a tool and start typing.",
     "benefits": {
       "noAccount": "Start instantly, no account needed",
       "privateData": "Keep your data private in your browser",
       "autoFill": "Auto-fill your resume from your skills inventory",
       "exportPdf": "Export to PDF in one click",
-      "freeForever": "Free forever, no upsells"
+      "freeForever": "All 8 tools included, always free"
     },
     "howItWorks": "How It Works",
     "toolsNav": "Tools",
-    "phaseSectionTitle": "From self-discovery to signed offer.",
-    "phaseSectionSubtitle": "Three phases, eight tools. Work in order or jump to what you need. Your data flows between tools automatically.",
+    "phaseSectionTitle": "From \"what am I good at?\" to signed offer.",
+    "phaseSectionSubtitle": "Three phases, eight tools. Go in order or jump to what you need. What you write in one tool shows up in the others.",
     "phase1": {
-      "tagline": "Discover your strengths.",
-      "desc": "Before you apply anywhere, know what you bring to the table. Map your skills, rank your work values, and craft a 30-second elevator pitch.",
+      "tagline": "Figure out what you're actually good at.",
+      "desc": "Before you apply anywhere, get clear on what you bring. Map your skills, rank your work values, and write a 30-second pitch you can use at networking events.",
       "tools": ["Skills Inventory", "Work Values", "Focus Goals", "Power Statement"]
     },
     "phase2": {
-      "tagline": "Stand out from the crowd.",
-      "desc": "Your brand statement auto-fills into your resume, cover letter, and interview prep. Practice answers, search strategically, and apply with confidence.",
+      "tagline": "Build your resume. Prep your answers.",
+      "desc": "Your brand statement auto-fills into your resume, cover letter, and interview prep. Practice STAR stories, search job boards, and apply with materials that actually match the posting.",
       "tools": ["Resume Builder", "Cover Letters", "Interview Prep", "Job Search"]
     },
     "phase3": {
-      "tagline": "Land the job and thrive.",
-      "desc": "Log every application, set follow-up reminders, and get tips for your first 90 days on the job. Nothing slips through the cracks.",
+      "tagline": "Track applications. Crush your first 90 days.",
+      "desc": "Log every application you send, set follow-up reminders so nothing falls through, and get a self-evaluation checklist for your first months on the job.",
       "tools": ["Contact Log", "Workplace Success", "Self-Evaluation"]
     },
-    "toolsGridTitle": "Eight tools that build on each other",
-    "toolsGridSubtitle": "Start with self-discovery, then build your materials, then go land the job. Each tool feeds the next.",
-    "quoteText": "Write your skills and brand statement once. They auto-fill your resume, cover letter, and interview prep.",
-    "quoteAttribution": "Write once. Use everywhere.",
-    "ctaTitle": "Ready? Start here.",
-    "ctaDesc": "Begin with Know Yourself. The skills and brand statement you write there auto-fill your resume, cover letter, and interview prep.",
+    "toolsGridTitle": "Pick a tool and start",
+    "toolsGridSubtitle": "We recommend going in order, but you can jump to whatever you need right now. Click any card to begin.",
+    "quoteText": "You write your skills and brand statement once in Know Yourself. After that, they auto-fill your resume, cover letter, and interview prep. No copy-pasting.",
+    "quoteAttribution": "That's the whole idea: write once, use everywhere.",
+    "ctaTitle": "Your first step takes 5 minutes.",
+    "ctaDesc": "Open Know Yourself, pick your top skills, and write a quick brand statement. Everything else builds from there.",
     "footer": {
-      "tagline": "Built for new grads who want to prep on their own schedule. Your data stays private in your browser.",
+      "tagline": "Job prep tools for new grads. Prep at your own pace. Data stays in your browser.",
       "coreTools": "Core Tools",
       "moreTools": "More Tools",
       "getStarted": "Get Started",
@@ -159,8 +161,8 @@
       "step2": "2. Build your resume",
       "step3": "3. Prep your STAR stories",
       "step4": "4. Track your applications",
-      "bottomLine": "100% free. No account required.",
-      "startNow": "Start your job prep now"
+      "bottomLine": "Free and open to everyone. Your data stays in your browser.",
+      "startNow": "Start your free job prep"
     }
   },
   "knowYourself": {
@@ -169,7 +171,7 @@
     "nextStep": "Next step:",
     "nextStepText": "Once you've identified your skills and brand statement, head to",
     "resumeBuilderLink": "Resume Builder",
-    "nextStepSuffix": "where your data auto-fills.",
+    "nextStepSuffix": "where your data auto-fills. Your skills and brand statement also flow into cover letters and interview prep.",
     "sections": {
       "beliefs": {
         "title": "Challenge Your Beliefs",
@@ -200,7 +202,7 @@
     "skills": {
       "title": "Transferable Skills Inventory",
       "description": "Identify the soft and hard skills you bring from all your experiences: jobs, internships, volunteer work, campus activities, and coursework.",
-      "callout": "Skills you select here will be available to auto-populate your resume and interview preparation.",
+      "callout": "Skills you pick here show up in your resume and interview prep automatically.",
       "softSkillsTitle": "Soft Skills",
       "softSkillsDesc": "People skills and personal qualities. Select all that apply. Aim for at least 5.",
       "hardSkillsTitle": "Hard Skills",
@@ -245,7 +247,7 @@
     "beliefs": {
       "title": "Challenge Your Belief System",
       "description": "Name what you believe about yourself, then turn challenges into positive statements.",
-      "callout": "Negative self-talk (\"I don't have enough experience\") kills interviews. This exercise helps you reframe those thoughts so you can talk about yourself confidently to employers.",
+      "callout": "\"I don't have enough experience\" — thoughts like this kill interviews. This exercise flips them so you can talk about yourself with confidence.",
       "positiveTitle": "Share positive beliefs about yourself",
       "iAm": "I am...",
       "iAmPlaceholder": "e.g., \"outgoing and get along well with others\"",
@@ -258,12 +260,13 @@
       "challengePlaceholder": "I have had a challenge with...",
       "solutionPlaceholder": "But I can overcome it by...",
       "addChallenge": "Add another challenge",
+      "removeChallenge": "Remove this challenge",
       "saveBeliefs": "Save Beliefs"
     },
     "branding": {
       "title": "Personal Branding",
       "description": "Write 1-2 sentences that tell employers what you're good at and why.",
-      "callout": "Your brand statement can be used on your resume, LinkedIn profile, and in networking conversations. It should be 1-2 sentences covering what you do best, who you serve, and how you do it uniquely.",
+      "callout": "This goes on your resume, LinkedIn, and anywhere you introduce yourself. Keep it to 1-2 sentences: what you do best, for whom, and what makes you different.",
       "identifyTitle": "Identify Your Brand",
       "fieldLabel": "Target Field / Industry",
       "fieldPlaceholder": "e.g., Marketing, Healthcare",
@@ -486,9 +489,9 @@
     "builder": {
       "title": "Resume Builder",
       "description": "Fill in each section and see your resume update in real time.",
-      "autoFillPrompt": "Auto-fill skills and profile from your Know Yourself data?",
+      "autoFillPrompt": "Pull in the skills and brand statement you wrote in Know Yourself?",
       "autoFill": "Auto-Fill",
-      "noDataCallout": "Complete the Know Yourself tools first to auto-populate your skills and profile overview here.",
+      "noDataCallout": "Head to Know Yourself first and fill out your skills and brand statement. Once you do, they'll auto-fill here.",
       "resumeTitle": "Resume Title",
       "resumeTitlePlaceholder": "e.g., Marketing Resume",
       "template": "Template",
@@ -526,7 +529,7 @@
       "linkedinLabel": "LinkedIn (optional)",
       "linkedinPlaceholder": "linkedin.com/in/yourname",
       "experience": "Experience",
-      "noExperience": "No experience added yet. Include jobs, internships, volunteer work, and campus roles.",
+      "noExperience": "No experience added yet. Include jobs, internships, volunteer work, and campus roles. Not sure what counts? Try the Experience Gap Solver in Applications.",
       "positionN": "Position {n}",
       "jobTitlePlaceholder": "Job Title",
       "companyPlaceholder": "Company",
@@ -538,7 +541,7 @@
     "coverLetter": {
       "title": "Cover Letter Builder",
       "description": "Write a cover letter in three paragraphs: why you're interested, what you bring, and next steps.",
-      "callout": "Don't repeat your resume. Instead, connect the dots between your experience and what this specific job needs. Tell them why you want to work there.",
+      "callout": "A cover letter isn't a repeat of your resume. Pick 1-2 experiences that match what the job posting asks for, explain how they connect, and say why this company specifically interests you.",
       "recipient": "Recipient",
       "hiringManagerName": "Hiring Manager Name",
       "hiringManagerPlaceholder": "\"Mr. Jim Howard\" or \"Hiring Manager\"",
@@ -637,7 +640,7 @@
   },
   "interviews": {
     "title": "Interviews",
-    "description": "Everything you need to get interview-ready, from stories to thank you notes.",
+    "description": "Prep your stories, practice answers, research companies, and write thank you notes.",
     "sections": {
       "storybank": {
         "title": "Storybank",
@@ -666,7 +669,7 @@
     },
     "starMethod": {
       "title": "Storybank",
-      "description": "Manage your behavioral interview stories. Rate quality, tag skills, and track question coverage.",
+      "description": "Write and polish your behavioral interview stories. Tag skills and track which questions you can answer.",
       "situation": "Situation",
       "situationDesc": "Share the situation you experienced.",
       "task": "Task",
@@ -680,7 +683,7 @@
       "deleteStoryTitle": "Delete Story",
       "deleteStoryConfirm": "This story will be permanently deleted.",
       "saveStories": "Save Stories",
-      "summary": "You have {count} {storyWord} ({complete} complete). Aim for 6-8 polished stories.",
+      "summary": "You have {count} {storyWord} ({complete} complete). Aim for 6-8 stories with all four STAR fields filled in.",
       "story": "story",
       "stories": "stories",
       "sampleQuestions": {
@@ -699,7 +702,7 @@
       "responsePlaceholder": "Write your response here...",
       "saveResponses": "Save Responses",
       "answeredCount": "{answered} of {total} questions answered",
-      "generalTips": "Every response should include these 4 points: (1) How your experience matches the job, (2) Use the employer's language with concrete examples, (3) A confident, positive answer, (4) Stay focused and don't overshare.",
+      "generalTips": "Hit these 4 points in every answer: (1) Connect your experience to the job, (2) Use their language with real examples, (3) Sound confident, not rehearsed, (4) Stay focused — don't ramble.",
       "powerStatementRef": "Your Power Statement (reference for Q1)",
       "powerStatementPrompt": "Write your Power Statement first. It's your answer to 'Tell me about yourself.'",
       "questions": {
@@ -981,7 +984,7 @@
     },
     "workplaceSuccess": {
       "title": "Long-Term Workplace Success",
-      "description": "Good habits at work keep you employed and get you promoted. Here's what managers actually look for.",
+      "description": "The habits that get you noticed and promoted. Here's what managers actually pay attention to.",
       "callout": "These habits matter at every stage of your career. Review them before your first week, then revisit monthly to stay on track.",
       "categories": {
         "workHabits": {
@@ -1038,7 +1041,7 @@
     "selfEvaluation": {
       "title": "New Employee Self-Evaluation",
       "description": "Track your progress at 1, 3, and 6 months. Rate yourself honestly on each item.",
-      "callout": "Most employers have a 3-6 month probationary period. Use this evaluation to identify areas for improvement before your formal review.",
+      "callout": "Most jobs have a 3-6 month probation period. Use this to spot weak areas before your boss does.",
       "ratingScale": "1 = Poor   2 = Fair   3 = Average   4 = Above Average   5 = Outstanding",
       "ratedCount": "Rated {rated} of {total} items.",
       "average": "Average: {avg} / 5.0",
@@ -1147,7 +1150,7 @@
     },
     "app": {
       "title": "Something went wrong",
-      "description": "An unexpected error occurred. Your saved data is safe."
+      "description": "Something broke on our end, not yours. Your saved data is safe in your browser."
     }
   }
 }

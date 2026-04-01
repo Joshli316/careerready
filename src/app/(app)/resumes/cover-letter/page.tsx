@@ -46,8 +46,11 @@ export default function CoverLetterPage() {
       if (letters.length > 0) setLetter(letters[0]);
       setProfile(p);
       if (resumes.length > 0) setSavedResume(resumes[0]);
+    }).catch((err) => {
+      console.error("[CoverLetter] Failed to load data:", err);
+      toast(t("common.saveFailed"), "error");
     });
-  }, [storage]);
+  }, [storage, toast, t]);
 
   const save = useCallback(async () => {
     try {
@@ -170,7 +173,7 @@ export default function CoverLetterPage() {
 
         {/* Preview */}
         <div className={`w-full md:w-[400px] shrink-0 ${showPreview ? "" : "hidden md:block"}`}>
-          <div className="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto rounded-xl border border-neutral-150 bg-white p-6 shadow-sm text-xs leading-relaxed space-y-3">
+          <div className="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto rounded-xl border border-neutral-150 bg-white p-6 shadow-sm text-xs sm:text-sm leading-relaxed space-y-3">
             <h3 className="text-sm font-medium text-neutral-500 mb-3">{t("common.preview")}</h3>
             <p className="text-neutral-500">{new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
             {letter.content.recipientName && (

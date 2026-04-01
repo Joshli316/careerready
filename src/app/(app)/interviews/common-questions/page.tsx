@@ -56,11 +56,11 @@ export default function CommonQuestionsPage() {
         .map(([question, answer]) => ({ question, answer, category: "common" }));
       await storage.setInterviewPrep({ ...prep, commonResponses });
       showSaved();
-      toast("Saved successfully", "success");
+      toast(t("common.savedSuccessfully"), "success");
     } catch {
-      toast("Failed to save. Please try again.", "error");
+      toast(t("common.saveFailed"), "error");
     }
-  }, [storage, responses, showSaved, toast]);
+  }, [storage, responses, showSaved, toast, t]);
 
   const answeredCount = Object.values(responses).filter((v) => v.trim()).length;
 

@@ -76,7 +76,7 @@ export default function JDDecoderPage() {
         setLoading(false);
       }
     },
-    [storage, stories, toast]
+    [storage, stories, toast, t]
   );
 
   const handleToggleChecklist = useCallback(

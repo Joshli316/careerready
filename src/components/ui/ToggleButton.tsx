@@ -21,6 +21,7 @@ export function ToggleButton({ label, checked, onToggle }: ToggleButtonProps) {
       }`}
     >
       <div
+        aria-hidden="true"
         className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border forced-colors:border-[ButtonText] ${
           checked ? "border-primary-400 bg-primary-400 forced-colors:bg-[Highlight]" : "border-neutral-300"
         }`}

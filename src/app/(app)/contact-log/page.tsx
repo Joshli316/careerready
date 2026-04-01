@@ -34,7 +34,7 @@ export default function ContactLogPage() {
   const [showForm, setShowForm] = useState(false);
   const [formCompany, setFormCompany] = useState("");
   const [formPosition, setFormPosition] = useState("");
-  const [formStatus, setFormStatus] = useState<ContactStatus>("applied");
+  const [formStatus, setFormStatus] = useState<ContactStatus>("saved");
   const [formNotes, setFormNotes] = useState("");
 
   // Edit state
@@ -68,14 +68,18 @@ export default function ContactLogPage() {
       createdAt: now,
       updatedAt: now,
     };
-    await storage.saveContact(contact);
-    setContacts(await storage.getContacts());
-    setFormCompany("");
-    setFormPosition("");
-    setFormStatus("applied");
-    setFormNotes("");
-    setShowForm(false);
-    toast(t("contactLog.contactAdded"));
+    try {
+      await storage.saveContact(contact);
+      setContacts(await storage.getContacts());
+      setFormCompany("");
+      setFormPosition("");
+      setFormStatus("saved");
+      setFormNotes("");
+      setShowForm(false);
+      toast(t("contactLog.contactAdded"));
+    } catch {
+      toast(t("contactLog.loadError"), "error");
+    }
   }, [storage, formCompany, formPosition, formStatus, formNotes, toast, t]);
 
   const startEditing = useCallback((contact: EmployerContact) => {
@@ -116,10 +120,14 @@ export default function ContactLogPage() {
       updatedAt: new Date().toISOString(),
     };
 
-    await storage.saveContact(updated);
-    setContacts(await storage.getContacts());
-    setEditingId(null);
-    toast(t("contactLog.contactUpdated"));
+    try {
+      await storage.saveContact(updated);
+      setContacts(await storage.getContacts());
+      setEditingId(null);
+      toast(t("contactLog.contactUpdated"));
+    } catch {
+      toast(t("contactLog.loadError"), "error");
+    }
   }, [
     editingId,
     editCompany,
@@ -140,20 +148,28 @@ export default function ContactLogPage() {
         status: newStatus,
         updatedAt: new Date().toISOString(),
       };
-      await storage.saveContact(updated);
-      setContacts(await storage.getContacts());
-      const translatedStatus = t(statusKeys[newStatus] ?? `contactLog.statuses.${newStatus}`);
-      toast(t("contactLog.statusChanged").replace("{status}", translatedStatus));
+      try {
+        await storage.saveContact(updated);
+        setContacts(await storage.getContacts());
+        const translatedStatus = t(statusKeys[newStatus] ?? `contactLog.statuses.${newStatus}`);
+        toast(t("contactLog.statusChanged").replace("{status}", translatedStatus));
+      } catch {
+        toast(t("contactLog.loadError"), "error");
+      }
     },
     [storage, toast, t]
   );
 
   const confirmDelete = useCallback(async () => {
     if (!deleteTarget) return;
-    await storage.deleteContact(deleteTarget.id);
-    setContacts(await storage.getContacts());
-    setDeleteTarget(null);
-    toast(t("contactLog.contactDeleted"));
+    try {
+      await storage.deleteContact(deleteTarget.id);
+      setContacts(await storage.getContacts());
+      setDeleteTarget(null);
+      toast(t("contactLog.contactDeleted"));
+    } catch {
+      toast(t("contactLog.loadError"), "error");
+    }
   }, [deleteTarget, storage, toast, t]);
 
   return (
@@ -165,8 +181,8 @@ export default function ContactLogPage() {
             {t("contactLog.description")}
           </p>
         </div>
-        <Button onClick={() => setShowForm(!showForm)} size="md" className="self-start sm:self-auto">
-          <Plus className="mr-1.5 h-4 w-4" />
+        <Button onClick={() => setShowForm(!showForm)} size="md" className="w-full sm:w-auto">
+          <Plus className="mr-1.5 h-4 w-4" aria-hidden="true" />
           {t("contactLog.addContact")}
         </Button>
       </div>
@@ -202,6 +218,10 @@ export default function ContactLogPage() {
           <p className="mt-1 text-sm text-neutral-500">
             {t("contactLog.emptyDesc")}
           </p>
+          <Button onClick={() => setShowForm(true)} size="md" className="mt-4">
+            <Plus className="mr-1.5 h-4 w-4" />
+            {t("contactLog.addContact")}
+          </Button>
         </div>
       ) : (
         <div className="space-y-3">

@@ -138,7 +138,7 @@ export default function SkillsPage() {
         <p className="mb-4 text-sm text-neutral-500">
           {t("knowYourself.skills.softSkillsDesc")}
         </p>
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
           {SOFT_SKILLS.map((skill) => (
               <ToggleButton
                 key={skill}
@@ -181,9 +181,10 @@ export default function SkillsPage() {
                   )}
                   <button
                     onClick={() => removeSkill(globalIdx)}
-                    className="ml-1 rounded-full p-0.5 hover:bg-primary-100"
+                    className="ml-1 rounded-full p-1 min-w-[28px] min-h-[28px] flex items-center justify-center hover:bg-primary-100"
+                    aria-label={`${t("common.remove")} ${skill.name}`}
                   >
-                    <X className="h-3 w-3" />
+                    <X className="h-3 w-3" aria-hidden="true" />
                   </button>
                 </span>
               );

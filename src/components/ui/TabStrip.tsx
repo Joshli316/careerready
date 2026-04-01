@@ -40,7 +40,7 @@ export function TabStrip({ tabs, activeId, onSelect, onAdd, addLabel = "New" }: 
       {onAdd && (
         <button
           onClick={onAdd}
-          className="flex items-center gap-1 rounded-lg border border-neutral-200 px-3 py-1.5 text-sm text-neutral-500 hover:border-primary-300 hover:text-primary-500 hover:bg-primary-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
+          className="flex items-center gap-1 rounded-lg border border-neutral-200 px-3 py-1.5 min-h-[44px] text-sm text-neutral-500 hover:border-primary-300 hover:text-primary-500 hover:bg-primary-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
         >
           <Plus className="h-3.5 w-3.5" />
           {addLabel}

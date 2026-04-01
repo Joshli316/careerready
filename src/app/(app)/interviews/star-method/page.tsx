@@ -87,11 +87,11 @@ export default function StarMethodPage() {
       };
       await storage.setInterviewPrep({ ...prep, starStories: stories });
       showSaved();
-      toast("Saved successfully", "success");
+      toast(t("common.savedSuccessfully"), "success");
     } catch {
-      toast("Failed to save. Please try again.", "error");
+      toast(t("common.saveFailed"), "error");
     }
-  }, [storage, stories, showSaved, toast]);
+  }, [storage, stories, showSaved, toast, t]);
 
   // Auto-save after deep-link story is added to state
   useEffect(() => {
@@ -150,7 +150,7 @@ export default function StarMethodPage() {
           { letter: "A", label: t("interviews.starMethod.action"), desc: t("interviews.starMethod.actionDesc") },
           { letter: "R", label: t("interviews.starMethod.result"), desc: t("interviews.starMethod.resultDesc") },
         ].map((item) => (
-          <div key={item.letter} className="rounded-lg border border-primary-200 bg-primary-50 p-3 text-center">
+          <div key={item.letter} className="rounded-lg border border-primary-200 bg-primary-50 p-2 sm:p-3 text-center">
             <div className="text-2xl font-bold text-primary-400">{item.letter}</div>
             <div className="text-xs font-medium text-primary-700">{item.label}</div>
             <div className="mt-1 text-xs text-primary-600 hidden sm:block">{item.desc}</div>
@@ -187,9 +187,9 @@ export default function StarMethodPage() {
             {stories.length > 1 && (
               <button
                 onClick={() => setDeleteIndex(activeIndex)}
-                className="flex items-center gap-1.5 text-sm text-error hover:text-red-700"
+                className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm text-error hover:text-red-700 hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error"
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash2 className="h-4 w-4" aria-hidden="true" />
                 {t("interviews.starMethod.deleteStory")}
               </button>
             )}

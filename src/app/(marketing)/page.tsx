@@ -106,22 +106,22 @@ function HomePage() {
               <span className="text-base font-semibold text-white">CareerReady</span>
             </Link>
             <nav aria-label="Main navigation" className="hidden items-center gap-1 md:flex">
-              <Link href="#how-it-works" className="rounded px-3 py-1.5 text-sm text-neutral-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue">
+              <a href="#how-it-works" className="rounded px-3 py-1.5 text-sm text-neutral-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue min-h-[44px] inline-flex items-center">
                 {t("landing.howItWorks")}
-              </Link>
-              <Link href="#tools" className="rounded px-3 py-1.5 text-sm text-neutral-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue">
+              </a>
+              <a href="#tools" className="rounded px-3 py-1.5 text-sm text-neutral-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue min-h-[44px] inline-flex items-center">
                 {t("landing.toolsNav")}
-              </Link>
+              </a>
             </nav>
           </div>
           <div className="flex items-center gap-3">
             <LanguageToggle />
-            <Link
+            <a
               href="#tools"
               className="rounded-lg bg-accent-blue px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-blue-hover min-h-[44px] inline-flex items-center"
             >
-              {t("common.getStartedFree")}
-            </Link>
+              {t("common.seeTheTools")}
+            </a>
           </div>
         </div>
       </header>
@@ -146,12 +146,12 @@ function HomePage() {
             >
               {t("common.getStartedFree")} <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link
+            <a
               href="#tools"
               className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/5 px-7 py-3.5 text-base font-medium text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark"
             >
               {t("landing.seeHowItWorks")} <ArrowRight className="h-4 w-4" />
-            </Link>
+            </a>
           </div>
 
           {/* App preview mockup */}
@@ -175,7 +175,7 @@ function HomePage() {
                   {mockupTools.map((mt) => (
                     <div key={mt.name} className={`rounded-lg ${mt.color} p-2.5`}>
                       <div className="h-1.5 w-6 rounded-full bg-black/10" />
-                      <div className="mt-1.5 text-[10px] font-medium text-neutral-700 leading-tight">{mt.name}</div>
+                      <div className="mt-1.5 text-[11px] font-medium text-neutral-700 leading-tight">{mt.name}</div>
                     </div>
                   ))}
                 </div>
@@ -191,7 +191,7 @@ function HomePage() {
       </section>
 
       {/* Benefits strip */}
-      <section aria-label="Key benefits" className="border-b border-neutral-150 bg-neutral-50 py-6">
+      <section aria-label="Key benefits" className="border-b border-neutral-150 bg-neutral-50 py-4 sm:py-6">
         <div className="mx-auto flex max-w-[1120px] flex-col items-center gap-3 px-6 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-8 sm:gap-y-2">
           {benefits.map((b) => (
             <span key={b} className="flex items-center gap-2 text-sm text-neutral-500">
@@ -224,7 +224,7 @@ function HomePage() {
                     <div className="mt-1 text-sm font-bold text-neutral-800">{phase.name}</div>
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {phase.tools.map((tool) => (
-                        <span key={tool} className="rounded-full bg-neutral-100 px-2.5 py-0.5 text-[11px] font-medium text-neutral-600">{tool}</span>
+                        <span key={tool} className="rounded-full bg-neutral-100 px-2.5 py-1 text-[11px] font-medium text-neutral-600">{tool}</span>
                       ))}
                     </div>
                   </div>
@@ -263,15 +263,18 @@ function HomePage() {
                 {/* Colored gradient header */}
                 <div className={`${cardHeaderGradient[tc.phase]} flex h-14 items-center justify-between px-5`}>
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/80 shadow-sm">
-                    <tc.icon className="h-5 w-5 text-neutral-700" />
+                    <tc.icon className="h-5 w-5 text-neutral-700" aria-hidden="true" />
                   </div>
-                  <span className="rounded-full bg-white/70 px-2 py-0.5 text-[11px] font-semibold text-neutral-600 shadow-sm">
+                  <span className="rounded-full bg-white/70 px-2 py-0.5 text-xs font-semibold text-neutral-600 shadow-sm">
                     {t(tc.phaseKey)}
                   </span>
                 </div>
                 {/* Card body */}
                 <div className="p-5">
-                  <h3 className="text-base font-semibold text-neutral-900">{tc.name}</h3>
+                  <h3 className="text-base font-semibold text-neutral-900 flex items-center justify-between">
+                    {tc.name}
+                    <ArrowRight className="h-4 w-4 text-neutral-300 transition-colors group-hover:text-accent-blue" />
+                  </h3>
                   <p className="mt-1.5 text-sm leading-relaxed text-neutral-500">{tc.desc}</p>
                 </div>
               </Link>
@@ -284,7 +287,7 @@ function HomePage() {
       <section className="py-24 md:py-32">
         <div className="mx-auto max-w-[800px] px-6 text-center">
           <div className="text-6xl font-bold text-neutral-200 leading-none" aria-hidden="true">&ldquo;</div>
-          <p className="-mt-4 text-2xl font-medium leading-relaxed text-neutral-800 md:text-3xl">
+          <p className="-mt-6 text-2xl font-medium leading-relaxed text-neutral-800 md:text-3xl">
             {t("landing.quoteText")}
           </p>
           <p className="mt-6 text-sm font-medium text-neutral-400">{t("landing.quoteAttribution")}</p>
@@ -303,9 +306,9 @@ function HomePage() {
           </p>
           <Link
             href="/know-yourself"
-            className="mt-8 inline-flex items-center gap-2 rounded-lg bg-accent-blue px-7 py-3.5 text-base font-medium text-white transition-colors hover:bg-accent-blue-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark"
+            className="mt-8 inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-accent-blue px-7 py-3.5 text-base font-medium text-white transition-colors hover:bg-accent-blue-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark"
           >
-            {t("landing.startKnowYourself")} <ArrowRight className="h-4 w-4" />
+            {t("landing.startKnowYourself")} <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
       </section>
@@ -313,7 +316,7 @@ function HomePage() {
       {/* Footer — dark */}
       <footer className="bg-surface-dark">
         <div className="mx-auto max-w-[1120px] px-6 py-16">
-          <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-4">
+          <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 md:grid-cols-4">
             <div>
               <div className="flex items-center gap-2">
                 <div className="flex h-7 w-7 items-center justify-center rounded-md bg-white">
@@ -326,8 +329,8 @@ function HomePage() {
               </p>
             </div>
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t("landing.footer.coreTools")}</h4>
-              <nav aria-label="Core Tools links" className="mt-3 flex flex-col gap-2">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">{t("landing.footer.coreTools")}</h4>
+              <nav aria-label="Core Tools links" className="mt-3 flex flex-col gap-3">
                 <Link href="/know-yourself" className="text-sm text-slate-400 hover:text-white transition-colors">{t("nav.knowYourself")}</Link>
                 <Link href="/resumes" className="text-sm text-slate-400 hover:text-white transition-colors">{t("landing.footer.resumeBuilder")}</Link>
                 <Link href="/interviews" className="text-sm text-slate-400 hover:text-white transition-colors">{t("landing.footer.interviewPrep")}</Link>
@@ -335,8 +338,8 @@ function HomePage() {
               </nav>
             </div>
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t("landing.footer.moreTools")}</h4>
-              <nav aria-label="More Tools links" className="mt-3 flex flex-col gap-2">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">{t("landing.footer.moreTools")}</h4>
+              <nav aria-label="More Tools links" className="mt-3 flex flex-col gap-3">
                 <Link href="/job-search" className="text-sm text-slate-400 hover:text-white transition-colors">{t("nav.jobSearch")}</Link>
                 <Link href="/social-media" className="text-sm text-slate-400 hover:text-white transition-colors">{t("nav.socialMedia")}</Link>
                 <Link href="/landing-the-job" className="text-sm text-slate-400 hover:text-white transition-colors">{t("nav.landingTheJob")}</Link>
@@ -344,8 +347,8 @@ function HomePage() {
               </nav>
             </div>
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t("landing.footer.getStarted")}</h4>
-              <nav aria-label="Get started links" className="mt-3 flex flex-col gap-2">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">{t("landing.footer.getStarted")}</h4>
+              <nav aria-label="Get started links" className="mt-3 flex flex-col gap-3">
                 <Link href="/know-yourself" className="text-sm text-slate-400 hover:text-white transition-colors">{t("landing.footer.step1")}</Link>
                 <Link href="/resumes/builder" className="text-sm text-slate-400 hover:text-white transition-colors">{t("landing.footer.step2")}</Link>
                 <Link href="/interviews/star-method" className="text-sm text-slate-400 hover:text-white transition-colors">{t("landing.footer.step3")}</Link>
@@ -354,7 +357,7 @@ function HomePage() {
             </div>
           </div>
           <div className="mt-12 border-t border-white/10 pt-6">
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-400">
               {t("landing.footer.bottomLine")}{" "}
               <Link href="/know-yourself" className="text-accent-blue hover:underline">{t("landing.footer.startNow")} &rarr;</Link>
             </p>
