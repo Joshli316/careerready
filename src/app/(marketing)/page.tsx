@@ -16,7 +16,7 @@ const cardHeaderGradient: Record<string, string> = {
 };
 
 function HomePage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const tools = toolsConfig.map((tc) => ({
     name: t(tc.nameKey),
@@ -133,7 +133,7 @@ function HomePage() {
         <div className="hero-orb-purple -right-32 top-16" aria-hidden="true" />
 
         <div className="relative z-10 mx-auto max-w-[1120px] text-center">
-          <h1 className="mx-auto max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-6xl md:text-[80px] md:leading-[0.95]">
+          <h1 className={`mx-auto max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-6xl ${language === "zh" ? "md:text-[64px]" : "md:text-[80px]"} md:leading-[0.95]`}>
             {t("landing.heroTitle")}
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-slate-300 md:text-xl">
