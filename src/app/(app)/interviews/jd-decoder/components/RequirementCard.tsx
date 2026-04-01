@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, ChevronRight, PenLine } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { JDRequirement, StoryMatch, GapItem } from "../types";
 import type { StarStory } from "@/types/interview";
 
@@ -14,6 +15,7 @@ interface RequirementCardProps {
 }
 
 export function RequirementCard({ requirement, match, gap, stories }: RequirementCardProps) {
+  const { t } = useLanguage();
   const [expanded, setExpanded] = useState(false);
   const matchedStory = match ? stories.find((s) => s.id === match.storyId) : null;
 
@@ -29,7 +31,7 @@ export function RequirementCard({ requirement, match, gap, stories }: Requiremen
                   : "bg-neutral-100 text-neutral-500"
               }`}
             >
-              {requirement.importance === "must_have" ? "Must Have" : "Nice to Have"}
+              {requirement.importance === "must_have" ? t("interviews.jdDecoder.mustHave") : t("interviews.jdDecoder.niceToHave")}
             </span>
             <span className="inline-block rounded bg-neutral-100 px-2 py-0.5 text-xs text-neutral-500">
               {requirement.category.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
@@ -64,7 +66,7 @@ export function RequirementCard({ requirement, match, gap, stories }: Requiremen
             className="flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700"
           >
             {expanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-            Matched: {matchedStory.question || `Story ${matchedStory.id.slice(0, 6)}`}
+            {t("interviews.jdDecoder.matchedLabel")} {matchedStory.question || `${t("interviews.starMethod.storyN").replace("{n}", matchedStory.id.slice(0, 6))}`}
           </button>
           {expanded && (
             <ul className="mt-2 ml-5 space-y-1">
@@ -84,7 +86,7 @@ export function RequirementCard({ requirement, match, gap, stories }: Requiremen
             className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700"
           >
             <PenLine className="h-3.5 w-3.5" />
-            Draft Story
+            {t("interviews.jdDecoder.draftStory")}
           </Link>
         </div>
       )}

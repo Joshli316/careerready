@@ -1,4 +1,7 @@
+"use client";
+
 import type { StarStory } from "@/types/interview";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { isStoryComplete } from "@/app/(app)/interviews/star-method/lib/storyUtils";
 
 const TARGET = 8;
@@ -8,6 +11,7 @@ interface Props {
 }
 
 export function StoryProgress({ stories }: Props) {
+  const { t } = useLanguage();
   const total = stories.length;
   const complete = stories.filter(isStoryComplete).length;
   const needsWork = total - complete;

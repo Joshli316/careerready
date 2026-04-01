@@ -9,9 +9,11 @@ import { usePdfExport } from "@/hooks/usePdfExport";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { useStorage } from "@/hooks/useStorage";
 import { useToast } from "@/components/ui/Toast";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Download, Copy, Eye, EyeOff } from "lucide-react";
 
 export default function ThankYouPage() {
+  const { t } = useLanguage();
   const storage = useStorage();
   const [interviewer, setInterviewer] = useState("");
   const [company, setCompany] = useState("");
@@ -42,16 +44,16 @@ export default function ThankYouPage() {
 
   const preview = `Dear ${interviewer || "[Interviewer Name]"},
 
-Thank you for meeting with me today. It was a pleasure to learn more about the ${position || "[Position]"} role and the team at ${company || "[Company]"}.
+${t("interviews.thankYou.templatePara1").replace("{position}", position || "[Position]").replace("{company}", company || "[Company]")}
 
-${highlights || "Our conversation confirmed that this role is a great match for what I do best. I'm looking forward to the possibility of joining the team."}
+${highlights || t("interviews.thankYou.templatePara2")}
 
-Feel free to reach out if you need anything else from me. I hope to hear from you soon.
+${t("interviews.thankYou.templatePara3")}
 
-Best Regards,
-${senderName || "[Your Name]"}
-${senderPhone || "[Your Phone]"}
-${senderEmail || "[Your Email]"}`;
+${t("common.bestRegards")}
+${senderName || t("common.yourName")}
+${senderPhone || t("common.yourPhone")}
+${senderEmail || t("common.yourEmail")}`;
 
   const copyToClipboard = useCallback(async () => {
     try {
@@ -60,54 +62,53 @@ ${senderEmail || "[Your Email]"}`;
       clearTimeout(copiedTimerRef.current);
       copiedTimerRef.current = setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast("Couldn't copy — try selecting the text manually.", "error");
+      toast(t("common.couldNotCopy"), "error");
     }
   }, [preview, toast]);
 
   return (
     <div>
-      <Breadcrumb href="/interviews" label="Interviews" />
+      <Breadcrumb href="/interviews" label={t("interviews.title")} />
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-800">Thank You Note Generator</h1>
+          <h1 className="text-2xl font-bold text-neutral-800">{t("interviews.thankYou.title")}</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Send a thank you note within 24 hours of your interview.
+            {t("interviews.thankYou.description")}
           </p>
         </div>
         <Button variant="ghost" size="sm" onClick={() => setShowPreview(!showPreview)} className="md:hidden">
           {showPreview ? <EyeOff className="h-4 w-4 mr-1" /> : <Eye className="h-4 w-4 mr-1" />}
-          {showPreview ? "Edit" : "Preview"}
+          {showPreview ? t("common.edit") : t("common.preview")}
         </Button>
       </div>
 
       <Callout type="tip" className="mb-6">
-        A quick thank you note makes you stand out. Most candidates skip this step.
-        Send it within 24 hours while the conversation is still fresh.
+        {t("interviews.thankYou.callout")}
       </Callout>
 
       <div className="flex flex-col gap-6 md:flex-row">
         <div className={`flex-1 space-y-4 ${showPreview ? "hidden md:block" : ""}`}>
           <div className="rounded-xl border border-neutral-150 bg-white p-5 shadow-sm space-y-4">
-            <Input label="Interviewer Name" value={interviewer} onChange={(e) => setInterviewer(e.target.value)} placeholder="e.g., Ms. Johnson" />
-            <Input label="Company" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company name" />
-            <Input label="Position" value={position} onChange={(e) => setPosition(e.target.value)} placeholder="Position you interviewed for" />
-            <Textarea label="Key Discussion Points / Why You're Excited" value={highlights} onChange={(e) => setHighlights(e.target.value)} rows={4} placeholder="Mention specific things discussed, what excited you about the role..." />
+            <Input label={t("interviews.thankYou.interviewerName")} value={interviewer} onChange={(e) => setInterviewer(e.target.value)} placeholder={t("interviews.thankYou.interviewerPlaceholder")} />
+            <Input label={t("interviews.thankYou.company")} value={company} onChange={(e) => setCompany(e.target.value)} placeholder={t("interviews.thankYou.companyPlaceholder")} />
+            <Input label={t("interviews.thankYou.position")} value={position} onChange={(e) => setPosition(e.target.value)} placeholder={t("interviews.thankYou.positionPlaceholder")} />
+            <Textarea label={t("interviews.thankYou.keyPoints")} value={highlights} onChange={(e) => setHighlights(e.target.value)} rows={4} placeholder={t("interviews.thankYou.keyPointsPlaceholder")} />
           </div>
           <div className="flex gap-3">
             <Button variant="secondary" onClick={copyToClipboard}>
               <Copy className="mr-1.5 h-4 w-4" />
-              {copied ? "Copied!" : "Copy to Clipboard"}
+              {copied ? t("common.copied") : t("common.copyToClipboard")}
             </Button>
             <Button variant="secondary" onClick={() => exportThankYou({ interviewer, company, position, body: preview, senderName: senderName || undefined, senderPhone: senderPhone || undefined, senderEmail: senderEmail || undefined })} disabled={exporting}>
               <Download className="mr-1.5 h-4 w-4" />
-              {exporting ? "Exporting..." : "Export PDF"}
+              {exporting ? t("common.exporting") : t("common.exportPdf")}
             </Button>
           </div>
         </div>
 
         <div className={`w-full md:w-[400px] shrink-0 ${showPreview ? "" : "hidden md:block"}`}>
           <div className="sticky top-20 rounded-xl border border-neutral-150 bg-white p-6 shadow-sm">
-            <h3 className="mb-3 text-sm font-medium text-neutral-500">Preview</h3>
+            <h3 className="mb-3 text-sm font-medium text-neutral-500">{t("common.preview")}</h3>
             <pre className="whitespace-pre-wrap text-xs leading-relaxed text-neutral-700 font-sans">{preview}</pre>
           </div>
         </div>

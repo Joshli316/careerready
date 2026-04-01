@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { MockInterviewSession } from "../types";
 
 interface SessionSummaryProps {
@@ -17,13 +18,15 @@ interface SessionSummaryProps {
 }
 
 export function SessionSummary({ session, summaryData, loading, onNewSession }: SessionSummaryProps) {
+  const { t } = useLanguage();
+
   if (loading) {
     return (
       <div className="space-y-4 animate-pulse">
         <div className="h-6 w-48 rounded bg-neutral-200" />
         <div className="h-32 rounded-xl bg-neutral-100" />
         <div className="h-24 rounded-xl bg-neutral-100" />
-        <p className="text-center text-sm text-neutral-500">Reviewing your full interview...</p>
+        <p className="text-center text-sm text-neutral-500">{t("interviews.mockInterview.reviewingFull")}</p>
       </div>
     );
   }
@@ -32,9 +35,9 @@ export function SessionSummary({ session, summaryData, loading, onNewSession }: 
     <div className="space-y-6">
       <div className="rounded-xl border border-neutral-150 bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-neutral-800">How You Did</h3>
+          <h3 className="text-lg font-semibold text-neutral-800">{t("interviews.mockInterview.howYouDid")}</h3>
           <span className="text-sm text-neutral-500">
-            {session.exchanges.length} answers reviewed
+            {t("interviews.mockInterview.answersReviewed").replace("{count}", String(session.exchanges.length))}
           </span>
         </div>
 
@@ -49,14 +52,14 @@ export function SessionSummary({ session, summaryData, loading, onNewSession }: 
                 </span>
               </div>
               <div>
-                <p className="text-xs font-medium uppercase text-neutral-500">Interview Readiness</p>
+                <p className="text-xs font-medium uppercase text-neutral-500">{t("interviews.mockInterview.interviewReadiness")}</p>
                 <p className="text-sm text-neutral-600">{summaryData.confidenceNote}</p>
               </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-lg border border-green-200 bg-green-50 p-4">
-                <h4 className="text-xs font-medium uppercase text-green-700 mb-2">What Went Well</h4>
+                <h4 className="text-xs font-medium uppercase text-green-700 mb-2">{t("interviews.mockInterview.whatWentWell")}</h4>
                 <ul className="space-y-1">
                   {summaryData.strengths.map((s, i) => (
                     <li key={i} className="text-sm text-green-800 list-disc ml-4">{s}</li>
@@ -64,7 +67,7 @@ export function SessionSummary({ session, summaryData, loading, onNewSession }: 
                 </ul>
               </div>
               <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
-                <h4 className="text-xs font-medium uppercase text-amber-700 mb-2">Work On Next</h4>
+                <h4 className="text-xs font-medium uppercase text-amber-700 mb-2">{t("interviews.mockInterview.workOnNext")}</h4>
                 <ul className="space-y-1">
                   {summaryData.improvements.map((s, i) => (
                     <li key={i} className="text-sm text-amber-800 list-disc ml-4">{s}</li>
@@ -74,13 +77,12 @@ export function SessionSummary({ session, summaryData, loading, onNewSession }: 
             </div>
           </div>
         ) : (
-          <p className="text-sm text-neutral-500">{session.summary || "Summary not available for this session."}</p>
+          <p className="text-sm text-neutral-500">{session.summary || t("interviews.mockInterview.summaryUnavailable")}</p>
         )}
       </div>
 
-      {/* Exchange review */}
       <div>
-        <h3 className="mb-3 text-lg font-semibold text-neutral-800">Your Answers</h3>
+        <h3 className="mb-3 text-lg font-semibold text-neutral-800">{t("interviews.mockInterview.yourAnswers")}</h3>
         <div className="space-y-3">
           {session.exchanges.map((ex, i) => (
             <div key={i} className="rounded-xl border border-neutral-150 bg-white p-4 shadow-sm">
@@ -96,7 +98,7 @@ export function SessionSummary({ session, summaryData, loading, onNewSession }: 
       </div>
 
       <div className="flex justify-center">
-        <Button onClick={onNewSession}>Practice Again</Button>
+        <Button onClick={onNewSession}>{t("interviews.mockInterview.practiceAgain")}</Button>
       </div>
     </div>
   );

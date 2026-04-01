@@ -4,80 +4,25 @@ import { useState, useEffect, useCallback } from "react";
 import { useStorage } from "@/hooks/useStorage";
 import { useSaveIndicator } from "@/hooks/useSaveIndicator";
 import { useToast } from "@/components/ui/Toast";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { CheckCircle, ChevronDown, ChevronUp } from "lucide-react";
 import type { InterviewResponse, InterviewPrep } from "@/types/interview";
+import en from "@/lib/i18n/en.json";
+import zh from "@/lib/i18n/zh.json";
 
-const QUESTIONS: Array<{ question: string; tips: string[] }> = [
-  {
-    question: "Tell me about yourself.",
-    tips: [
-      "Keep your response related to the job you are seeking.",
-      "Use your power statement as a starting point.",
-      "Highlight education, relevant experience, and key skills.",
-    ],
-  },
-  {
-    question: "Why are you the best person for this job?",
-    tips: [
-      "Match your qualifications to the job description.",
-      "Describe specific skills and experience you bring.",
-      "Back up each claim with a specific example.",
-    ],
-  },
-  {
-    question: "Why do you want to work here?",
-    tips: [
-      "Include information learned through researching the company.",
-      "Convey enthusiasm about the company and the role.",
-      "Show you understand the company's mission and values.",
-    ],
-  },
-  {
-    question: "What are your strengths?",
-    tips: [
-      "Identify 3 skills that qualify you for the job.",
-      "Be genuine. Choose strengths you can back up with examples.",
-      "Provide specific examples for each strength.",
-    ],
-  },
-  {
-    question: "What are your weaknesses?",
-    tips: [
-      "Choose a skill you've actively worked to improve.",
-      "Describe the steps you've taken to improve.",
-      "Don't mention weaknesses that would disqualify you.",
-    ],
-  },
-  {
-    question: "How would co-workers describe you?",
-    tips: [
-      "Share personality traits that match the job and culture.",
-      "Talk about how you work with others day to day.",
-    ],
-  },
-  {
-    question: "Why did you leave your last job?",
-    tips: [
-      "Be honest, but don't criticize your last employer.",
-      "Stay positive and focus on what you learned.",
-      "Frame it as seeking growth or new opportunities.",
-    ],
-  },
-  {
-    question: "Where do you see yourself in five years?",
-    tips: [
-      "Mention career goals that align with the company.",
-      "State that you see yourself advancing within the company.",
-      "Show ambition while being realistic.",
-    ],
-  },
-];
+const QUESTION_KEYS = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8"] as const;
 
 export default function CommonQuestionsPage() {
+  const { t, language } = useLanguage();
+  const translations = language === "zh" ? zh : en;
+  const QUESTIONS = QUESTION_KEYS.map((key) => ({
+    question: translations.interviews.commonQuestions.questions[key].question,
+    tips: translations.interviews.commonQuestions.questions[key].tips,
+  }));
   const storage = useStorage();
   const [responses, setResponses] = useState<Record<string, string>>({});
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
@@ -121,45 +66,49 @@ export default function CommonQuestionsPage() {
 
   return (
     <div>
-      <Breadcrumb href="/interviews" label="Interviews" />
+      <Breadcrumb href="/interviews" label={t("interviews.title")} />
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-800">Common Interview Questions</h1>
+          <h1 className="text-2xl font-bold text-neutral-800">{t("interviews.commonQuestions.title")}</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Prepare answers to the 8 most common interview questions.
+            {t("interviews.commonQuestions.description")}
           </p>
         </div>
         {saved && (
           <div className="flex items-center gap-1.5 text-sm text-success">
             <CheckCircle className="h-4 w-4" />
-            Saved
+            {t("common.saved")}
           </div>
         )}
       </div>
 
       <Callout type="tip" className="mb-6">
-        <strong>Every response should include these 4 points:</strong> (1) How your experience matches the job,
-        (2) Use the employer's language with concrete examples, (3) A confident, positive answer,
-        (4) Stay focused and don't overshare.
+        {t("interviews.commonQuestions.generalTips")}
       </Callout>
 
       {powerStatement ? (
         <div className="mb-6 rounded-lg border border-primary-100 bg-primary-50 p-4">
-          <div className="mb-1 text-xs font-medium text-primary-600">Your Power Statement (reference for Q1)</div>
+          <div className="mb-1 text-xs font-medium text-primary-600">{t("interviews.commonQuestions.powerStatementRef")}</div>
           <p className="text-sm text-primary-800 italic">&ldquo;{powerStatement}&rdquo;</p>
         </div>
       ) : (
         <div className="mb-6 rounded-lg border border-neutral-200 bg-neutral-50 p-4">
           <p className="text-sm text-neutral-600">
-            Write your{" "}
-            <a href="/know-yourself/power-statement" className="font-medium text-primary-600 underline hover:text-primary-700">Power Statement</a>{" "}
-            first. It&apos;s your answer to &ldquo;Tell me about yourself.&rdquo;
+            {t("interviews.commonQuestions.powerStatementPrompt").split("Power Statement").map((part, i, arr) =>
+              i < arr.length - 1 ? (
+                <span key={i}>{part}<a href="/know-yourself/power-statement" className="font-medium text-primary-600 underline hover:text-primary-700">Power Statement</a></span>
+              ) : (
+                <span key={i}>{part}</span>
+              )
+            )}
           </p>
         </div>
       )}
 
       <div className="mb-4 text-sm text-neutral-500">
-        {answeredCount} of {QUESTIONS.length} questions answered
+        {t("interviews.commonQuestions.answeredCount")
+          .replace("{answered}", String(answeredCount))
+          .replace("{total}", String(QUESTIONS.length))}
       </div>
 
       <div className="space-y-3">
@@ -186,7 +135,7 @@ export default function CommonQuestionsPage() {
               {isExpanded && (
                 <div className="border-t border-neutral-100 p-4">
                   <div className="mb-3 rounded-lg bg-neutral-50 p-3">
-                    <div className="mb-1 text-xs font-medium text-neutral-500">Tips for this question:</div>
+                    <div className="mb-1 text-xs font-medium text-neutral-500">{t("interviews.commonQuestions.tipsLabel")}</div>
                     <ul className="space-y-1">
                       {q.tips.map((tip, j) => (
                         <li key={j} className="flex gap-2 text-sm text-neutral-600">
@@ -197,7 +146,7 @@ export default function CommonQuestionsPage() {
                     </ul>
                   </div>
                   <Textarea
-                    placeholder="Write your response here..."
+                    placeholder={t("interviews.commonQuestions.responsePlaceholder")}
                     value={responses[q.question] ?? ""}
                     onChange={(e) => setResponses({ ...responses, [q.question]: e.target.value })}
                     rows={4}
@@ -210,7 +159,7 @@ export default function CommonQuestionsPage() {
       </div>
 
       <div className="mt-6 flex justify-end">
-        <Button onClick={save} size="lg">Save Responses</Button>
+        <Button onClick={save} size="lg">{t("interviews.commonQuestions.saveResponses")}</Button>
       </div>
     </div>
   );

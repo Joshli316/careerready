@@ -1,6 +1,7 @@
 "use client";
 
 import { ToggleButton } from "@/components/ui/ToggleButton";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { PrepChecklistItem } from "../types";
 
 interface PrepChecklistProps {
@@ -8,21 +9,23 @@ interface PrepChecklistProps {
   onToggle: (id: string) => void;
 }
 
-const groupLabels: Record<PrepChecklistItem["type"], string> = {
-  polish_story: "Strengthen Matched Stories",
-  draft_new_story: "Write New Stories",
-  research: "Research",
-  practice: "Practice",
-};
-
-const groupOrder: PrepChecklistItem["type"][] = [
-  "polish_story",
-  "draft_new_story",
-  "research",
-  "practice",
-];
-
 export function PrepChecklist({ items, onToggle }: PrepChecklistProps) {
+  const { t } = useLanguage();
+
+  const groupLabels: Record<PrepChecklistItem["type"], string> = {
+    polish_story: t("interviews.jdDecoder.checklistPolishStory"),
+    draft_new_story: t("interviews.jdDecoder.checklistDraftNewStory"),
+    research: t("interviews.jdDecoder.checklistResearch"),
+    practice: t("interviews.jdDecoder.checklistPractice"),
+  };
+
+  const groupOrder: PrepChecklistItem["type"][] = [
+    "polish_story",
+    "draft_new_story",
+    "research",
+    "practice",
+  ];
+
   const doneCount = items.filter((i) => i.done).length;
   const progress = items.length > 0 ? Math.round((doneCount / items.length) * 100) : 0;
 
@@ -44,7 +47,7 @@ export function PrepChecklist({ items, onToggle }: PrepChecklistProps) {
           />
         </div>
         <span className="text-sm font-medium text-neutral-600">
-          {doneCount}/{items.length} done
+          {t("interviews.jdDecoder.checklistProgress").replace("{done}", String(doneCount)).replace("{total}", String(items.length))}
         </span>
       </div>
       {grouped.map((group) => (

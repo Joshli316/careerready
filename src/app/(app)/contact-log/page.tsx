@@ -12,19 +12,21 @@ import type { EmployerContact, ContactStatus } from "@/types/contact";
 import { ContactStats } from "./components/ContactStats";
 import { ContactForm } from "./components/ContactForm";
 import { ContactCard } from "./components/ContactCard";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
-const statusLabels: Record<string, { label: string }> = {
-  saved: { label: "Saved" },
-  applied: { label: "Applied" },
-  phone_screen: { label: "Phone Screen" },
-  interview: { label: "Interview" },
-  follow_up: { label: "Follow Up" },
-  offer: { label: "Offer" },
-  rejected: { label: "Rejected" },
-  accepted: { label: "Accepted" },
+const statusKeys: Record<string, string> = {
+  saved: "contactLog.statuses.saved",
+  applied: "contactLog.statuses.applied",
+  phone_screen: "contactLog.statuses.phoneScreen",
+  interview: "contactLog.statuses.interview",
+  follow_up: "contactLog.statuses.followUp",
+  offer: "contactLog.statuses.offer",
+  rejected: "contactLog.statuses.rejected",
+  accepted: "contactLog.statuses.accepted",
 };
 
 export default function ContactLogPage() {
+  const { t } = useLanguage();
   const storage = useStorage();
   const { toast } = useToast();
   const [contacts, setContacts] = useState<EmployerContact[]>([]);
@@ -49,9 +51,9 @@ export default function ContactLogPage() {
   useEffect(() => {
     storage.getContacts()
       .then((data) => setContacts(data))
-      .catch(() => toast("Could not load contacts", "error"))
+      .catch(() => toast(t("contactLog.loadError"), "error"))
       .finally(() => setLoading(false));
-  }, [storage, toast]);
+  }, [storage, toast, t]);
 
   const addContact = useCallback(async () => {
     if (!formCompany.trim() || !formPosition.trim()) return;
@@ -73,8 +75,8 @@ export default function ContactLogPage() {
     setFormStatus("applied");
     setFormNotes("");
     setShowForm(false);
-    toast("Contact added");
-  }, [storage, formCompany, formPosition, formStatus, formNotes, toast]);
+    toast(t("contactLog.contactAdded"));
+  }, [storage, formCompany, formPosition, formStatus, formNotes, toast, t]);
 
   const startEditing = useCallback((contact: EmployerContact) => {
     setEditingId(contact.id);
@@ -96,7 +98,7 @@ export default function ContactLogPage() {
   const saveEdit = useCallback(async () => {
     if (!editingId) return;
     if (!editCompany.trim() || !editPosition.trim()) {
-      toast("Company and position are required.", "error");
+      toast(t("contactLog.validationError"), "error");
       return;
     }
     const existing = contacts.find((c) => c.id === editingId);
@@ -117,7 +119,7 @@ export default function ContactLogPage() {
     await storage.saveContact(updated);
     setContacts(await storage.getContacts());
     setEditingId(null);
-    toast("Contact updated");
+    toast(t("contactLog.contactUpdated"));
   }, [
     editingId,
     editCompany,
@@ -128,6 +130,7 @@ export default function ContactLogPage() {
     contacts,
     storage,
     toast,
+    t,
   ]);
 
   const handleStatusChange = useCallback(
@@ -139,9 +142,10 @@ export default function ContactLogPage() {
       };
       await storage.saveContact(updated);
       setContacts(await storage.getContacts());
-      toast(`Status changed to ${statusLabels[newStatus]?.label ?? newStatus}`);
+      const translatedStatus = t(statusKeys[newStatus] ?? `contactLog.statuses.${newStatus}`);
+      toast(t("contactLog.statusChanged").replace("{status}", translatedStatus));
     },
-    [storage, toast]
+    [storage, toast, t]
   );
 
   const confirmDelete = useCallback(async () => {
@@ -149,21 +153,21 @@ export default function ContactLogPage() {
     await storage.deleteContact(deleteTarget.id);
     setContacts(await storage.getContacts());
     setDeleteTarget(null);
-    toast("Contact deleted");
-  }, [deleteTarget, storage, toast]);
+    toast(t("contactLog.contactDeleted"));
+  }, [deleteTarget, storage, toast, t]);
 
   return (
     <div>
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-neutral-800">Contact Log</h1>
+          <h1 className="text-3xl font-bold text-neutral-800">{t("contactLog.title")}</h1>
           <p className="mt-2 text-neutral-500">
-            Track every application, follow-up, and employer interaction.
+            {t("contactLog.description")}
           </p>
         </div>
         <Button onClick={() => setShowForm(!showForm)} size="md" className="self-start sm:self-auto">
           <Plus className="mr-1.5 h-4 w-4" />
-          Add Contact
+          {t("contactLog.addContact")}
         </Button>
       </div>
 
@@ -194,9 +198,9 @@ export default function ContactLogPage() {
       {contacts.length === 0 ? (
         <div className="rounded-xl border-2 border-dashed border-neutral-200 p-12 text-center">
           <Building2 className="mx-auto h-10 w-10 text-neutral-300" />
-          <h3 className="mt-4 font-semibold text-neutral-700">Your job search starts here</h3>
+          <h3 className="mt-4 font-semibold text-neutral-700">{t("contactLog.emptyTitle")}</h3>
           <p className="mt-1 text-sm text-neutral-500">
-            Add your first company to keep track of every application, follow-up, and offer.
+            {t("contactLog.emptyDesc")}
           </p>
         </div>
       ) : (
@@ -231,13 +235,13 @@ export default function ContactLogPage() {
       {/* Delete confirmation dialog */}
       <ConfirmDialog
         open={deleteTarget !== null}
-        title="Delete Contact"
+        title={t("contactLog.deleteTitle")}
         message={
           deleteTarget
-            ? `Are you sure you want to delete "${deleteTarget.companyName}"? This action cannot be undone.`
+            ? t("contactLog.deleteConfirm").replace("{name}", deleteTarget.companyName)
             : ""
         }
-        confirmLabel="Delete"
+        confirmLabel={t("common.delete")}
         onConfirm={confirmDelete}
         onCancel={() => setDeleteTarget(null)}
       />

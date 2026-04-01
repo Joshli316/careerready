@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useStorage } from "@/hooks/useStorage";
 import { useSaveIndicator } from "@/hooks/useSaveIndicator";
 import { useToast } from "@/components/ui/Toast";
@@ -17,6 +18,7 @@ import type { CoverLetter, Resume } from "@/types/resume";
 import { AICoverLetterForm } from "./components/AICoverLetterForm";
 
 export default function CoverLetterPage() {
+  const { t } = useLanguage();
   const storage = useStorage();
   const [savedResume, setSavedResume] = useState<Resume | null>(null);
   const [letter, setLetter] = useState<CoverLetter>({
@@ -51,11 +53,11 @@ export default function CoverLetterPage() {
     try {
       await storage.saveCoverLetter(letter);
       showSaved();
-      toast("Saved successfully", "success");
+      toast(t("resumes.coverLetter.savedSuccessfully"), "success");
     } catch {
-      toast("Failed to save cover letter. Please try again.", "error");
+      toast(t("resumes.coverLetter.saveFailed"), "error");
     }
-  }, [storage, letter, showSaved, toast]);
+  }, [storage, letter, showSaved, toast, t]);
 
   function updateContent(field: keyof CoverLetter["content"], value: string) {
     setLetter({ ...letter, content: { ...letter.content, [field]: value } });
@@ -63,26 +65,25 @@ export default function CoverLetterPage() {
 
   return (
     <div>
-      <Breadcrumb href="/resumes" label="Resumes" />
+      <Breadcrumb href="/resumes" label={t("resumes.title")} />
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-800">Cover Letter Builder</h1>
+          <h1 className="text-2xl font-bold text-neutral-800">{t("resumes.coverLetter.title")}</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Write a cover letter in three paragraphs: why you're interested, what you bring, and next steps.
+            {t("resumes.coverLetter.description")}
           </p>
         </div>
         <div className="flex items-center gap-2">
           <SavedIndicator visible={saved} />
           <Button variant="ghost" size="sm" onClick={() => setShowPreview(!showPreview)} className="md:hidden">
             {showPreview ? <EyeOff className="h-4 w-4 mr-1" /> : <Eye className="h-4 w-4 mr-1" />}
-            {showPreview ? "Edit" : "Preview"}
+            {showPreview ? t("common.edit") : t("common.preview")}
           </Button>
         </div>
       </div>
 
       <Callout type="tip" className="mb-6">
-        Don't repeat your resume. Instead, connect the dots between your experience and what this
-        specific job needs. Tell them why you want to work there.
+        {t("resumes.coverLetter.callout")}
       </Callout>
 
       <AICoverLetterForm
@@ -107,53 +108,53 @@ export default function CoverLetterPage() {
         <div className={`flex-1 space-y-6 ${showPreview ? "hidden md:block" : ""}`}>
           {/* Recipient */}
           <section className="rounded-xl border-l-4 border-l-primary-400 bg-white p-5 shadow-sm">
-            <h2 className="mb-4 text-lg font-semibold text-neutral-800">Recipient</h2>
+            <h2 className="mb-4 text-lg font-semibold text-neutral-800">{t("resumes.coverLetter.recipient")}</h2>
             <div className="grid gap-4 sm:grid-cols-2">
-              <Input label="Hiring Manager Name" placeholder='e.g., "Mr. Jim Howard" or "Hiring Manager"' value={letter.content.recipientName} onChange={(e) => updateContent("recipientName", e.target.value)} />
-              <Input label="Title (optional)" placeholder="e.g., HR Director" value={letter.content.recipientTitle} onChange={(e) => updateContent("recipientTitle", e.target.value)} />
-              <Input label="Company" placeholder="Company name" value={letter.content.company} onChange={(e) => updateContent("company", e.target.value)} />
-              <Input label="Address (optional)" placeholder="Street, City, State ZIP" value={letter.content.address} onChange={(e) => updateContent("address", e.target.value)} />
+              <Input label={t("resumes.coverLetter.hiringManagerName")} placeholder={t("resumes.coverLetter.hiringManagerPlaceholder")} value={letter.content.recipientName} onChange={(e) => updateContent("recipientName", e.target.value)} />
+              <Input label={t("resumes.coverLetter.titleOptional")} placeholder={t("resumes.coverLetter.titlePlaceholder")} value={letter.content.recipientTitle} onChange={(e) => updateContent("recipientTitle", e.target.value)} />
+              <Input label={t("resumes.coverLetter.company")} placeholder={t("resumes.coverLetter.companyPlaceholder")} value={letter.content.company} onChange={(e) => updateContent("company", e.target.value)} />
+              <Input label={t("resumes.coverLetter.addressOptional")} placeholder={t("resumes.coverLetter.addressPlaceholder")} value={letter.content.address} onChange={(e) => updateContent("address", e.target.value)} />
             </div>
           </section>
 
           {/* Paragraph 1 */}
           <section className="rounded-xl border-l-4 border-l-primary-400 bg-white p-5 shadow-sm">
-            <h2 className="mb-1 text-lg font-semibold text-neutral-800">Opening Paragraph</h2>
+            <h2 className="mb-1 text-lg font-semibold text-neutral-800">{t("resumes.coverLetter.openingParagraph")}</h2>
             <p className="mb-3 text-sm text-neutral-500">
-              State the position, how you heard about it, your top qualifications, and why you're interested.
+              {t("resumes.coverLetter.openingDesc")}
             </p>
             <Textarea
               value={letter.content.opening}
               onChange={(e) => updateContent("opening", e.target.value)}
-              placeholder="I'm applying for the [Position] I saw on [Source]. Here's why I'd be a good fit..."
+              placeholder={t("resumes.coverLetter.openingPlaceholder")}
               rows={5}
             />
           </section>
 
           {/* Paragraph 2 */}
           <section className="rounded-xl border-l-4 border-l-primary-400 bg-white p-5 shadow-sm">
-            <h2 className="mb-1 text-lg font-semibold text-neutral-800">Body Paragraph</h2>
+            <h2 className="mb-1 text-lg font-semibold text-neutral-800">{t("resumes.coverLetter.bodyParagraph")}</h2>
             <p className="mb-3 text-sm text-neutral-500">
-              Explain how your experience is relevant to the position. Mention unique skills or qualifications.
+              {t("resumes.coverLetter.bodyDesc")}
             </p>
             <Textarea
               value={letter.content.body}
               onChange={(e) => updateContent("body", e.target.value)}
-              placeholder="As a [your role/background], I gained valuable experience in..."
+              placeholder={t("resumes.coverLetter.bodyPlaceholder")}
               rows={6}
             />
           </section>
 
           {/* Paragraph 3 */}
           <section className="rounded-xl border-l-4 border-l-primary-400 bg-white p-5 shadow-sm">
-            <h2 className="mb-1 text-lg font-semibold text-neutral-800">Closing Paragraph</h2>
+            <h2 className="mb-1 text-lg font-semibold text-neutral-800">{t("resumes.coverLetter.closingParagraph")}</h2>
             <p className="mb-3 text-sm text-neutral-500">
-              Reiterate interest, mention follow-up timeline, and thank them.
+              {t("resumes.coverLetter.closingDesc")}
             </p>
             <Textarea
               value={letter.content.closing}
               onChange={(e) => updateContent("closing", e.target.value)}
-              placeholder="I'd welcome the chance to talk more about how my background fits this role. I'm available anytime next week..."
+              placeholder={t("resumes.coverLetter.closingPlaceholder")}
               rows={4}
             />
           </section>
@@ -161,16 +162,16 @@ export default function CoverLetterPage() {
           <div className="flex justify-end gap-3">
             <Button variant="secondary" size="lg" onClick={() => exportCoverLetter(letter, savedResume?.content?.contactInfo ? { name: savedResume.content.contactInfo.name, phone: savedResume.content.contactInfo.phone, email: savedResume.content.contactInfo.email } : undefined)} disabled={exporting}>
               <Download className="mr-1.5 h-4 w-4" />
-              {exporting ? "Exporting..." : "Export PDF"}
+              {exporting ? t("common.exporting") : t("common.exportPdf")}
             </Button>
-            <Button onClick={save} size="lg">Save Cover Letter</Button>
+            <Button onClick={save} size="lg">{t("resumes.coverLetter.saveCoverLetter")}</Button>
           </div>
         </div>
 
         {/* Preview */}
         <div className={`w-full md:w-[400px] shrink-0 ${showPreview ? "" : "hidden md:block"}`}>
           <div className="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto rounded-xl border border-neutral-150 bg-white p-6 shadow-sm text-xs leading-relaxed space-y-3">
-            <h3 className="text-sm font-medium text-neutral-500 mb-3">Preview</h3>
+            <h3 className="text-sm font-medium text-neutral-500 mb-3">{t("common.preview")}</h3>
             <p className="text-neutral-500">{new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
             {letter.content.recipientName && (
               <div className="text-neutral-700">
@@ -180,13 +181,13 @@ export default function CoverLetterPage() {
                 {letter.content.address && <div>{letter.content.address}</div>}
               </div>
             )}
-            <p className="text-neutral-700">Dear {letter.content.recipientName || "Hiring Manager"},</p>
+            <p className="text-neutral-700">{t("resumes.coverLetter.dear").replace("{name}", letter.content.recipientName || t("resumes.coverLetter.hiringManagerName"))}</p>
             {letter.content.opening && <p className="text-neutral-600">{letter.content.opening}</p>}
             {letter.content.body && <p className="text-neutral-600">{letter.content.body}</p>}
             {letter.content.closing && <p className="text-neutral-600">{letter.content.closing}</p>}
             <div className="text-neutral-700">
-              <p>Sincerely,</p>
-              <p className="mt-2 font-medium">{savedResume?.content.contactInfo.name || "[Your Name]"}</p>
+              <p>{t("common.sincerely")}</p>
+              <p className="mt-2 font-medium">{savedResume?.content.contactInfo.name || t("common.yourName")}</p>
             </div>
           </div>
         </div>

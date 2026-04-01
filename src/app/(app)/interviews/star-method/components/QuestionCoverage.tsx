@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils/cn";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import {
   BEHAVIORAL_QUESTIONS,
   getCoveredCompetencies,
@@ -28,6 +29,7 @@ function SkillBadge({ skill, covered }: { skill: Competency; covered: boolean })
 }
 
 export function QuestionCoverage({ stories }: QuestionCoverageProps) {
+  const { t } = useLanguage();
   const coveredCompetencies = getCoveredCompetencies(stories);
   const uncoveredQuestions = getUncoveredQuestions(stories);
   const coveredQuestions = BEHAVIORAL_QUESTIONS.filter((q) =>
@@ -39,14 +41,14 @@ export function QuestionCoverage({ stories }: QuestionCoverageProps) {
       {/* Covered Questions */}
       <div>
         <h3 className="mb-3 text-sm font-semibold text-neutral-700">
-          Covered Questions{" "}
+          {t("interviews.starMethod.coveredQuestions")}{" "}
           <span className="font-normal text-neutral-400">
             ({coveredQuestions.length})
           </span>
         </h3>
         {coveredQuestions.length === 0 ? (
           <p className="text-sm text-neutral-400 italic">
-            No questions covered yet. Add skills to your stories to start tracking coverage.
+            {t("interviews.starMethod.noCoveredQuestions")}
           </p>
         ) : (
           <ul className="space-y-2">
@@ -70,14 +72,14 @@ export function QuestionCoverage({ stories }: QuestionCoverageProps) {
       {/* Uncovered Questions */}
       <div>
         <h3 className="mb-3 text-sm font-semibold text-neutral-700">
-          Uncovered Questions{" "}
+          {t("interviews.starMethod.uncoveredQuestions")}{" "}
           <span className="font-normal text-neutral-400">
             ({uncoveredQuestions.length})
           </span>
         </h3>
         {uncoveredQuestions.length === 0 ? (
           <p className="text-sm text-neutral-400 italic">
-            Great work — all behavioral questions are covered!
+            {t("interviews.starMethod.allQuestionsCovered")}
           </p>
         ) : (
           <ul className="space-y-2">
@@ -93,7 +95,7 @@ export function QuestionCoverage({ stories }: QuestionCoverageProps) {
                   ))}
                 </div>
                 <p className="mt-1.5 text-xs text-neutral-400">
-                  Add a story with these skills to cover this question.
+                  {t("interviews.starMethod.addStoryForCoverage")}
                 </p>
               </li>
             ))}

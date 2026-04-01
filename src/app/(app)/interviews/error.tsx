@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export default function InterviewsError({
   error,
@@ -9,6 +10,8 @@ export default function InterviewsError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const { t } = useLanguage();
+
   return (
     <div className="flex min-h-[60vh] items-center justify-center px-6">
       <div className="text-center">
@@ -16,23 +19,23 @@ export default function InterviewsError({
           <span className="text-2xl text-error">!</span>
         </div>
         <h1 className="text-2xl font-bold text-neutral-800">
-          Interview prep error
+          {t("interviews.error.title")}
         </h1>
         <p className="mt-2 text-sm text-neutral-500">
-          Something went wrong loading interview prep. Your saved data is safe.
+          {t("interviews.error.description")}
         </p>
         <div className="mt-6 flex items-center justify-center gap-3">
           <button
             onClick={reset}
             className="inline-flex items-center gap-2 rounded-lg bg-primary-400 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-500"
           >
-            Try again
+            {t("common.tryAgain")}
           </button>
           <Link
             href="/"
             className="inline-flex items-center gap-2 rounded-lg border border-neutral-200 px-5 py-2.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
           >
-            Back to dashboard
+            {t("common.backToDashboard")}
           </Link>
         </div>
       </div>

@@ -1,0 +1,1153 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "saved": "Saved",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "tryAgain": "Try again",
+    "goBack": "Back to",
+    "getStartedFree": "Get Started Free",
+    "skipToContent": "Skip to content",
+    "backToDashboard": "Back to dashboard",
+    "preview": "Preview",
+    "exporting": "Exporting...",
+    "exportPdf": "Export PDF",
+    "addMore": "Add more",
+    "remove": "Remove",
+    "dataSavedLocally": "Data saved locally in your browser",
+    "pass": "Pass",
+    "needsWork": "Needs Work",
+    "softSkill": "Soft Skill",
+    "hardSkill": "Hard Skill",
+    "professional": "Professional",
+    "personal": "Personal",
+    "total": "total",
+    "of": "of",
+    "completed": "completed",
+    "copied": "Copied!",
+    "copyToClipboard": "Copy to Clipboard",
+    "couldNotCopy": "Couldn't copy — try selecting the text manually.",
+    "dismissNotification": "Dismiss notification",
+    "sincerely": "Sincerely,",
+    "bestRegards": "Best Regards,",
+    "yourName": "[Your Name]",
+    "yourPhone": "[Your Phone]",
+    "yourEmail": "[Your Email]",
+    "step": "Step",
+    "position": "Position",
+    "phase": "Phase",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "navigationMenu": "Navigation menu",
+    "switchToChinese": "Switch to Chinese",
+    "switchToEnglish": "切换到英文",
+    "questionsAbbr": "Qs",
+    "removeBullet": "Remove bullet point",
+    "addBullet": "+ Add bullet",
+    "next": "Next",
+    "untitled": "Untitled"
+  },
+  "nav": {
+    "home": "Home",
+    "knowYourself": "Know Yourself",
+    "applications": "Applications",
+    "resumes": "Resumes",
+    "interviews": "Interviews",
+    "jobSearch": "Job Search",
+    "socialMedia": "Social Media",
+    "landingTheJob": "Landing the Job",
+    "contactLog": "Contact Log"
+  },
+  "tools": {
+    "knowYourself": {
+      "name": "Know Yourself",
+      "shortDesc": "Figure out your skills, values, and brand before you start applying.",
+      "longDesc": "Walk into every application knowing exactly what you bring to the table."
+    },
+    "applications": {
+      "name": "Applications",
+      "shortDesc": "Tips and a master form that saves you from re-typing your info.",
+      "longDesc": "Stop re-typing the same info. One master form fills every application."
+    },
+    "resumes": {
+      "name": "Resumes",
+      "shortDesc": "Build your resume, cover letter, and reference page. Export as PDF.",
+      "longDesc": "Build a resume that pulls from your skills inventory. Export as PDF in one click."
+    },
+    "interviews": {
+      "name": "Interviews",
+      "shortDesc": "Practice the STAR method, prep answers, and research companies.",
+      "longDesc": "Answer confidently with practiced STAR stories and AI-powered mock interviews."
+    },
+    "jobSearch": {
+      "name": "Job Search",
+      "shortDesc": "Networking contacts, job boards, and a checklist to stay on track.",
+      "longDesc": "Find openings through networking, job boards, and a daily action checklist."
+    },
+    "socialMedia": {
+      "name": "Social Media",
+      "shortDesc": "Audit and clean up your profiles before employers look.",
+      "longDesc": "Clean up your profiles before employers Google you. Takes 10 minutes."
+    },
+    "landingTheJob": {
+      "name": "Landing the Job",
+      "shortDesc": "Workplace success tips and self-evaluation tracker.",
+      "longDesc": "Crush your first 90 days with workplace tips and a self-evaluation tracker."
+    },
+    "contactLog": {
+      "name": "Contact Log",
+      "shortDesc": "Log every company, follow-up, and status change in one place.",
+      "longDesc": "Track every application, follow-up, and interview in one place."
+    },
+    "phases": {
+      "knowYourself": "Know Yourself",
+      "marketYourBrand": "Market Your Brand",
+      "proveYourself": "Prove Yourself"
+    }
+  },
+  "landing": {
+    "heroTitle": "Land your first job, step by step.",
+    "heroSubtitle": "8 connected tools that guide you from identifying your strengths to acing the interview. Write once, auto-fill everywhere.",
+    "seeHowItWorks": "See how it works",
+    "startKnowYourself": "Start Know Yourself",
+    "yourToolkit": "Your Toolkit",
+    "trustBadge": "Built on a career readiness curriculum that has guided 10,000+ graduates into their first jobs.",
+    "benefits": {
+      "noAccount": "Start instantly, no account needed",
+      "privateData": "Keep your data private in your browser",
+      "autoFill": "Auto-fill your resume from your skills inventory",
+      "exportPdf": "Export to PDF in one click",
+      "freeForever": "Free forever, no upsells"
+    },
+    "howItWorks": "How It Works",
+    "toolsNav": "Tools",
+    "phaseSectionTitle": "From self-discovery to signed offer.",
+    "phaseSectionSubtitle": "Three phases, eight tools. Work in order or jump to what you need. Your data flows between tools automatically.",
+    "phase1": {
+      "tagline": "Discover your strengths.",
+      "desc": "Before you apply anywhere, know what you bring to the table. Map your skills, rank your work values, and craft a 30-second elevator pitch.",
+      "tools": ["Skills Inventory", "Work Values", "Focus Goals", "Power Statement"]
+    },
+    "phase2": {
+      "tagline": "Stand out from the crowd.",
+      "desc": "Your brand statement auto-fills into your resume, cover letter, and interview prep. Practice answers, search strategically, and apply with confidence.",
+      "tools": ["Resume Builder", "Cover Letters", "Interview Prep", "Job Search"]
+    },
+    "phase3": {
+      "tagline": "Land the job and thrive.",
+      "desc": "Log every application, set follow-up reminders, and get tips for your first 90 days on the job. Nothing slips through the cracks.",
+      "tools": ["Contact Log", "Workplace Success", "Self-Evaluation"]
+    },
+    "toolsGridTitle": "Eight tools that build on each other",
+    "toolsGridSubtitle": "Start with self-discovery, then build your materials, then go land the job. Each tool feeds the next.",
+    "quoteText": "Write your skills and brand statement once. They auto-fill your resume, cover letter, and interview prep.",
+    "quoteAttribution": "Write once. Use everywhere.",
+    "ctaTitle": "Ready? Start here.",
+    "ctaDesc": "Begin with Know Yourself. The skills and brand statement you write there auto-fill your resume, cover letter, and interview prep.",
+    "footer": {
+      "tagline": "Built for new grads who want to prep on their own schedule. Your data stays private in your browser.",
+      "coreTools": "Core Tools",
+      "moreTools": "More Tools",
+      "getStarted": "Get Started",
+      "resumeBuilder": "Resume Builder",
+      "interviewPrep": "Interview Prep",
+      "step1": "1. Identify your strengths",
+      "step2": "2. Build your resume",
+      "step3": "3. Prep your STAR stories",
+      "step4": "4. Track your applications",
+      "bottomLine": "100% free. No account required.",
+      "startNow": "Start your job prep now"
+    }
+  },
+  "knowYourself": {
+    "title": "Know Yourself",
+    "description": "This is the foundation of your entire job search. What you write here auto-fills your resume, cover letter, and interview prep. You only write it once.",
+    "nextStep": "Next step:",
+    "nextStepText": "Once you've identified your skills and brand statement, head to",
+    "resumeBuilderLink": "Resume Builder",
+    "nextStepSuffix": "where your data auto-fills.",
+    "sections": {
+      "beliefs": {
+        "title": "Challenge Your Beliefs",
+        "description": "Replace negative thoughts with positive ones that help your job search."
+      },
+      "focusGoals": {
+        "title": "Goal Setting with FOCUS",
+        "description": "Set clear job search goals with the FOCUS method."
+      },
+      "skills": {
+        "title": "Transferable Skills",
+        "description": "Pick your top skills. They auto-fill your resume.",
+        "startHere": "Start here"
+      },
+      "workValues": {
+        "title": "Work Values",
+        "description": "Rank what matters most to you in a workplace."
+      },
+      "branding": {
+        "title": "Personal Branding",
+        "description": "Write your brand statement. It becomes your resume summary."
+      },
+      "powerStatement": {
+        "title": "Power Statement",
+        "description": "Write your 30-second pitch for networking events and interviews."
+      }
+    },
+    "skills": {
+      "title": "Transferable Skills Inventory",
+      "description": "Identify the soft and hard skills you bring from all your experiences: jobs, internships, volunteer work, campus activities, and coursework.",
+      "callout": "Skills you select here will be available to auto-populate your resume and interview preparation.",
+      "softSkillsTitle": "Soft Skills",
+      "softSkillsDesc": "People skills and personal qualities. Select all that apply. Aim for at least 5.",
+      "hardSkillsTitle": "Hard Skills",
+      "hardSkillsDesc": "Specific, teachable abilities. Think about skills from coursework, certifications, projects, and jobs.",
+      "addSkill": "Add a Skill",
+      "skillPlaceholder": "Skill name (e.g., Python, QuickBooks)",
+      "sourcePlaceholder": "Where learned (optional)",
+      "softSkills": "soft skills",
+      "hardSkills": "hard skills",
+      "skillNames": {
+        "professionalism": "Professionalism",
+        "enthusiasm": "Enthusiasm",
+        "communication": "Communication",
+        "customerService": "Customer Service",
+        "commitment": "Commitment",
+        "teamwork": "Teamwork",
+        "adaptability": "Adaptability",
+        "organization": "Organization",
+        "timeManagement": "Time Management",
+        "decisionMaking": "Decision Making",
+        "problemSolving": "Problem Solving",
+        "leadership": "Leadership",
+        "creativity": "Creativity",
+        "criticalThinking": "Critical Thinking",
+        "attentionToDetail": "Attention to Detail"
+      },
+      "categories": {
+        "technology": "Technology",
+        "technologyEx": "Microsoft Office, Google Suite, programming, data analysis",
+        "business": "Business",
+        "businessEx": "Accounting, marketing, project management, sales",
+        "healthcare": "Healthcare",
+        "healthcareEx": "CPR, patient care, medical records, lab procedures",
+        "trades": "Trades",
+        "tradesEx": "Construction, electrical, plumbing, HVAC, automotive",
+        "creative": "Creative",
+        "creativeEx": "Graphic design, video editing, photography, writing",
+        "other": "Other",
+        "otherEx": "Forklift certified, bilingual, CDL, food handling"
+      }
+    },
+    "beliefs": {
+      "title": "Challenge Your Belief System",
+      "description": "Name what you believe about yourself, then turn challenges into positive statements.",
+      "callout": "Negative self-talk (\"I don't have enough experience\") kills interviews. This exercise helps you reframe those thoughts so you can talk about yourself confidently to employers.",
+      "positiveTitle": "Share positive beliefs about yourself",
+      "iAm": "I am...",
+      "iAmPlaceholder": "e.g., \"outgoing and get along well with others\"",
+      "iCan": "I can...",
+      "iCanPlaceholder": "e.g., \"communicate with people from various backgrounds\"",
+      "iHave": "I have...",
+      "iHavePlaceholder": "e.g., \"the determination to do a good job\"",
+      "challengesTitle": "Convert Challenges to Affirmations",
+      "challengesDesc": "Think of any negative beliefs about employment and convert them to positive affirmations.",
+      "challengePlaceholder": "I have had a challenge with...",
+      "solutionPlaceholder": "But I can overcome it by...",
+      "addChallenge": "Add another challenge",
+      "saveBeliefs": "Save Beliefs"
+    },
+    "branding": {
+      "title": "Personal Branding",
+      "description": "Write 1-2 sentences that tell employers what you're good at and why.",
+      "callout": "Your brand statement can be used on your resume, LinkedIn profile, and in networking conversations. It should be 1-2 sentences covering what you do best, who you serve, and how you do it uniquely.",
+      "identifyTitle": "Identify Your Brand",
+      "fieldLabel": "Target Field / Industry",
+      "fieldPlaceholder": "e.g., Marketing, Healthcare",
+      "positionLabel": "Target Position",
+      "positionPlaceholder": "e.g., Marketing Coordinator",
+      "skillsLabel": "Key Skills & Qualities",
+      "skillsPlaceholder": "What skills, qualities, and attributes should your brand convey?",
+      "accomplishmentsLabel": "Accomplishments",
+      "accomplishmentsPlaceholder": "What are your accomplishments related to your brand?",
+      "statementTitle": "Your Personal Brand Statement",
+      "statementDesc": "Write 1-2 sentences about what you are best at (value), who you serve (audience), and how you do it uniquely.",
+      "statementPlaceholder": "e.g., \"Marketing graduate who ran social media for two campus organizations. I grew one account from 200 to 2,000 followers in a semester.\"",
+      "exampleTitle": "Example Brand Statements",
+      "example1": "\"I helped customers find the right product at a busy retail store and consistently hit 110% of my weekly sales target.\"",
+      "example2": "\"CS graduate who built three full-stack apps in school. I care about making websites that work for everyone, including people using screen readers.\"",
+      "saveBrand": "Save Brand Statement"
+    },
+    "workValues": {
+      "title": "Work Values Assessment",
+      "description": "Rank what matters most to you in a workplace. This helps you target jobs that align with your priorities.",
+      "callout": "Use the arrows to reorder. #1 is most important to you. Your values may change over time. Revisit this periodically.",
+      "saveRankings": "Save Rankings",
+      "values": {
+        "achievement": "Achievement",
+        "achievementDesc": "Jobs that let you use your best abilities with a feeling of accomplishment.",
+        "relationships": "Relationships",
+        "relationshipsDesc": "Jobs where co-workers are friendly and you can be of service to others.",
+        "support": "Support",
+        "supportDesc": "Jobs with competent and fair management that stands behind its workers.",
+        "independence": "Independence",
+        "independenceDesc": "Jobs where you are encouraged to take initiative and make decisions.",
+        "recognition": "Recognition",
+        "recognitionDesc": "Jobs with good possibilities for advancement, prestige, and leadership.",
+        "workingConditions": "Working Conditions",
+        "workingConditionsDesc": "Jobs with desired pay, security, location, and work style."
+      }
+    },
+    "focusGoals": {
+      "title": "Goal Setting with FOCUS",
+      "description": "Set your job search goals using the FOCUS method.",
+      "callout": "If your goal is just a dream, take specific action steps to make it happen. The FOCUS framework breaks your goal into achievable parts.",
+      "findTitle": "Find and Define",
+      "findDesc": "What exactly do you want to achieve? Be specific.",
+      "findPlaceholder": "What exactly do you want to achieve? Be specific.",
+      "outlineTitle": "Outline Steps",
+      "outlineDesc": "Break your goal into smaller, achievable steps.",
+      "today": "Today",
+      "threeWeeks": "In 3 Weeks",
+      "threeMonths": "In 3 Months",
+      "addStep": "+ Add step",
+      "resourcesTitle": "Create a List of Resources",
+      "resourcesDesc": "Who and what can help you achieve this goal?",
+      "resourcePlaceholder": "Resource (person, place, or organization)",
+      "addResource": "+ Add resource",
+      "purposeTitle": "Understand the Purpose",
+      "purposeDesc": "Why is this goal important to you?",
+      "purposePlaceholder": "Why is this goal important to you?",
+      "timeframeTitle": "Set a Time Frame",
+      "timeframeDesc": "When will you achieve this goal?",
+      "goalStatementTitle": "Your Complete Goal Statement",
+      "goalStatementPlaceholder": "Combine all FOCUS elements into one complete goal statement...",
+      "saveGoal": "Save Goal"
+    },
+    "powerStatement": {
+      "title": "Power Statement",
+      "description": "Write a 30-second introduction you can use at networking events and in interviews.",
+      "callout": "Your Power Statement can be used when networking, at job fairs, in interviews when asked \"Tell me about yourself,\" and as the summary statement on your resume.",
+      "whatToInclude": "What to Include",
+      "tip1": "Be brief and conversational, but not too wordy",
+      "tip2": "Emphasize your brand and show enthusiasm",
+      "tip3": "Speak in results, not cliches like \"I am a team player\"",
+      "tip4": "Focus on the benefits you bring to the employer",
+      "brandRef": "Your Brand Statement (from Branding tool)",
+      "exampleTitle": "Example",
+      "exampleText": "\"My name is Sarah Chen and I recently graduated with a degree in Marketing from UCLA. I specialize in social media strategy and content creation, with internship experience managing campaigns that increased engagement by 40%. I'm looking for an entry-level marketing coordinator role where I can bring fresh ideas and data-driven creativity to your team.\"",
+      "yourPowerStatement": "Your Power Statement",
+      "placeholder": "Hi, I'm [name]. I just graduated from [school] with a degree in [field]. At [internship/job], I [specific thing you did]. I'm looking for a [target role] where I can...",
+      "savePowerStatement": "Save Power Statement"
+    }
+  },
+  "applications": {
+    "title": "Applications",
+    "description": "Fill out applications faster. Stop re-typing the same information.",
+    "sections": {
+      "tips": {
+        "title": "10 Essential Application Tips",
+        "description": "10 tips to get your application past the first screening."
+      },
+      "experienceGap": {
+        "title": "Experience Gap Solver",
+        "description": "Turn volunteer work, freelance gigs, and internships into application material."
+      },
+      "masterBuilder": {
+        "title": "Master Application Builder",
+        "description": "Keep all your info in one place so you can fill any application fast."
+      }
+    },
+    "tips": {
+      "title": "10 Essential Application Tips",
+      "description": "Follow these tips to complete effective applications that get you noticed.",
+      "callout": "Many applications are rejected because of errors or failure to tailor the content. Following up within 3\u20135 days shows your commitment and keeps your name on the employer's radar.",
+      "tip1Title": "Review the job announcement first",
+      "tip1Desc": "Make sure you meet most of the minimum qualifications: experience, education/certificates, and hard and soft skills.",
+      "tip2Title": "Gather detailed information",
+      "tip2Desc": "Work history, education, references: create a master application with complete and accurate employment information to have on hand.",
+      "tip3Title": "Follow instructions carefully",
+      "tip3Desc": "Read all directions before completing each section. Use the exact date format requested. List employment history in the order specified.",
+      "tip4Title": "Include all work experience",
+      "tip4Desc": "List all paid and unpaid work: volunteer, charity, community activities, internships, self-employment, and temporary experience. Don't leave gaps in your history.",
+      "tip5Title": "Use keywords from the job posting",
+      "tip5Desc": "Include transferable skills and keywords in the availability, education, and work history sections. Online applications use software to filter by keywords.",
+      "tip6Title": "Never leave the reference section blank",
+      "tip6Desc": "Always enter the number of references requested. Ask permission first, and verify current contact information for each reference.",
+      "tip7Title": "Spell everything correctly",
+      "tip7Desc": "Use proper capitalization and grammar. Use a dictionary, spell-checker, or have someone proofread before submitting.",
+      "tip8Title": "Customize for each application",
+      "tip8Desc": "For each application, submit a customized resume and cover letter that match the specified requirements.",
+      "tip9Title": "Review before submitting",
+      "tip9Desc": "Thoroughly review the application and all supporting documents before submitting. Check for errors, missing information, and consistency.",
+      "tip10Title": "Keep a copy for your records",
+      "tip10Desc": "Save or screenshot every application along with the job announcement. This helps when preparing for interviews and following up."
+    },
+    "experienceGap": {
+      "title": "Experience Gap Solver",
+      "description": "Think you don't have enough experience? You likely have more than you realize. Check all types of experience that apply to you.",
+      "callout": "Employers count all types of experience. Volunteer work, campus activities, internships, and class projects all show skills that belong on your resume.",
+      "resultTitle": "You identified {count} types of experience!",
+      "resultDesc": "Add these to your resume and applications. Use the Resume Builder to turn each experience into result-oriented bullet points.",
+      "categories": {
+        "volunteer": {
+          "title": "Unpaid or Volunteer Work",
+          "description": "Have you done any work for family, friends, or organizations?",
+          "items": ["Community Service", "Tutoring", "Mentoring", "Campus Organizations", "Church/Faith-Based", "School Events", "Family Caregiving"]
+        },
+        "internships": {
+          "title": "Internships & Training",
+          "description": "Did you attend college, trade school, or complete any training?",
+          "items": ["Internship", "Externship", "Certificate Program", "On-the-Job Training", "Job Shadowing", "Research Assistant", "Teaching Assistant"]
+        },
+        "campus": {
+          "title": "Campus & Extracurricular",
+          "description": "Activities that show leadership and teamwork.",
+          "items": ["Student Government", "Club Officer/Member", "Sports Team", "Student Newspaper", "Event Planning", "Peer Counseling", "Resident Advisor"]
+        },
+        "selfEmployment": {
+          "title": "Self-Employment & Freelance",
+          "description": "Did you work independently or from home?",
+          "items": ["Freelance Projects", "Tutoring", "Social Media Management", "Web Design", "Photography", "Crafts/Etsy", "Gig Work (DoorDash, etc.)"]
+        },
+        "partTime": {
+          "title": "Part-Time & Temporary",
+          "description": "Short-term or part-time work of any kind.",
+          "items": ["Seasonal Work", "Retail", "Food Service", "Staffing Agency", "Contract Work", "Campus Job (Work-Study)", "Summer Jobs"]
+        }
+      }
+    },
+    "masterBuilder": {
+      "title": "Master Application Builder",
+      "description": "Keep all your application information in one place. Reference this when filling out any employer's application.",
+      "callout": "A master application saves time and keeps your info consistent. Include ALL experience: paid, unpaid, volunteer, and temporary.",
+      "personalInfo": "Personal Information",
+      "fullName": "Full Name",
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address",
+      "namePlaceholder": "First Middle Last",
+      "phonePlaceholder": "(555) 555-5555",
+      "emailPlaceholder": "name@email.com",
+      "addressPlaceholder": "Street, City, State ZIP",
+      "education": "Education",
+      "schoolPlaceholder": "School Name",
+      "degreePlaceholder": "Degree / Certificate",
+      "locationPlaceholder": "City, State",
+      "datesPlaceholder": "Dates Attended",
+      "employmentHistory": "Employment History",
+      "positionN": "Position {n}",
+      "companyPlaceholder": "Company Name",
+      "jobTitlePlaceholder": "Job Title",
+      "startDatePlaceholder": "Start Date",
+      "endDatePlaceholder": "End Date",
+      "supervisorPlaceholder": "Supervisor Name",
+      "reasonPlaceholder": "Reason for Leaving",
+      "dutiesPlaceholder": "Description of duties and accomplishments...",
+      "skillsQualifications": "Skills & Qualifications",
+      "skillsLabel": "Skills & Abilities",
+      "skillsPlaceholder": "List your computer skills, software proficiency, and other abilities...",
+      "languagesLabel": "Languages",
+      "languagesPlaceholder": "e.g., English (fluent), Spanish (conversational)",
+      "certsLabel": "Certifications & Licenses",
+      "certsPlaceholder": "List any certificates, licenses, or training...",
+      "references": "References",
+      "refNamePlaceholder": "Full Name",
+      "refPhonePlaceholder": "Phone",
+      "refEmailPlaceholder": "Email",
+      "refOccupationPlaceholder": "Occupation",
+      "saveMasterApp": "Save Master Application"
+    }
+  },
+  "resumes": {
+    "title": "Resumes",
+    "description": "Build your resume, cover letter, and reference page, then export as PDF.",
+    "sections": {
+      "builder": {
+        "title": "Resume Builder",
+        "description": "Fill in each section and see a live preview as you type."
+      },
+      "coverLetter": {
+        "title": "Cover Letter Builder",
+        "description": "Write a cover letter that matches each job you apply for."
+      },
+      "references": {
+        "title": "Reference Page",
+        "description": "Build a formatted reference page matching your resume."
+      },
+      "emailGuide": {
+        "title": "Email Guide",
+        "description": "Templates for emailing your resume to employers."
+      }
+    },
+    "builder": {
+      "title": "Resume Builder",
+      "description": "Fill in each section and see your resume update in real time.",
+      "autoFillPrompt": "Auto-fill skills and profile from your Know Yourself data?",
+      "autoFill": "Auto-Fill",
+      "noDataCallout": "Complete the Know Yourself tools first to auto-populate your skills and profile overview here.",
+      "resumeTitle": "Resume Title",
+      "resumeTitlePlaceholder": "e.g., Marketing Resume",
+      "template": "Template",
+      "chronological": "Chronological",
+      "functional": "Functional",
+      "combination": "Combination",
+      "profileOverview": "Profile Overview",
+      "profileDesc": "A branding statement, summary, or list of qualifications. This is the top third of your resume.",
+      "profilePlaceholder": "e.g., Detail-oriented computer science graduate skilled in full-stack development...",
+      "education": "Education",
+      "educationDesc": "Add your degrees, certificates, and training.",
+      "educationN": "Education {n}",
+      "schoolPlaceholder": "School / Institution",
+      "degreePlaceholder": "Degree / Certificate",
+      "locationPlaceholder": "Location",
+      "datesPlaceholder": "Dates",
+      "datesExample": "e.g., Aug 2022 – May 2026",
+      "skills": "Skills",
+      "addSkillPlaceholder": "Add a skill...",
+      "skillExample": "e.g., Python, Excel, project management",
+      "deleteResumeConfirm": "Delete \"{title}\"? This cannot be undone.",
+      "deleteResume": "Delete this resume",
+      "saveResume": "Save Resume",
+      "needOneResume": "You need at least one resume.",
+      "resumeSaved": "Resume saved successfully",
+      "saveFailed": "Failed to save resume",
+      "resumeDeleted": "Resume deleted",
+      "contactInfo": "Contact Information",
+      "fullNameLabel": "Full Name",
+      "fullNamePlaceholder": "First Last",
+      "phoneLabel": "Phone",
+      "phonePlaceholder": "(555) 555-5555",
+      "emailLabel": "Email",
+      "emailPlaceholder": "name@email.com",
+      "linkedinLabel": "LinkedIn (optional)",
+      "linkedinPlaceholder": "linkedin.com/in/yourname",
+      "experience": "Experience",
+      "noExperience": "No experience added yet. Include jobs, internships, volunteer work, and campus roles.",
+      "positionN": "Position {n}",
+      "jobTitlePlaceholder": "Job Title",
+      "companyPlaceholder": "Company",
+      "locationPlaceholder": "Location",
+      "datesPlaceholder2": "Dates (e.g., 06/2024 - Present)",
+      "bulletLabel": "Bullet Points (use result-oriented statements)",
+      "bulletPlaceholder": "e.g., Increased customer satisfaction by 20% through..."
+    },
+    "coverLetter": {
+      "title": "Cover Letter Builder",
+      "description": "Write a cover letter in three paragraphs: why you're interested, what you bring, and next steps.",
+      "callout": "Don't repeat your resume. Instead, connect the dots between your experience and what this specific job needs. Tell them why you want to work there.",
+      "recipient": "Recipient",
+      "hiringManagerName": "Hiring Manager Name",
+      "hiringManagerPlaceholder": "\"Mr. Jim Howard\" or \"Hiring Manager\"",
+      "titleOptional": "Title (optional)",
+      "titlePlaceholder": "e.g., HR Director",
+      "company": "Company",
+      "companyPlaceholder": "Company name",
+      "addressOptional": "Address (optional)",
+      "addressPlaceholder": "Street, City, State ZIP",
+      "openingParagraph": "Opening Paragraph",
+      "openingDesc": "State the position, how you heard about it, your top qualifications, and why you're interested.",
+      "openingPlaceholder": "I'm applying for the [Position] I saw on [Source]. Here's why I'd be a good fit...",
+      "bodyParagraph": "Body Paragraph",
+      "bodyDesc": "Explain how your experience is relevant to the position. Mention unique skills or qualifications.",
+      "bodyPlaceholder": "As a [your role/background], I gained valuable experience in...",
+      "closingParagraph": "Closing Paragraph",
+      "closingDesc": "Reiterate interest, mention follow-up timeline, and thank them.",
+      "closingPlaceholder": "I'd welcome the chance to talk more about how my background fits this role. I'm available anytime next week...",
+      "saveCoverLetter": "Save Cover Letter",
+      "dear": "Dear {name},",
+      "savedSuccessfully": "Saved successfully",
+      "saveFailed": "Failed to save cover letter. Please try again."
+    },
+    "aiCoverLetter": {
+      "title": "Generate with AI",
+      "description": "Paste a job description and your resume. The AI writes a first draft that maps your experience to the job. Edit it before saving.",
+      "companyLabel": "Company Name",
+      "companyPlaceholder": "e.g., Cloudflare",
+      "jobTitleLabel": "Job Title",
+      "jobTitlePlaceholder": "e.g., Software Engineer",
+      "jdLabel": "Job Description",
+      "jdPlaceholder": "Paste the full job posting here...",
+      "yourResume": "Your Resume",
+      "savedResume": "Saved Resume",
+      "noName": "No name",
+      "skills": "skills",
+      "experience": "experience",
+      "experiences": "experiences",
+      "pasteText": "Paste text",
+      "pastePlaceholder": "Paste your resume text here...",
+      "ready": "Ready to generate",
+      "notReady": "Add a job description and resume to continue",
+      "generating": "Generating...",
+      "generateButton": "Generate Cover Letter",
+      "replaceConfirm": "This will replace your current cover letter content. Continue?",
+      "successMessage": "Cover letter generated! Edit it below to make it yours.",
+      "aiUsesLeft": "{remaining} AI uses left today",
+      "failedGeneric": "Cover letter generation failed. Please try again.",
+      "failedDefault": "Generation failed. Try again."
+    },
+    "references": {
+      "title": "Reference Page",
+      "description": "Build a formatted reference page that matches your resume layout.",
+      "callout": "List at least 5 people and double-check their phone numbers and emails. Ask permission first. Supervisors, professors, and co-workers make the strongest references.",
+      "referenceN": "Reference {n}",
+      "fullName": "Full Name",
+      "jobTitle": "Job Title",
+      "companyOrg": "Company / Organization",
+      "phone": "Phone",
+      "email": "Email",
+      "addReference": "Add Reference",
+      "saveReferences": "Save References"
+    },
+    "emailGuide": {
+      "title": "Emailing Your Resume",
+      "description": "Follow these guidelines when submitting your resume via email.",
+      "subjectLine": "Subject Line",
+      "subjectDesc": "Include the job title or position you are applying for and your full name.",
+      "subjectExample": "Subject: Marketing Coordinator Position - Jane Smith",
+      "emailBody": "Email Body",
+      "emailBodyDesc": "Write a brief introductory message. You can use your cover letter as the body, or compose a shorter message and attach the cover letter.",
+      "emailTip1": "Address to the contact person if possible",
+      "emailTip2": "1-2 short paragraphs explaining your qualifications",
+      "emailTip3": "Reference 1-2 skills from the job posting that match your experience",
+      "contactInfo": "Contact Information",
+      "contactInfoDesc": "Include your full name, phone number, and email at the end of your email. Make it easy for the employer to contact you.",
+      "attachments": "Attachments",
+      "attachmentsDesc": "Attach your resume and cover letter as PDF files. Name them clearly:",
+      "attachmentResume": "Jane Smith Resume.pdf",
+      "attachmentCover": "Jane Smith Cover Letter.pdf",
+      "proofreadWarning": "Double check your spelling, grammar, and capitalization before sending. Proofread everything. Emails create a first impression too.",
+      "sampleEmail": "Sample Email",
+      "sampleTo": "To: hiring@company.com",
+      "sampleSubject": "Subject: Marketing Coordinator Position - Jane Smith",
+      "sampleGreeting": "Hello Ms. Johnson,",
+      "sampleBody": "I've attached my resume and cover letter for the Marketing Coordinator position. I recently graduated with a degree in Marketing and have internship experience managing social media campaigns. I'd love to bring that hands-on experience to your team.",
+      "sampleClosing": "Thank you for your time. I look forward to hearing from you.",
+      "sampleName": "Jane Smith",
+      "samplePhone": "555-555-5555",
+      "sampleEmail2": "janesmith@email.com"
+    },
+    "error": {
+      "title": "Resume tool error",
+      "description": "Something went wrong loading your resumes. Your saved data is safe."
+    }
+  },
+  "interviews": {
+    "title": "Interviews",
+    "description": "Everything you need to get interview-ready, from stories to thank you notes.",
+    "sections": {
+      "storybank": {
+        "title": "Storybank",
+        "description": "Write STAR stories and tag them by skill so they're ready when you need them."
+      },
+      "jdDecoder": {
+        "title": "JD Decoder",
+        "description": "Paste any job posting to see which stories you have ready and where you have gaps."
+      },
+      "mockInterview": {
+        "title": "AI Mock Interview",
+        "description": "Answer questions one by one and get AI coaching after each."
+      },
+      "commonQuestions": {
+        "title": "Common Questions",
+        "description": "Draft answers to the 8 questions interviewers ask most."
+      },
+      "companyResearch": {
+        "title": "Company Research",
+        "description": "Organize your research on each company before you walk in."
+      },
+      "thankYou": {
+        "title": "Thank You Notes",
+        "description": "Write and send thank you notes the same day."
+      }
+    },
+    "starMethod": {
+      "title": "Storybank",
+      "description": "Manage your behavioral interview stories. Rate quality, tag skills, and track question coverage.",
+      "situation": "Situation",
+      "situationDesc": "Share the situation you experienced.",
+      "task": "Task",
+      "taskDesc": "Describe the challenging task.",
+      "action": "Action",
+      "actionDesc": "Explain the actions you took.",
+      "result": "Result",
+      "resultDesc": "Report the results achieved.",
+      "storyN": "Story {n}",
+      "deleteStory": "Delete this story",
+      "deleteStoryTitle": "Delete Story",
+      "deleteStoryConfirm": "This story will be permanently deleted.",
+      "saveStories": "Save Stories",
+      "summary": "You have {count} {storyWord} ({complete} complete). Aim for 6-8 polished stories.",
+      "story": "story",
+      "stories": "stories",
+      "sampleQuestions": {
+        "q1": "Describe a difficult problem you solved.",
+        "q2": "Describe a time when you disagreed with a supervisor.",
+        "q3": "How do you deal with a difficult customer or client?",
+        "q4": "Give an example of a time when you showed initiative.",
+        "q5": "Tell me about a time you worked effectively under pressure.",
+        "q6": "Describe a situation where you had to learn something new quickly."
+      }
+    },
+    "commonQuestions": {
+      "title": "Common Interview Questions",
+      "description": "Prepare answers to the 8 most common interview questions.",
+      "tipsLabel": "Tips for this question:",
+      "responsePlaceholder": "Write your response here...",
+      "saveResponses": "Save Responses",
+      "answeredCount": "{answered} of {total} questions answered",
+      "generalTips": "Every response should include these 4 points: (1) How your experience matches the job, (2) Use the employer's language with concrete examples, (3) A confident, positive answer, (4) Stay focused and don't overshare.",
+      "powerStatementRef": "Your Power Statement (reference for Q1)",
+      "powerStatementPrompt": "Write your Power Statement first. It's your answer to 'Tell me about yourself.'",
+      "questions": {
+        "q1": {
+          "question": "Tell me about yourself.",
+          "tips": ["Keep your response related to the job you are seeking.", "Use your power statement as a starting point.", "Highlight education, relevant experience, and key skills."]
+        },
+        "q2": {
+          "question": "Why are you the best person for this job?",
+          "tips": ["Match your qualifications to the job description.", "Describe specific skills and experience you bring.", "Back up each claim with a specific example."]
+        },
+        "q3": {
+          "question": "Why do you want to work here?",
+          "tips": ["Include information learned through researching the company.", "Convey enthusiasm about the company and the role.", "Show you understand the company's mission and values."]
+        },
+        "q4": {
+          "question": "What are your strengths?",
+          "tips": ["Identify 3 skills that qualify you for the job.", "Be genuine. Choose strengths you can back up with examples.", "Provide specific examples for each strength."]
+        },
+        "q5": {
+          "question": "What are your weaknesses?",
+          "tips": ["Choose a skill you've actively worked to improve.", "Describe the steps you've taken to improve.", "Don't mention weaknesses that would disqualify you."]
+        },
+        "q6": {
+          "question": "How would co-workers describe you?",
+          "tips": ["Share personality traits that match the job and culture.", "Talk about how you work with others day to day."]
+        },
+        "q7": {
+          "question": "Why did you leave your last job?",
+          "tips": ["Be honest, but don't criticize your last employer.", "Stay positive and focus on what you learned.", "Frame it as seeking growth or new opportunities."]
+        },
+        "q8": {
+          "question": "Where do you see yourself in five years?",
+          "tips": ["Mention career goals that align with the company.", "State that you see yourself advancing within the company.", "Show ambition while being realistic."]
+        }
+      }
+    },
+    "companyResearch": {
+      "title": "Company Research",
+      "description": "Research each company before your interview. Use this framework to organize your findings.",
+      "callout": "What to research: How long they've been in business, products/services, mission statement, locations, recent news, the role's purpose, growth opportunities, and salary/benefits.",
+      "companyName": "Company Name",
+      "companyNamePlaceholder": "e.g., Acme Corp",
+      "mission": "Mission Statement",
+      "missionPlaceholder": "What is their mission?",
+      "products": "Products / Services",
+      "productsPlaceholder": "What do they offer?",
+      "culture": "Company Culture",
+      "culturePlaceholder": "What's the work environment like?",
+      "news": "Recent News",
+      "newsPlaceholder": "Any recent announcements, awards, or changes?",
+      "questions": "Questions to Ask",
+      "questionN": "Question {n}",
+      "addQuestion": "+ Add question",
+      "saveResearch": "Save Research"
+    },
+    "thankYou": {
+      "title": "Thank You Note Generator",
+      "description": "Send a thank you note within 24 hours of your interview.",
+      "callout": "A quick thank you note makes you stand out. Most candidates skip this step. Send it within 24 hours while the conversation is still fresh.",
+      "interviewerName": "Interviewer Name",
+      "interviewerPlaceholder": "e.g., Ms. Johnson",
+      "company": "Company",
+      "companyPlaceholder": "Company name",
+      "position": "Position",
+      "positionPlaceholder": "Position you interviewed for",
+      "keyPoints": "Key Discussion Points / Why You're Excited",
+      "keyPointsPlaceholder": "Mention specific things discussed, what excited you about the role...",
+      "templatePara1": "Thank you for meeting with me today. It was a pleasure to learn more about the {position} role and the team at {company}.",
+      "templatePara2": "Our conversation confirmed that this role is a great match for what I do best. I'm looking forward to the possibility of joining the team.",
+      "templatePara3": "Feel free to reach out if you need anything else from me. I hope to hear from you soon."
+    },
+    "jdDecoder": {
+      "title": "JD Decoder",
+      "description": "Paste a job posting. The AI pulls out what they want, checks which of your stories fit, and flags what's missing.",
+      "requirements": "Requirements",
+      "prepChecklist": "Prep Checklist",
+      "mockQuestions": "Mock Interview Questions",
+      "analysisFailed": "Analysis failed.",
+      "errorMessage": "Something went wrong. Please try again.",
+      "success": "JD decoded successfully!",
+      "savedAnalyses": "Saved Analyses",
+      "inputPlaceholder": "Paste the full job posting here...",
+      "analyzing": "Analyzing...",
+      "analyzeButton": "Analyze Job Posting",
+      "deleteAnalysisTitle": "Delete Analysis",
+      "deleteAnalysisConfirm": "This analysis will be permanently deleted."
+    },
+    "mockInterview": {
+      "title": "AI Mock Interview",
+      "description": "Pick a question set, answer each one, and get feedback before moving on.",
+      "quickPractice": "Quick Practice",
+      "quickPracticeDesc": "6 common questions that come up in almost every interview.",
+      "startQuickPractice": "Start Quick Practice",
+      "specificJob": "Practice for a Specific Job",
+      "specificJobDesc": "Questions pulled from a job posting you already analyzed.",
+      "startJobSpecific": "Start Job-Specific Practice",
+      "untitled": "Untitled",
+      "genericLabel": "Generic Practice",
+      "entryLevel": "Entry-level position",
+      "questionOf": "Question {current} of {total}",
+      "showTips": "Show tips",
+      "hideTips": "Hide tips",
+      "answerPlaceholder": "Answer as if you're talking to the interviewer right now.",
+      "reviewing": "Reviewing your answer...",
+      "submit": "Submit",
+      "yourAnswer": "Your Answer",
+      "aiFeedback": "AI Feedback",
+      "finishInterview": "Finish Interview",
+      "next": "Next",
+      "reviewingFull": "Reviewing your full interview...",
+      "howYouDid": "How You Did",
+      "answersReviewed": "{count} answers reviewed",
+      "interviewReadiness": "Interview Readiness",
+      "whatWentWell": "What Went Well",
+      "workOnNext": "Work On Next",
+      "summaryUnavailable": "Summary not available for this session.",
+      "yourAnswers": "Your Answers",
+      "practiceAgain": "Practice Again",
+      "yourSessions": "Your Sessions",
+      "noSessions": "No practice sessions yet. Pick a question set below to start.",
+      "questions": "questions",
+      "done": "done",
+      "incomplete": "incomplete",
+      "deleteSession": "Delete Session",
+      "deleteSessionConfirm": "This mock interview session will be permanently deleted.",
+      "sessionDeleted": "Session deleted",
+      "feedbackFailed": "Failed to get feedback. You can still continue.",
+      "feedbackUnavailable": "(Feedback unavailable — AI service was temporarily unavailable.)",
+      "summaryNotAvailable": "Summary not available. Your answers are still saved.",
+      "genericQuestions": {
+        "q1": "Tell me about yourself.",
+        "q1Tips": ["Keep it under 2 minutes", "Focus on relevant experience", "End with why you're excited about this role"],
+        "q2": "Why are you interested in this position?",
+        "q2Tips": ["Show you've researched the company", "Connect your skills to the role", "Express genuine enthusiasm"],
+        "q3": "Describe a time you faced a challenge at work or school. How did you handle it?",
+        "q3Tips": ["Use STAR format", "Focus on your specific actions", "Quantify the result"],
+        "q4": "What are your greatest strengths?",
+        "q4Tips": ["Pick 2-3 relevant strengths", "Back each with a brief example", "Align with job requirements"],
+        "q5": "Where do you see yourself in five years?",
+        "q5Tips": ["Show ambition but be realistic", "Connect growth to the company", "Demonstrate long-term thinking"],
+        "q6": "Tell me about a time you worked on a team.",
+        "q6Tips": ["Highlight your specific contribution", "Show collaboration skills", "Mention the outcome"]
+      }
+    },
+    "error": {
+      "title": "Interview prep error",
+      "description": "Something went wrong loading interview prep. Your saved data is safe."
+    }
+  },
+  "jobSearch": {
+    "title": "Job Search",
+    "description": "Find openings through networking, job boards, and direct outreach.",
+    "sections": {
+      "networking": {
+        "title": "Networking",
+        "description": "List people who can help and plan how to reach out."
+      },
+      "jobBoards": {
+        "title": "Job Boards & Websites",
+        "description": "Where to search online and how to get results from each site."
+      },
+      "checklist": {
+        "title": "Job Search Checklist",
+        "description": "Track your progress across all search methods."
+      }
+    },
+    "networking": {
+      "title": "Build Your Network",
+      "description": "Most jobs are found through connections. List the people you will reach out to.",
+      "callout": "Include people who are not in your line of work too. You never know who has a valuable connection. Share your power statement when networking, and always ask for advice.",
+      "professionalTitle": "Professional Contacts",
+      "professionalDesc": "Former employers, co-workers, teachers, classmates, mentors",
+      "personalTitle": "Personal Contacts",
+      "personalDesc": "Friends, neighbors, relatives, community members",
+      "contactN": "Contact {n}",
+      "saveContacts": "Save Contacts"
+    },
+    "jobBoards": {
+      "title": "Job Boards & Websites",
+      "description": "Post your resume on multiple sites and set up alerts so openings come to you.",
+      "callout": "Use a variety of sites, set job alerts, and use keyword-rich search terms. If a company's name appears, apply directly through their website when possible.",
+      "scamWarning": "Watch out for scams. Be wary of listings that promise quick income, require fees, or ask for your Social Security number or bank info before hiring.",
+      "boards": {
+        "linkedin": { "name": "LinkedIn", "type": "Professional Network", "tip": "Build your profile, set job alerts, use Easy Apply" },
+        "indeed": { "name": "Indeed", "type": "Job Aggregator", "tip": "Upload resume, set daily email alerts by keyword" },
+        "glassdoor": { "name": "Glassdoor", "type": "Reviews + Jobs", "tip": "Research company culture and salary ranges" },
+        "handshake": { "name": "Handshake", "type": "College-Focused", "tip": "Connect with employers recruiting from your school" },
+        "googleJobs": { "name": "Google Jobs", "type": "Search Engine", "tip": "Search 'jobs near me'. It pulls listings from multiple sites." },
+        "usajobs": { "name": "USAJobs.gov", "type": "Government", "tip": "Federal job listings with structured applications" },
+        "wellfound": { "name": "Wellfound", "type": "Startups", "tip": "Startup and tech company opportunities" },
+        "ziprecruiter": { "name": "ZipRecruiter", "type": "Job Matching", "tip": "AI-matched job recommendations based on your resume" }
+      }
+    },
+    "checklist": {
+      "title": "Job Search Checklist",
+      "description": "Check off each item as you go so you don't miss any channels.",
+      "progressTitle": "My Job Search Progress",
+      "progressCount": "{checked} of {total} completed",
+      "methodsTitle": "Methods I Have Used",
+      "methodsCount": "{checked} of {total} methods used",
+      "saveProgress": "Save Progress",
+      "progressItems": [
+        "I can access my resume through email, cloud, or flash drive",
+        "I have registered with and completed profiles on job websites",
+        "I have registered with staffing agencies",
+        "I am contacting at least 2 people in my network each week",
+        "I have contacted companies through cold calls or walk-ins",
+        "I have attended recruitments or interviews",
+        "I practice my Power Statement regularly",
+        "I practice interview questions daily",
+        "I have attended Job Fairs or Career Expos",
+        "I follow up on each of my applications and interviews"
+      ],
+      "methods": ["Networking", "Cold Calling", "Face-to-Face/Walk-In", "Online Job Boards", "Help Wanted Signs", "Classified Ads", "Employment Centers", "Staffing Agencies", "Professional Organizations", "Job Fairs", "Recruitments", "Company Websites", "Social Media"]
+    }
+  },
+  "socialMedia": {
+    "title": "Social Media",
+    "description": "Clean up your profiles before employers Google you.",
+    "sections": {
+      "audit": {
+        "title": "Online Presence Audit",
+        "description": "Review your social media profiles through an employer's eyes."
+      }
+    },
+    "platformTips": {
+      "title": "Platform Quick Tips",
+      "linkedin": { "name": "LinkedIn", "tip": "Build a complete profile, add a professional photo, and request recommendations from professors or supervisors." },
+      "twitter": { "name": "X (Twitter)", "tip": "Follow companies you want to work for. Share industry articles. Keep your handle professional." },
+      "instagram": { "name": "Instagram", "tip": "Set personal accounts to private. If public, make sure posts match your professional brand." },
+      "facebook": { "name": "Facebook", "tip": "Review tagged photos and old posts. Adjust privacy settings so only friends see personal content." }
+    },
+    "audit": {
+      "title": "Online Presence Audit",
+      "description": "Review your social media through an employer's eyes. Most hiring managers check candidates' social profiles, and many have passed on a candidate based on what they found.",
+      "callout": "Before starting your job search, Google yourself and review every social media profile. Set all personal accounts to private. Everything public is fair game for employers.",
+      "includeTitle": "Include",
+      "includeItems": [
+        "Professional headshot photo",
+        "Content interesting and relevant to your industry",
+        "Up-to-date industry news and shared articles",
+        "A wide range of interests",
+        "Profile matching your application and resume"
+      ],
+      "dontIncludeTitle": "Don't Include",
+      "dontIncludeItems": [
+        "Default or inappropriate profile image",
+        "Images/posts that contradict your professional brand",
+        "Poor grammar and spelling mistakes",
+        "Profanity or references to alcohol/drug use",
+        "Negative comments about past employers or co-workers"
+      ],
+      "bgCheckTitle": "Background Check Self-Audit",
+      "bgCheckDesc": "Review your posts and pictures. Would you pass an employer's screening in these categories?",
+      "bgCheckItems": [
+        "Drug use, excessive drinking, or partying content",
+        "Sexually explicit or profane images and comments",
+        "References to unlawful activity",
+        "Aggressive or violent acts or assertions",
+        "Discriminatory behavior or language"
+      ],
+      "needsWorkWarning": "You have areas that need attention. Review and clean up those posts before starting your job search.",
+      "saveAudit": "Save Audit Results"
+    }
+  },
+  "landingTheJob": {
+    "title": "Landing the Job",
+    "description": "Do well at your new job with workplace tips and a monthly self-check.",
+    "sections": {
+      "workplaceSuccess": {
+        "title": "Workplace Success",
+        "description": "Tips for doing well in your first job."
+      },
+      "selfEvaluation": {
+        "title": "Self-Evaluation",
+        "description": "Track your performance during your first months on the job."
+      }
+    },
+    "workplaceSuccess": {
+      "title": "Long-Term Workplace Success",
+      "description": "Good habits at work keep you employed and get you promoted. Here's what managers actually look for.",
+      "callout": "These habits matter at every stage of your career. Review them before your first week, then revisit monthly to stay on track.",
+      "categories": {
+        "workHabits": {
+          "title": "Work Habits",
+          "items": [
+            "Maintain a professional image — live your brand",
+            "Arrive on time and call in promptly when you'll be late or absent",
+            "Limit personal cell phone use to breaks and rest periods",
+            "Show up with a good attitude — it gets noticed",
+            "Do not participate in office gossip"
+          ]
+        },
+        "performance": {
+          "title": "Performance of Duties",
+          "items": [
+            "Understand what is expected of you",
+            "Meet performance goals and standards",
+            "Be a team player — contribute to team objectives",
+            "Be neat and organized in all your tasks",
+            "If you make a mistake, take responsibility and communicate"
+          ]
+        },
+        "communication": {
+          "title": "Communication & Feedback",
+          "items": [
+            "Maintain professional relationships with co-workers and supervisors",
+            "Ask for and learn from feedback and constructive criticism",
+            "Speak up when there is a problem — follow the chain of command",
+            "Learn to disagree respectfully — listen carefully, then share your perspective",
+            "Treat customers in a friendly yet professional manner",
+            "Be respectful — no swearing, bullying, or inappropriate comments"
+          ]
+        },
+        "growth": {
+          "title": "Professional Growth",
+          "items": [
+            "Be willing to change and grow with the company",
+            "Be self-motivated and seek ways to remain positive and productive",
+            "Assist with tasks outside of your job description when possible",
+            "Support and participate in company activities"
+          ]
+        },
+        "personalLife": {
+          "title": "Personal Life Balance",
+          "items": [
+            "Keep personal life out of the workplace — don't let challenges affect your performance",
+            "Use good judgment when sharing personal information with co-workers",
+            "Understand and follow company guidelines regarding social media",
+            "Do not drink alcohol or use drugs before or during work hours"
+          ]
+        }
+      }
+    },
+    "selfEvaluation": {
+      "title": "New Employee Self-Evaluation",
+      "description": "Track your progress at 1, 3, and 6 months. Rate yourself honestly on each item.",
+      "callout": "Most employers have a 3-6 month probationary period. Use this evaluation to identify areas for improvement before your formal review.",
+      "ratingScale": "1 = Poor   2 = Fair   3 = Average   4 = Above Average   5 = Outstanding",
+      "ratedCount": "Rated {rated} of {total} items.",
+      "average": "Average: {avg} / 5.0",
+      "saveEvaluation": "Save Evaluation",
+      "categories": {
+        "workHabits": {
+          "title": "Work Habits",
+          "items": [
+            "I understand and follow company rules and regulations",
+            "I show up on time and call in promptly when late or sick",
+            "I maintain good personal hygiene and dress appropriately",
+            "I limit personal cell phone use to breaks and rest periods",
+            "I am honest with time reporting and don't misuse company resources"
+          ]
+        },
+        "performance": {
+          "title": "Performance of Duties",
+          "items": [
+            "I understand my job duties and responsibilities",
+            "I am meeting performance goals and standards",
+            "I look for ways to use my skills to benefit the organization",
+            "I am confident in my ability to perform my work assignments"
+          ]
+        },
+        "communication": {
+          "title": "Communication & Feedback",
+          "items": [
+            "I relate to co-workers and customers professionally",
+            "I respond well to constructive criticism and learn from feedback",
+            "I speak up when there is a problem and admit mistakes",
+            "I treat co-workers with respect — no inappropriate behavior"
+          ]
+        },
+        "growth": {
+          "title": "Professional Growth",
+          "items": [
+            "I seek ways to remain productive without being told",
+            "I have learned new skills",
+            "I have assisted with tasks outside my job description",
+            "I add something my team would miss if I left"
+          ]
+        }
+      }
+    }
+  },
+  "contactLog": {
+    "title": "Contact Log",
+    "description": "Track every application, follow-up, and employer interaction.",
+    "addContact": "Add Contact",
+    "emptyTitle": "Your job search starts here",
+    "emptyDesc": "Add your first company to keep track of every application, follow-up, and offer.",
+    "contactAdded": "Contact added",
+    "contactUpdated": "Contact updated",
+    "contactDeleted": "Contact deleted",
+    "loadError": "Could not load contacts",
+    "validationError": "Company and position are required.",
+    "deleteTitle": "Delete Contact",
+    "deleteConfirm": "Are you sure you want to delete \"{name}\"? This action cannot be undone.",
+    "statusChanged": "Status changed to {status}",
+    "statuses": {
+      "saved": "Saved",
+      "applied": "Applied",
+      "phoneScreen": "Phone Screen",
+      "interview": "Interview",
+      "followUp": "Follow Up",
+      "offer": "Offer",
+      "rejected": "Rejected",
+      "accepted": "Accepted"
+    },
+    "form": {
+      "newContact": "New Contact",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Company name",
+      "positionLabel": "Position",
+      "positionPlaceholder": "Job title you applied for",
+      "statusLabel": "Status",
+      "notesLabel": "Notes (optional)",
+      "notesPlaceholder": "How you found this job, contact person, etc.",
+      "saveContact": "Save Contact",
+      "saveChanges": "Save Changes",
+      "dateApplied": "Date Applied",
+      "added": "Added"
+    },
+    "stats": {
+      "total": "Total",
+      "applied": "Applied",
+      "interviews": "Interviews",
+      "offers": "Offers"
+    },
+    "error": {
+      "title": "Contact log error",
+      "description": "Something went wrong loading your contact log. Your saved data is safe."
+    }
+  },
+  "errors": {
+    "notFound": {
+      "title": "Page not found",
+      "description": "This page doesn't exist. Check the URL or head back home.",
+      "goHome": "Go to Homepage",
+      "openToolkit": "Open Toolkit"
+    },
+    "global": {
+      "title": "Something went wrong",
+      "description": "Something broke on our end, not yours. Your data is safe in your browser.",
+      "goHome": "Go to Homepage"
+    },
+    "app": {
+      "title": "Something went wrong",
+      "description": "An unexpected error occurred. Your saved data is safe."
+    }
+  }
+}

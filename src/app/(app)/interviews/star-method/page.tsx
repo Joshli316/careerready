@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useStorage } from "@/hooks/useStorage";
 import { useSaveIndicator } from "@/hooks/useSaveIndicator";
 import { useToast } from "@/components/ui/Toast";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Button } from "@/components/ui/Button";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
@@ -18,14 +19,7 @@ import { StoryMeta } from "./components/StoryMeta";
 import { StoryQualityBadge } from "./components/StoryQualityBadge";
 import { QuestionCoverage } from "./components/QuestionCoverage";
 
-const SAMPLE_QUESTIONS = [
-  "Describe a difficult problem you solved.",
-  "Describe a time when you disagreed with a supervisor.",
-  "How do you deal with a difficult customer or client?",
-  "Give an example of a time when you showed initiative.",
-  "Tell me about a time you worked effectively under pressure.",
-  "Describe a situation where you had to learn something new quickly.",
-];
+const SAMPLE_QUESTION_KEYS = ["q1", "q2", "q3", "q4", "q5", "q6"] as const;
 
 const emptyStory = (): StarStory => ({
   id: nanoid(),
@@ -44,8 +38,10 @@ const emptyStory = (): StarStory => ({
 });
 
 export default function StarMethodPage() {
+  const { t } = useLanguage();
   const storage = useStorage();
   const searchParams = useSearchParams();
+  const SAMPLE_QUESTIONS = SAMPLE_QUESTION_KEYS.map((key) => t(`interviews.starMethod.sampleQuestions.${key}`));
   const [stories, setStories] = useState<StarStory[]>([emptyStory()]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
@@ -130,18 +126,18 @@ export default function StarMethodPage() {
 
   return (
     <div>
-      <Breadcrumb href="/interviews" label="Interviews" />
+      <Breadcrumb href="/interviews" label={t("interviews.title")} />
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-800">Storybank</h1>
+          <h1 className="text-2xl font-bold text-neutral-800">{t("interviews.starMethod.title")}</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Manage your behavioral interview stories. Rate quality, tag skills, and track question coverage.
+            {t("interviews.starMethod.description")}
           </p>
         </div>
         {saved && (
           <div className="flex items-center gap-1.5 text-sm text-success">
             <CheckCircle className="h-4 w-4" />
-            Saved
+            {t("common.saved")}
           </div>
         )}
       </div>
@@ -149,10 +145,10 @@ export default function StarMethodPage() {
       {/* STAR explanation */}
       <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
-          { letter: "S", label: "Situation", desc: "Share the situation you experienced." },
-          { letter: "T", label: "Task", desc: "Describe the challenging task." },
-          { letter: "A", label: "Action", desc: "Explain the actions you took." },
-          { letter: "R", label: "Result", desc: "Report the results achieved." },
+          { letter: "S", label: t("interviews.starMethod.situation"), desc: t("interviews.starMethod.situationDesc") },
+          { letter: "T", label: t("interviews.starMethod.task"), desc: t("interviews.starMethod.taskDesc") },
+          { letter: "A", label: t("interviews.starMethod.action"), desc: t("interviews.starMethod.actionDesc") },
+          { letter: "R", label: t("interviews.starMethod.result"), desc: t("interviews.starMethod.resultDesc") },
         ].map((item) => (
           <div key={item.letter} className="rounded-lg border border-primary-200 bg-primary-50 p-3 text-center">
             <div className="text-2xl font-bold text-primary-400">{item.letter}</div>
@@ -168,7 +164,7 @@ export default function StarMethodPage() {
           id: s.id,
           label: (
             <>
-              <span>Story {i + 1}</span>{" "}
+              <span>{t("interviews.starMethod.storyN").replace("{n}", String(i + 1))}</span>{" "}
               <StoryQualityBadge score={computeQualityScore(s)} />
             </>
           ),
@@ -194,11 +190,11 @@ export default function StarMethodPage() {
                 className="flex items-center gap-1.5 text-sm text-error hover:text-red-700"
               >
                 <Trash2 className="h-4 w-4" />
-                Delete this story
+                {t("interviews.starMethod.deleteStory")}
               </button>
             )}
             <div className="ml-auto">
-              <Button onClick={save}>Save Stories</Button>
+              <Button onClick={save}>{t("interviews.starMethod.saveStories")}</Button>
             </div>
           </div>
         </div>
@@ -210,16 +206,25 @@ export default function StarMethodPage() {
 
       {/* Summary */}
       <div className="mt-6 rounded-lg bg-neutral-50 border border-neutral-150 p-4 text-sm text-neutral-500">
-        You have <strong className="text-neutral-800">{stories.length}</strong>{" "}
-        {stories.length === 1 ? "story" : "stories"} (
-        <strong className="text-neutral-800">{completeCount}</strong> complete).
-        Aim for 6-8 polished stories.
+        {(() => {
+          const storyWord = stories.length === 1 ? t("interviews.starMethod.story") : t("interviews.starMethod.stories");
+          const text = t("interviews.starMethod.summary")
+            .replace("{storyWord}", storyWord);
+          const parts = text.split(/\{count\}|\{complete\}/);
+          return (
+            <>
+              {parts[0]}<strong className="text-neutral-800">{stories.length}</strong>
+              {parts[1]}<strong className="text-neutral-800">{completeCount}</strong>
+              {parts[2]}
+            </>
+          );
+        })()}
       </div>
 
       <ConfirmDialog
         open={deleteIndex !== null}
-        title="Delete Story"
-        message="This story will be permanently deleted."
+        title={t("interviews.starMethod.deleteStoryTitle")}
+        message={t("interviews.starMethod.deleteStoryConfirm")}
         onConfirm={() => {
           deleteStory(deleteIndex!);
           setDeleteIndex(null);

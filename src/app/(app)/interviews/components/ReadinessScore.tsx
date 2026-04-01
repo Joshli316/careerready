@@ -1,4 +1,7 @@
+"use client";
+
 import type { StarStory } from "@/types/interview";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { computeQualityScore } from "@/app/(app)/interviews/star-method/lib/storyUtils";
 import { getCoveredCompetencies } from "@/app/(app)/interviews/star-method/lib/questionMap";
 
@@ -10,6 +13,7 @@ interface Props {
 }
 
 export function ReadinessScore({ stories }: Props) {
+  const { t } = useLanguage();
   const coveredCount = getCoveredCompetencies(stories).size;
   const competencyCoverage = coveredCount / TOTAL_COMPETENCIES;
   const storyCount = Math.min(stories.length, TARGET_STORIES) / TARGET_STORIES;
@@ -41,7 +45,7 @@ export function ReadinessScore({ stories }: Props) {
   return (
     <div className="text-center">
       <p className={`text-4xl font-bold ${scoreColor}`}>{score}</p>
-      <p className="text-sm text-neutral-600 mt-1 mb-3">Interview Readiness</p>
+      <p className="text-sm text-neutral-600 mt-1 mb-3">{t("interviews.readiness.title")}</p>
       <div className="h-2 rounded-full bg-neutral-100 max-w-xs mx-auto">
         <div
           className={`h-2 rounded-full transition-all ${barColor}`}

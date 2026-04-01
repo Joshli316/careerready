@@ -1,11 +1,15 @@
+"use client";
+
 import type { StarStory } from "@/types/interview";
 import { COMPETENCIES } from "@/types/interview";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 interface Props {
   stories: StarStory[];
 }
 
 export function CompetencyHeatmap({ stories }: Props) {
+  const { t } = useLanguage();
   function countForCompetency(competency: (typeof COMPETENCIES)[number]): number {
     return stories.filter(
       (s) => s.primarySkill === competency || s.secondarySkill === competency
@@ -14,7 +18,7 @@ export function CompetencyHeatmap({ stories }: Props) {
 
   return (
     <div>
-      <p className="text-sm font-medium text-neutral-600 mb-3">Competency Coverage</p>
+      <p className="text-sm font-medium text-neutral-600 mb-3">{t("interviews.readiness.competencyCoverage")}</p>
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
         {COMPETENCIES.map((competency) => {
           const count = countForCompetency(competency);

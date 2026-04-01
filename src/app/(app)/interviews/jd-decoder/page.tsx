@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useStorage } from "@/hooks/useStorage";
 import { useToast } from "@/components/ui/Toast";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { nanoid } from "nanoid";
 import type { StarStory } from "@/types/interview";
@@ -16,6 +17,7 @@ import { PrepChecklist } from "./components/PrepChecklist";
 import { MockQuestionCard } from "./components/MockQuestionCard";
 
 export default function JDDecoderPage() {
+  const { t } = useLanguage();
   const storage = useStorage();
   const { toast } = useToast();
   const [stories, setStories] = useState<StarStory[]>([]);
@@ -43,7 +45,7 @@ export default function JDDecoderPage() {
         });
         if (!res.ok) {
           const errData = (await res.json()) as { error?: string };
-          toast(errData.error || "Analysis failed.", "error");
+          toast(errData.error || t("interviews.jdDecoder.analysisFailed"), "error");
           return;
         }
         const { result } = (await res.json()) as {
@@ -67,9 +69,9 @@ export default function JDDecoderPage() {
         await storage.saveJDAnalysis(analysis);
         setSavedAnalyses((prev) => [...prev, analysis]);
         setActiveAnalysis(analysis);
-        toast("JD decoded successfully!", "success");
+        toast(t("interviews.jdDecoder.success"), "success");
       } catch {
-        toast("Something went wrong. Please try again.", "error");
+        toast(t("interviews.jdDecoder.errorMessage"), "error");
       } finally {
         setLoading(false);
       }
@@ -118,11 +120,11 @@ export default function JDDecoderPage() {
 
   return (
     <div>
-      <Breadcrumb href="/interviews" label="Interviews" />
+      <Breadcrumb href="/interviews" label={t("interviews.title")} />
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-neutral-800">JD Decoder</h1>
+        <h1 className="text-2xl font-bold text-neutral-800">{t("interviews.jdDecoder.title")}</h1>
         <p className="mt-1 text-sm text-neutral-500">
-          Paste a job posting. The AI pulls out what they want, checks which of your stories fit, and flags what&apos;s missing.
+          {t("interviews.jdDecoder.description")}
         </p>
       </div>
 
@@ -147,7 +149,7 @@ export default function JDDecoderPage() {
           <AnalysisSummary analysis={activeAnalysis} />
 
           <section aria-labelledby="req-heading">
-            <h2 id="req-heading" className="mb-3 text-lg font-semibold text-neutral-800">Requirements</h2>
+            <h2 id="req-heading" className="mb-3 text-lg font-semibold text-neutral-800">{t("interviews.jdDecoder.requirements")}</h2>
             <div className="space-y-3">
               {matchedReqs.map((req) => (
                 <RequirementCard
@@ -175,7 +177,7 @@ export default function JDDecoderPage() {
 
           {activeAnalysis.prepChecklist.length > 0 && (
             <section aria-labelledby="checklist-heading">
-              <h2 id="checklist-heading" className="mb-3 text-lg font-semibold text-neutral-800">Prep Checklist</h2>
+              <h2 id="checklist-heading" className="mb-3 text-lg font-semibold text-neutral-800">{t("interviews.jdDecoder.prepChecklist")}</h2>
               <div className="rounded-xl border border-neutral-150 bg-white p-6 shadow-sm">
                 <PrepChecklist items={activeAnalysis.prepChecklist} onToggle={handleToggleChecklist} />
               </div>
@@ -184,7 +186,7 @@ export default function JDDecoderPage() {
 
           {activeAnalysis.mockQuestions.length > 0 && (
             <section aria-labelledby="mock-heading">
-              <h2 id="mock-heading" className="mb-3 text-lg font-semibold text-neutral-800">Mock Interview Questions</h2>
+              <h2 id="mock-heading" className="mb-3 text-lg font-semibold text-neutral-800">{t("interviews.jdDecoder.mockQuestions")}</h2>
               <div className="space-y-3">
                 {activeAnalysis.mockQuestions.map((q, i) => (
                   <MockQuestionCard key={i} question={q} index={i} />

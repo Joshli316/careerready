@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useCallback, useRef, useEffect, type ReactNode } from "react";
 import { cn } from "@/lib/utils/cn";
 import { CheckCircle, AlertTriangle, XCircle, X, Info } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 type ToastType = "success" | "error" | "warning" | "info";
 
@@ -35,6 +36,39 @@ const styles: Record<ToastType, string> = {
   warning: "border-l-warning bg-orange-50 text-orange-800",
   info: "border-l-info bg-blue-50 text-blue-800",
 };
+
+function ToastContainer({ toasts, removeToast }: { toasts: Toast[]; removeToast: (id: string) => void }) {
+  const { t } = useLanguage();
+  return (
+    <div className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2" aria-live="polite" aria-relevant="additions removals">
+      {toasts.map((toast) => {
+        const Icon = icons[toast.type];
+        return (
+          <div
+            key={toast.id}
+            className={cn(
+              "flex items-center gap-3 rounded-lg border-l-4 px-4 py-3 shadow-lg",
+              "animate-in slide-in-from-right duration-300",
+              "min-w-[280px] max-w-[400px]",
+              styles[toast.type]
+            )}
+            role="alert"
+          >
+            <Icon className="h-4 w-4 shrink-0" />
+            <span className="flex-1 text-sm">{toast.message}</span>
+            <button
+              onClick={() => removeToast(toast.id)}
+              className="shrink-0 rounded p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-black/5"
+              aria-label={t("common.dismissNotification")}
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
@@ -69,33 +103,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={{ toast: addToast }}>
       {children}
-      <div className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2" aria-live="polite" aria-relevant="additions removals">
-        {toasts.map((t) => {
-          const Icon = icons[t.type];
-          return (
-            <div
-              key={t.id}
-              className={cn(
-                "flex items-center gap-3 rounded-lg border-l-4 px-4 py-3 shadow-lg",
-                "animate-in slide-in-from-right duration-300",
-                "min-w-[280px] max-w-[400px]",
-                styles[t.type]
-              )}
-              role="alert"
-            >
-              <Icon className="h-4 w-4 shrink-0" />
-              <span className="flex-1 text-sm">{t.message}</span>
-              <button
-                onClick={() => removeToast(t.id)}
-                className="shrink-0 rounded p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-black/5"
-                aria-label="Dismiss notification"
-              >
-                <X className="h-3.5 w-3.5" />
-              </button>
-            </div>
-          );
-        })}
-      </div>
+      <ToastContainer toasts={toasts} removeToast={removeToast} />
     </ToastContext.Provider>
   );
 }

@@ -3,52 +3,20 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
-import { Input } from "@/components/ui/Input";
 import { useProfileSave } from "@/hooks/useProfileSave";
 import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import en from "@/lib/i18n/en.json";
+import zh from "@/lib/i18n/zh.json";
 
-const categories = [
-  {
-    name: "Work Habits",
-    items: [
-      "I understand and follow company rules and regulations",
-      "I show up on time and call in promptly when late or sick",
-      "I maintain good personal hygiene and dress appropriately",
-      "I limit personal cell phone use to breaks and rest periods",
-      "I am honest with time reporting and don't misuse company resources",
-    ],
-  },
-  {
-    name: "Performance of Duties",
-    items: [
-      "I understand my job duties and responsibilities",
-      "I am meeting performance goals and standards",
-      "I look for ways to use my skills to benefit the organization",
-      "I am confident in my ability to perform my work assignments",
-    ],
-  },
-  {
-    name: "Communication & Feedback",
-    items: [
-      "I relate to co-workers and customers professionally",
-      "I respond well to constructive criticism and learn from feedback",
-      "I speak up when there is a problem and admit mistakes",
-      "I treat co-workers with respect — no inappropriate behavior",
-    ],
-  },
-  {
-    name: "Professional Growth",
-    items: [
-      "I seek ways to remain productive without being told",
-      "I have learned new skills",
-      "I have assisted with tasks outside my job description",
-      "I add something my team would miss if I left",
-    ],
-  },
-];
+const categoryKeys = ["workHabits", "performance", "communication", "growth"] as const;
 
 export default function SelfEvaluationPage() {
+  const { t, language } = useLanguage();
+  const translations = language === "zh" ? zh : en;
+  const categories = translations.landingTheJob.selfEvaluation.categories;
+
   const { saved, save, storage } = useProfileSave();
   const [ratings, setRatings] = useState<Record<string, number>>({});
 
@@ -66,71 +34,74 @@ export default function SelfEvaluationPage() {
     setRatings({ ...ratings, [item]: value });
   }
 
-  const totalItems = categories.reduce((sum, c) => sum + c.items.length, 0);
+  const allItems = categoryKeys.flatMap((key) => categories[key].items);
+  const totalItems = allItems.length;
   const ratedItems = Object.keys(ratings).length;
 
   return (
     <div>
-      <Breadcrumb href="/landing-the-job" label="Landing the Job" />
+      <Breadcrumb href="/landing-the-job" label={t("landingTheJob.title")} />
       <div className="mb-6 flex items-center justify-between">
         <div>
-        <h1 className="text-2xl font-bold text-neutral-800">New Employee Self-Evaluation</h1>
+        <h1 className="text-2xl font-bold text-neutral-800">{t("landingTheJob.selfEvaluation.title")}</h1>
         <p className="mt-1 text-sm text-neutral-500">
-          Track your progress at 1, 3, and 6 months. Rate yourself honestly on each item.
+          {t("landingTheJob.selfEvaluation.description")}
         </p>
         </div>
         <SavedIndicator visible={saved} />
       </div>
 
       <Callout type="tip" className="mb-6">
-        Most employers have a 3-6 month probationary period. Use this evaluation to identify
-        areas for improvement before your formal review.
+        {t("landingTheJob.selfEvaluation.callout")}
       </Callout>
 
       <div className="mb-4 text-sm text-neutral-500">
-        1 = Poor &nbsp; 2 = Fair &nbsp; 3 = Average &nbsp; 4 = Above Average &nbsp; 5 = Outstanding
+        {t("landingTheJob.selfEvaluation.ratingScale")}
       </div>
 
       <div className="space-y-6">
-        {categories.map((cat) => (
-          <section key={cat.name} className="rounded-xl border border-neutral-150 bg-white p-5 shadow-sm">
-            <h2 className="mb-4 font-semibold text-neutral-800">{cat.name}</h2>
-            <div className="space-y-3">
-              {cat.items.map((item) => (
-                <div key={item} className="flex items-center justify-between gap-4">
-                  <span className="text-sm text-neutral-700 flex-1">{item}</span>
-                  <div className="flex gap-1">
-                    {[1, 2, 3, 4, 5].map((n) => (
-                      <button
-                        key={n}
-                        onClick={() => setRating(item, n)}
-                        aria-label={`Rate "${item}" as ${n}`}
-                        className={`flex h-9 w-9 sm:h-8 sm:w-8 items-center justify-center rounded-lg text-sm font-medium transition-colors ${
-                          ratings[item] === n
-                            ? "bg-primary-400 text-white"
-                            : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
-                        }`}
-                      >
-                        {n}
-                      </button>
-                    ))}
+        {categoryKeys.map((key) => {
+          const cat = categories[key];
+          return (
+            <section key={key} className="rounded-xl border border-neutral-150 bg-white p-5 shadow-sm">
+              <h2 className="mb-4 font-semibold text-neutral-800">{cat.title}</h2>
+              <div className="space-y-3">
+                {cat.items.map((item) => (
+                  <div key={item} className="flex items-center justify-between gap-4">
+                    <span className="text-sm text-neutral-700 flex-1">{item}</span>
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <button
+                          key={n}
+                          onClick={() => setRating(item, n)}
+                          aria-label={`Rate "${item}" as ${n}`}
+                          className={`flex h-9 w-9 sm:h-8 sm:w-8 items-center justify-center rounded-lg text-sm font-medium transition-colors ${
+                            ratings[item] === n
+                              ? "bg-primary-400 text-white"
+                              : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
+                          }`}
+                        >
+                          {n}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        ))}
+                ))}
+              </div>
+            </section>
+          );
+        })}
       </div>
 
       <div className="mt-6 flex justify-end">
-        <Button onClick={handleSave} size="lg">Save Evaluation</Button>
+        <Button onClick={handleSave} size="lg">{t("landingTheJob.selfEvaluation.saveEvaluation")}</Button>
       </div>
 
       <div className="mt-4 rounded-lg bg-neutral-50 border border-neutral-150 p-4 text-sm text-neutral-500">
-        Rated {ratedItems} of {totalItems} items.
+        {t("landingTheJob.selfEvaluation.ratedCount").replace("{rated}", String(ratedItems)).replace("{total}", String(totalItems))}
         {ratedItems === totalItems && Object.values(ratings).length > 0 && (
           <span className="ml-2 font-medium text-primary-700">
-            Average: {(Object.values(ratings).reduce((a, b) => a + b, 0) / ratedItems).toFixed(1)} / 5.0
+            {t("landingTheJob.selfEvaluation.average").replace("{avg}", (Object.values(ratings).reduce((a, b) => a + b, 0) / ratedItems).toFixed(1))}
           </span>
         )}
       </div>

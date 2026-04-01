@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { QUESTION_TYPE_BADGE_STYLES, QUESTION_TYPE_LABELS } from "../../lib/questionConstants";
 import type { MockQuestion } from "../types";
 
@@ -11,6 +12,7 @@ interface MockQuestionCardProps {
 }
 
 export function MockQuestionCard({ question, index }: MockQuestionCardProps) {
+  const { t } = useLanguage();
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -40,7 +42,7 @@ export function MockQuestionCard({ question, index }: MockQuestionCardProps) {
       {expanded && (
         <div className="mt-3 ml-9 space-y-2">
           <div>
-            <h4 className="text-xs font-medium text-neutral-500 uppercase">Talking Points</h4>
+            <h4 className="text-xs font-medium text-neutral-500 uppercase">{t("interviews.jdDecoder.talkingPoints")}</h4>
             <ul className="mt-1 space-y-1">
               {question.talkingPoints.map((tp, i) => (
                 <li key={i} className="text-sm text-neutral-600 list-disc ml-4">{tp}</li>
@@ -49,7 +51,7 @@ export function MockQuestionCard({ question, index }: MockQuestionCardProps) {
           </div>
           {question.suggestedStoryIds.length > 0 && (
             <p className="text-xs text-neutral-500">
-              Suggested stories: {question.suggestedStoryIds.join(", ")}
+              {t("interviews.jdDecoder.suggestedStories")} {question.suggestedStoryIds.join(", ")}
             </p>
           )}
         </div>

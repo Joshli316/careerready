@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { QUESTION_TYPE_BADGE_STYLES, QUESTION_TYPE_LABELS } from "../../lib/questionConstants";
 import type { MockInterviewQuestion } from "../types";
 
@@ -23,12 +24,13 @@ export function InterviewExchange({
 }: InterviewExchangeProps) {
   const [answer, setAnswer] = useState("");
   const [showHints, setShowHints] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
         <span className="text-xs font-medium text-neutral-400">
-          Question {questionIndex + 1} of {totalQuestions}
+          {t("interviews.mockInterview.questionOf").replace("{current}", String(questionIndex + 1)).replace("{total}", String(totalQuestions))}
         </span>
         <div className="h-1.5 flex-1 rounded-full bg-neutral-100" role="progressbar">
           <div
@@ -53,7 +55,7 @@ export function InterviewExchange({
             className="mt-3 flex items-center gap-1 text-xs text-neutral-500 hover:text-neutral-700"
           >
             {showHints ? <ChevronDown className="h-3.5 w-3.5" /> : <ChevronRight className="h-3.5 w-3.5" />}
-            {showHints ? "Hide tips" : "Show tips"}
+            {showHints ? t("interviews.mockInterview.hideTips") : t("interviews.mockInterview.showTips")}
           </button>
         )}
         {showHints && (
@@ -68,7 +70,7 @@ export function InterviewExchange({
       <textarea
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
-        placeholder="Answer as if you're talking to the interviewer right now."
+        placeholder={t("interviews.mockInterview.answerPlaceholder")}
         rows={6}
         maxLength={5000}
         className="w-full min-h-[120px] rounded-xl border border-neutral-200 bg-white p-4 text-sm text-neutral-700 placeholder:text-neutral-400 focus:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-100 resize-y"
@@ -80,7 +82,7 @@ export function InterviewExchange({
           onClick={() => onSubmit(answer)}
           disabled={loading || answer.trim().length < 10}
         >
-          {loading ? "Reviewing your answer..." : "Submit"}
+          {loading ? t("interviews.mockInterview.reviewing") : t("interviews.mockInterview.submit")}
         </Button>
       </div>
     </div>

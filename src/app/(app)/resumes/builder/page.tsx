@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useStorage } from "@/hooks/useStorage";
 import { useSaveIndicator } from "@/hooks/useSaveIndicator";
 import { usePdfExport } from "@/hooks/usePdfExport";
@@ -31,6 +32,7 @@ const emptyExperience = () => ({ title: "", company: "", location: "", dates: ""
 const emptyEducation = () => ({ school: "", degree: "", location: "", dates: "" });
 
 export default function ResumeBuilderPage() {
+  const { t } = useLanguage();
   const storage = useStorage();
   const [resume, setResume] = useState<Resume>(emptyResume());
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -93,9 +95,9 @@ export default function ResumeBuilderPage() {
       setResumes(await storage.getResumes());
       isDirty.current = false;
       showSaved();
-      toast("Resume saved successfully");
-    } catch { toast("Failed to save resume", "error"); }
-  }, [storage, resume, showSaved, toast]);
+      toast(t("resumes.builder.resumeSaved"));
+    } catch { toast(t("resumes.builder.saveFailed"), "error"); }
+  }, [storage, resume, showSaved, toast, t]);
 
   // Ctrl/Cmd+S keyboard shortcut to save
   useEffect(() => {
@@ -175,7 +177,7 @@ export default function ResumeBuilderPage() {
   }
   async function deleteResume(id: string) {
     if (resumes.length <= 1) {
-      toast("You need at least one resume.", "warning");
+      toast(t("resumes.builder.needOneResume"), "warning");
       return;
     }
     await storage.deleteResume(id);
@@ -187,7 +189,7 @@ export default function ResumeBuilderPage() {
       setActiveId(next.id);
     }
     isDirty.current = false;
-    toast("Resume deleted");
+    toast(t("resumes.builder.resumeDeleted"));
   }
 
   if (initialLoading) {
@@ -202,17 +204,17 @@ export default function ResumeBuilderPage() {
 
   return (
     <div>
-      <Breadcrumb href="/resumes" label="Resumes" />
+      <Breadcrumb href="/resumes" label={t("resumes.title")} />
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-800">Resume Builder</h1>
-          <p className="mt-1 text-sm text-neutral-500">Fill in each section and see your resume update in real time.</p>
+          <h1 className="text-2xl font-bold text-neutral-800">{t("resumes.builder.title")}</h1>
+          <p className="mt-1 text-sm text-neutral-500">{t("resumes.builder.description")}</p>
         </div>
         <div className="flex items-center gap-2">
           <SavedIndicator visible={saved} />
           <Button variant="ghost" size="sm" onClick={() => setShowPreview(!showPreview)} className="md:hidden">
             {showPreview ? <EyeOff className="h-4 w-4 mr-1" /> : <Eye className="h-4 w-4 mr-1" />}
-            {showPreview ? "Edit" : "Preview"}
+            {showPreview ? t("common.edit") : t("common.preview")}
           </Button>
         </div>
       </div>
@@ -226,22 +228,22 @@ export default function ResumeBuilderPage() {
 
       {profile?.skills?.length || profile?.brandStatement ? (
         <div className="mb-4 flex items-center justify-between rounded-lg border border-primary-200 bg-primary-50 px-4 py-3">
-          <span className="text-sm text-primary-700">Auto-fill skills and profile from your Know Yourself data?</span>
-          <Button variant="secondary" size="sm" onClick={autoPopulateFromProfile}><Wand2 className="mr-1 h-4 w-4" /> Auto-Fill</Button>
+          <span className="text-sm text-primary-700">{t("resumes.builder.autoFillPrompt")}</span>
+          <Button variant="secondary" size="sm" onClick={autoPopulateFromProfile}><Wand2 className="mr-1 h-4 w-4" /> {t("resumes.builder.autoFill")}</Button>
         </div>
       ) : (
-        <Callout type="tip" className="mb-4">Complete the <strong>Know Yourself</strong> tools first to auto-populate your skills and profile overview here.</Callout>
+        <Callout type="tip" className="mb-4">{t("resumes.builder.noDataCallout")}</Callout>
       )}
 
       <div className="flex flex-col gap-6 md:flex-row">
         <div className={`flex-1 space-y-6 ${showPreview ? "hidden md:block" : ""}`}>
           <div className="rounded-xl border border-neutral-150 bg-white p-5 shadow-sm">
             <div className="grid gap-4 sm:grid-cols-2">
-              <Input label="Resume Title" value={resume.title} onChange={(e) => setResume({ ...resume, title: e.target.value })} placeholder="e.g., Marketing Resume" />
-              <Select label="Template" value={resume.template} onChange={(e) => setResume({ ...resume, template: e.target.value as ResumeTemplate })}>
-                  <option value="chronological">Chronological</option>
-                  <option value="functional">Functional</option>
-                  <option value="combination">Combination</option>
+              <Input label={t("resumes.builder.resumeTitle")} value={resume.title} onChange={(e) => setResume({ ...resume, title: e.target.value })} placeholder={t("resumes.builder.resumeTitlePlaceholder")} />
+              <Select label={t("resumes.builder.template")} value={resume.template} onChange={(e) => setResume({ ...resume, template: e.target.value as ResumeTemplate })}>
+                  <option value="chronological">{t("resumes.builder.chronological")}</option>
+                  <option value="functional">{t("resumes.builder.functional")}</option>
+                  <option value="combination">{t("resumes.builder.combination")}</option>
               </Select>
             </div>
           </div>
@@ -249,65 +251,65 @@ export default function ResumeBuilderPage() {
           <ContactInfoSection contactInfo={resume.content.contactInfo} onChange={updateContact} />
 
           <section className="rounded-xl border-l-4 border-l-primary-400 bg-white p-5 shadow-sm">
-            <h2 className="mb-2 text-lg font-semibold text-neutral-800">Profile Overview</h2>
-            <p className="mb-3 text-sm text-neutral-500">A branding statement, summary, or list of qualifications. This is the top third of your resume.</p>
-            <Textarea value={resume.content.profileOverview} onChange={(e) => setContentWithDirty({ profileOverview: e.target.value })} placeholder="e.g., Detail-oriented computer science graduate skilled in full-stack development..." rows={4} />
+            <h2 className="mb-2 text-lg font-semibold text-neutral-800">{t("resumes.builder.profileOverview")}</h2>
+            <p className="mb-3 text-sm text-neutral-500">{t("resumes.builder.profileDesc")}</p>
+            <Textarea value={resume.content.profileOverview} onChange={(e) => setContentWithDirty({ profileOverview: e.target.value })} placeholder={t("resumes.builder.profilePlaceholder")} rows={4} />
           </section>
 
           <ExperienceSection experience={resume.content.experience} onUpdate={updateExperience} onUpdateBullet={updateBullet} onAddBullet={addBullet} onRemoveBullet={removeBullet} onAdd={addExperience} onRemove={removeExperience} />
 
           <section className="rounded-xl border-l-4 border-l-primary-400 bg-white p-5 shadow-sm">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-neutral-800">Education</h2>
-              <Button variant="ghost" size="sm" onClick={addEducation}><Plus className="mr-1 h-4 w-4" /> Add</Button>
+              <h2 className="text-lg font-semibold text-neutral-800">{t("resumes.builder.education")}</h2>
+              <Button variant="ghost" size="sm" onClick={addEducation}><Plus className="mr-1 h-4 w-4" /> {t("common.add")}</Button>
             </div>
-            {resume.content.education.length === 0 && <p className="text-sm text-neutral-400 italic">Add your degrees, certificates, and training.</p>}
+            {resume.content.education.length === 0 && <p className="text-sm text-neutral-400 italic">{t("resumes.builder.educationDesc")}</p>}
             {resume.content.education.map((edu, i) => (
               <div key={i} className="mb-3 rounded-lg border border-neutral-100 p-4 last:mb-0">
                 <div className="mb-3 flex items-center justify-between">
-                  <span className="text-sm font-medium text-neutral-600">Education {i + 1}</span>
-                  <button onClick={() => removeEducation(i)} className="text-neutral-400 hover:text-error" aria-label={`Remove education ${i + 1}`}><Trash2 className="h-4 w-4" /></button>
+                  <span className="text-sm font-medium text-neutral-600">{t("resumes.builder.educationN").replace("{n}", String(i + 1))}</span>
+                  <button onClick={() => removeEducation(i)} className="text-neutral-400 hover:text-error" aria-label={`${t("common.remove")} ${t("resumes.builder.educationN").replace("{n}", String(i + 1))}`}><Trash2 className="h-4 w-4" /></button>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <Input placeholder="School / Institution" value={edu.school} onChange={(e) => updateEducation(i, "school", e.target.value)} />
-                  <Input placeholder="Degree / Certificate" value={edu.degree} onChange={(e) => updateEducation(i, "degree", e.target.value)} />
-                  <Input placeholder="Location" value={edu.location} onChange={(e) => updateEducation(i, "location", e.target.value)} />
-                  <Input placeholder="Dates" helperText="e.g., Aug 2022 – May 2026" value={edu.dates} onChange={(e) => updateEducation(i, "dates", e.target.value)} />
+                  <Input placeholder={t("resumes.builder.schoolPlaceholder")} value={edu.school} onChange={(e) => updateEducation(i, "school", e.target.value)} />
+                  <Input placeholder={t("resumes.builder.degreePlaceholder")} value={edu.degree} onChange={(e) => updateEducation(i, "degree", e.target.value)} />
+                  <Input placeholder={t("resumes.builder.locationPlaceholder")} value={edu.location} onChange={(e) => updateEducation(i, "location", e.target.value)} />
+                  <Input placeholder={t("resumes.builder.datesPlaceholder")} helperText={t("resumes.builder.datesExample")} value={edu.dates} onChange={(e) => updateEducation(i, "dates", e.target.value)} />
                 </div>
               </div>
             ))}
           </section>
 
           <section className="rounded-xl border-l-4 border-l-primary-400 bg-white p-5 shadow-sm">
-            <h2 className="mb-3 text-lg font-semibold text-neutral-800">Skills</h2>
+            <h2 className="mb-3 text-lg font-semibold text-neutral-800">{t("resumes.builder.skills")}</h2>
             <div className="mb-3 flex flex-wrap gap-2">
               {resume.content.skills.map((skill, i) => (
                 <span key={i} className="inline-flex items-center gap-1 rounded-full border border-primary-200 bg-primary-50 px-3 py-1 text-sm text-primary-700">
                   {skill}
-                  <button onClick={() => removeSkill(i)} className="ml-0.5 p-1 rounded-full hover:text-error hover:bg-red-50 min-w-[28px] min-h-[28px] flex items-center justify-center" aria-label={`Remove skill ${skill}`}><Trash2 className="h-3.5 w-3.5" /></button>
+                  <button onClick={() => removeSkill(i)} className="ml-0.5 p-1 rounded-full hover:text-error hover:bg-red-50 min-w-[28px] min-h-[28px] flex items-center justify-center" aria-label={`${t("common.remove")} ${skill}`}><Trash2 className="h-3.5 w-3.5" /></button>
                 </span>
               ))}
             </div>
             <div className="flex gap-2">
-              <Input placeholder="Add a skill..." helperText="e.g., Python, Excel, project management" value={skillInput} onChange={(e) => setSkillInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addSkill(skillInput); setSkillInput(""); } }} className="flex-1" />
-              <Button variant="secondary" size="md" onClick={() => { addSkill(skillInput); setSkillInput(""); }}>Add</Button>
+              <Input placeholder={t("resumes.builder.addSkillPlaceholder")} helperText={t("resumes.builder.skillExample")} value={skillInput} onChange={(e) => setSkillInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addSkill(skillInput); setSkillInput(""); } }} className="flex-1" />
+              <Button variant="secondary" size="md" onClick={() => { addSkill(skillInput); setSkillInput(""); }}>{t("common.add")}</Button>
             </div>
           </section>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             {resumes.length > 1 && (
               <button
-                onClick={() => { if (window.confirm(`Delete "${resume.title}"? This cannot be undone.`)) deleteResume(resume.id); }}
+                onClick={() => { if (window.confirm(t("resumes.builder.deleteResumeConfirm").replace("{title}", resume.title))) deleteResume(resume.id); }}
                 className="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-error"
               >
-                <Trash2 className="h-4 w-4" /> Delete this resume
+                <Trash2 className="h-4 w-4" /> {t("resumes.builder.deleteResume")}
               </button>
             )}
             <div className="flex flex-col gap-3 sm:flex-row sm:ml-auto">
               <Button variant="secondary" size="lg" onClick={() => exportResume(resume)} disabled={exporting} className="w-full sm:w-auto">
-                <Download className="mr-1.5 h-4 w-4" /> {exporting ? "Exporting..." : "Export PDF"}
+                <Download className="mr-1.5 h-4 w-4" /> {exporting ? t("common.exporting") : t("common.exportPdf")}
               </Button>
-              <Button onClick={save} size="lg" className="w-full sm:w-auto">Save Resume</Button>
+              <Button onClick={save} size="lg" className="w-full sm:w-auto">{t("resumes.builder.saveResume")}</Button>
             </div>
           </div>
         </div>

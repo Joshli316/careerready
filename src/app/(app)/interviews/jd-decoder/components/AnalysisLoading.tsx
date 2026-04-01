@@ -1,8 +1,10 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export function AnalysisLoading() {
+  const { t } = useLanguage();
   return (
     <div className="space-y-4 animate-pulse">
       <div className="h-6 w-48 rounded bg-neutral-200" />
@@ -18,7 +20,7 @@ export function AnalysisLoading() {
       </div>
       <div className="flex items-center justify-center gap-2 text-sm text-neutral-500">
         <Loader2 className="h-4 w-4 animate-spin" />
-        Reading the job posting, matching your stories, and building a prep plan...
+        {t("interviews.jdDecoder.loadingMessage")}
       </div>
     </div>
   );

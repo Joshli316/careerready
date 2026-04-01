@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Trash2, ChevronRight, Clock } from "lucide-react";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { MockInterviewSession } from "../types";
 
 interface PastSessionsProps {
@@ -13,19 +14,20 @@ interface PastSessionsProps {
 
 export function PastSessions({ sessions, onSelect, onDelete }: PastSessionsProps) {
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   if (sessions.length === 0) {
     return (
       <div className="rounded-xl border border-neutral-150 bg-neutral-50 p-5 text-center">
         <Clock className="mx-auto h-6 w-6 text-neutral-400 mb-2" />
-        <p className="text-sm text-neutral-500">No practice sessions yet. Pick a question set below to start.</p>
+        <p className="text-sm text-neutral-500">{t("interviews.mockInterview.noSessions")}</p>
       </div>
     );
   }
 
   return (
     <div>
-      <h3 className="mb-2 text-xs font-medium uppercase text-neutral-500">Your Sessions</h3>
+      <h3 className="mb-2 text-xs font-medium uppercase text-neutral-500">{t("interviews.mockInterview.yourSessions")}</h3>
       <div className="space-y-2">
         {sessions.map((s) => (
           <div
@@ -39,8 +41,8 @@ export function PastSessions({ sessions, onSelect, onDelete }: PastSessionsProps
               <div className="flex-1">
                 <p className="text-sm font-medium text-neutral-800">{s.sourceLabel}</p>
                 <p className="text-xs text-neutral-500">
-                  {new Date(s.createdAt).toLocaleDateString()} — {s.exchanges.length} questions
-                  {s.completed ? " — done" : " — incomplete"}
+                  {new Date(s.createdAt).toLocaleDateString()} — {s.exchanges.length} {t("interviews.mockInterview.questions")}
+                  {s.completed ? ` — ${t("interviews.mockInterview.done")}` : ` — ${t("interviews.mockInterview.incomplete")}`}
                 </p>
               </div>
               <ChevronRight className="h-4 w-4 text-neutral-400" />
@@ -58,8 +60,8 @@ export function PastSessions({ sessions, onSelect, onDelete }: PastSessionsProps
 
       <ConfirmDialog
         open={deleteId !== null}
-        title="Delete Session"
-        message="This mock interview session will be permanently deleted."
+        title={t("interviews.mockInterview.deleteSession")}
+        message={t("interviews.mockInterview.deleteSessionConfirm")}
         onConfirm={() => {
           if (deleteId) onDelete(deleteId);
           setDeleteId(null);

@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckCircle, AlertTriangle, HelpCircle } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { JDAnalysis } from "../types";
 
 interface AnalysisSummaryProps {
@@ -8,6 +9,7 @@ interface AnalysisSummaryProps {
 }
 
 export function AnalysisSummary({ analysis }: AnalysisSummaryProps) {
+  const { t } = useLanguage();
   const matchCount = analysis.storyMatches.length;
   const gapCount = analysis.gaps.length;
   const questionCount = analysis.mockQuestions.length;
@@ -18,7 +20,7 @@ export function AnalysisSummary({ analysis }: AnalysisSummaryProps) {
         <h2 className="text-xl font-bold text-neutral-800">
           {analysis.jobTitle}
           {analysis.company && (
-            <span className="font-normal text-neutral-500"> at {analysis.company}</span>
+            <span className="font-normal text-neutral-500"> {t("interviews.jdDecoder.at")} {analysis.company}</span>
           )}
         </h2>
         <p className="mt-2 text-sm text-neutral-600">{analysis.summary}</p>
@@ -27,17 +29,17 @@ export function AnalysisSummary({ analysis }: AnalysisSummaryProps) {
         <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-center">
           <CheckCircle className="mx-auto h-5 w-5 text-green-600 mb-1" />
           <div className="text-2xl font-bold text-green-700">{matchCount}</div>
-          <div className="text-xs text-green-600">Matched</div>
+          <div className="text-xs text-green-600">{t("interviews.jdDecoder.matched")}</div>
         </div>
         <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-center">
           <AlertTriangle className="mx-auto h-5 w-5 text-amber-600 mb-1" />
           <div className="text-2xl font-bold text-amber-700">{gapCount}</div>
-          <div className="text-xs text-amber-600">Gaps</div>
+          <div className="text-xs text-amber-600">{t("interviews.jdDecoder.gaps")}</div>
         </div>
         <div className="rounded-xl border border-primary-200 bg-primary-50 p-4 text-center">
           <HelpCircle className="mx-auto h-5 w-5 text-primary-600 mb-1" />
           <div className="text-2xl font-bold text-primary-700">{questionCount}</div>
-          <div className="text-xs text-primary-600">Practice Qs</div>
+          <div className="text-xs text-primary-600">{t("interviews.jdDecoder.practiceQs")}</div>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useProfileSave } from "@/hooks/useProfileSave";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -30,13 +31,31 @@ const SOFT_SKILLS = [
   "Attention to Detail",
 ];
 
-const HARD_SKILL_CATEGORIES = [
-  { category: "Technology", examples: "Microsoft Office, Google Suite, programming, data analysis" },
-  { category: "Business", examples: "Accounting, marketing, project management, sales" },
-  { category: "Healthcare", examples: "CPR, patient care, medical records, lab procedures" },
-  { category: "Trades", examples: "Construction, electrical, plumbing, HVAC, automotive" },
-  { category: "Creative", examples: "Graphic design, video editing, photography, writing" },
-  { category: "Other", examples: "Forklift certified, bilingual, CDL, food handling" },
+const SOFT_SKILL_KEYS: Record<string, string> = {
+  "Professionalism": "knowYourself.skills.skillNames.professionalism",
+  "Enthusiasm": "knowYourself.skills.skillNames.enthusiasm",
+  "Communication": "knowYourself.skills.skillNames.communication",
+  "Customer Service": "knowYourself.skills.skillNames.customerService",
+  "Commitment": "knowYourself.skills.skillNames.commitment",
+  "Teamwork": "knowYourself.skills.skillNames.teamwork",
+  "Adaptability": "knowYourself.skills.skillNames.adaptability",
+  "Organization": "knowYourself.skills.skillNames.organization",
+  "Time Management": "knowYourself.skills.skillNames.timeManagement",
+  "Decision Making": "knowYourself.skills.skillNames.decisionMaking",
+  "Problem Solving": "knowYourself.skills.skillNames.problemSolving",
+  "Leadership": "knowYourself.skills.skillNames.leadership",
+  "Creativity": "knowYourself.skills.skillNames.creativity",
+  "Critical Thinking": "knowYourself.skills.skillNames.criticalThinking",
+  "Attention to Detail": "knowYourself.skills.skillNames.attentionToDetail",
+};
+
+const HARD_SKILL_CATEGORY_KEYS: { categoryKey: string; examplesKey: string }[] = [
+  { categoryKey: "knowYourself.skills.categories.technology", examplesKey: "knowYourself.skills.categories.technologyEx" },
+  { categoryKey: "knowYourself.skills.categories.business", examplesKey: "knowYourself.skills.categories.businessEx" },
+  { categoryKey: "knowYourself.skills.categories.healthcare", examplesKey: "knowYourself.skills.categories.healthcareEx" },
+  { categoryKey: "knowYourself.skills.categories.trades", examplesKey: "knowYourself.skills.categories.tradesEx" },
+  { categoryKey: "knowYourself.skills.categories.creative", examplesKey: "knowYourself.skills.categories.creativeEx" },
+  { categoryKey: "knowYourself.skills.categories.other", examplesKey: "knowYourself.skills.categories.otherEx" },
 ];
 
 interface Skill {
@@ -47,6 +66,7 @@ interface Skill {
 
 export default function SkillsPage() {
   const { saved, save, storage } = useProfileSave();
+  const { t } = useLanguage();
   const [skills, setSkills] = useState<Skill[]>([]);
   const [newSkill, setNewSkill] = useState("");
   const [newCategory, setNewCategory] = useState<"soft" | "hard">("soft");
@@ -97,33 +117,32 @@ export default function SkillsPage() {
 
   return (
     <div>
-      <Breadcrumb href="/know-yourself" label="Know Yourself" />
+      <Breadcrumb href="/know-yourself" label={t("knowYourself.title")} />
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-800">Transferable Skills Inventory</h1>
+          <h1 className="text-2xl font-bold text-neutral-800">{t("knowYourself.skills.title")}</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Identify the soft and hard skills you bring from all your experiences: jobs, internships,
-            volunteer work, campus activities, and coursework.
+            {t("knowYourself.skills.description")}
           </p>
         </div>
         <SavedIndicator visible={saved} />
       </div>
 
       <Callout type="tip" className="mb-6">
-        Skills you select here will be available to auto-populate your resume and interview preparation.
+        {t("knowYourself.skills.callout")}
       </Callout>
 
       {/* Soft Skills Checklist */}
       <section className="mb-8">
-        <h2 className="mb-3 text-lg font-semibold text-neutral-800">Soft Skills</h2>
+        <h2 className="mb-3 text-lg font-semibold text-neutral-800">{t("knowYourself.skills.softSkillsTitle")}</h2>
         <p className="mb-4 text-sm text-neutral-500">
-          People skills and personal qualities. Select all that apply. Aim for at least 5.
+          {t("knowYourself.skills.softSkillsDesc")}
         </p>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {SOFT_SKILLS.map((skill) => (
               <ToggleButton
                 key={skill}
-                label={skill}
+                label={t(SOFT_SKILL_KEYS[skill])}
                 checked={skills.some((s) => s.name === skill && s.category === "soft")}
                 onToggle={() => toggleSoftSkill(skill)}
               />
@@ -133,15 +152,15 @@ export default function SkillsPage() {
 
       {/* Hard Skills */}
       <section className="mb-8">
-        <h2 className="mb-3 text-lg font-semibold text-neutral-800">Hard Skills</h2>
+        <h2 className="mb-3 text-lg font-semibold text-neutral-800">{t("knowYourself.skills.hardSkillsTitle")}</h2>
         <p className="mb-4 text-sm text-neutral-500">
-          Specific, teachable abilities. Think about skills from coursework, certifications, projects, and jobs.
+          {t("knowYourself.skills.hardSkillsDesc")}
         </p>
         <div className="mb-4 grid gap-3 sm:grid-cols-2">
-          {HARD_SKILL_CATEGORIES.map((cat) => (
-            <div key={cat.category} className="rounded-lg border border-neutral-150 bg-white p-3">
-              <div className="text-sm font-medium text-neutral-700">{cat.category}</div>
-              <div className="text-xs text-neutral-400">{cat.examples}</div>
+          {HARD_SKILL_CATEGORY_KEYS.map((cat) => (
+            <div key={cat.categoryKey} className="rounded-lg border border-neutral-150 bg-white p-3">
+              <div className="text-sm font-medium text-neutral-700">{t(cat.categoryKey)}</div>
+              <div className="text-xs text-neutral-400">{t(cat.examplesKey)}</div>
             </div>
           ))}
         </div>
@@ -175,10 +194,10 @@ export default function SkillsPage() {
 
       {/* Add custom skill */}
       <section className="rounded-xl border border-neutral-150 bg-white p-5">
-        <h3 className="mb-3 font-semibold text-neutral-800">Add a Skill</h3>
+        <h3 className="mb-3 font-semibold text-neutral-800">{t("knowYourself.skills.addSkill")}</h3>
         <div className="flex flex-col gap-3 sm:flex-row">
           <Input
-            placeholder="Skill name (e.g., Python, QuickBooks)"
+            placeholder={t("knowYourself.skills.skillPlaceholder")}
             value={newSkill}
             onChange={(e) => setNewSkill(e.target.value)}
             className="flex-1"
@@ -188,18 +207,18 @@ export default function SkillsPage() {
             value={newCategory}
             onChange={(e) => setNewCategory(e.target.value as "soft" | "hard")}
           >
-            <option value="soft">Soft Skill</option>
-            <option value="hard">Hard Skill</option>
+            <option value="soft">{t("common.softSkill")}</option>
+            <option value="hard">{t("common.hardSkill")}</option>
           </Select>
           <Input
-            placeholder="Where learned (optional)"
+            placeholder={t("knowYourself.skills.sourcePlaceholder")}
             value={newSource}
             onChange={(e) => setNewSource(e.target.value)}
             className="flex-1"
           />
           <Button onClick={addCustomSkill} size="md">
             <Plus className="mr-1 h-4 w-4" />
-            Add
+            {t("common.add")}
           </Button>
         </div>
       </section>
@@ -209,15 +228,15 @@ export default function SkillsPage() {
         <div className="flex items-center gap-6 text-sm">
           <div>
             <span className="font-semibold text-neutral-800">{softSkills.length}</span>
-            <span className="ml-1 text-neutral-500">soft skills</span>
+            <span className="ml-1 text-neutral-500">{t("knowYourself.skills.softSkills")}</span>
           </div>
           <div>
             <span className="font-semibold text-neutral-800">{hardSkills.length}</span>
-            <span className="ml-1 text-neutral-500">hard skills</span>
+            <span className="ml-1 text-neutral-500">{t("knowYourself.skills.hardSkills")}</span>
           </div>
           <div>
             <span className="font-semibold text-neutral-800">{skills.length}</span>
-            <span className="ml-1 text-neutral-500">total</span>
+            <span className="ml-1 text-neutral-500">{t("common.total")}</span>
           </div>
         </div>
       </div>

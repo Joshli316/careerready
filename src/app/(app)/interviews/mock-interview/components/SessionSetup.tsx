@@ -2,17 +2,11 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import en from "@/lib/i18n/en.json";
+import zh from "@/lib/i18n/zh.json";
 import type { JDAnalysis } from "../../jd-decoder/types";
 import type { MockInterviewQuestion } from "../types";
-
-const GENERIC_QUESTIONS: MockInterviewQuestion[] = [
-  { question: "Tell me about yourself.", type: "behavioral", talkingPoints: ["Keep it under 2 minutes", "Focus on relevant experience", "End with why you're excited about this role"] },
-  { question: "Why are you interested in this position?", type: "culture_fit", talkingPoints: ["Show you've researched the company", "Connect your skills to the role", "Express genuine enthusiasm"] },
-  { question: "Describe a time you faced a challenge at work or school. How did you handle it?", type: "behavioral", talkingPoints: ["Use STAR format", "Focus on your specific actions", "Quantify the result"] },
-  { question: "What are your greatest strengths?", type: "behavioral", talkingPoints: ["Pick 2-3 relevant strengths", "Back each with a brief example", "Align with job requirements"] },
-  { question: "Where do you see yourself in five years?", type: "situational", talkingPoints: ["Show ambition but be realistic", "Connect growth to the company", "Demonstrate long-term thinking"] },
-  { question: "Tell me about a time you worked on a team.", type: "behavioral", talkingPoints: ["Highlight your specific contribution", "Show collaboration skills", "Mention the outcome"] },
-];
 
 interface SessionSetupProps {
   jdAnalyses: JDAnalysis[];
@@ -20,10 +14,22 @@ interface SessionSetupProps {
 }
 
 export function SessionSetup({ jdAnalyses, onStart }: SessionSetupProps) {
+  const { t, language } = useLanguage();
+  const translations = language === "zh" ? zh : en;
+  const gq = translations.interviews.mockInterview.genericQuestions;
   const [selectedJD, setSelectedJD] = useState<string | null>(null);
 
+  const GENERIC_QUESTIONS: MockInterviewQuestion[] = [
+    { question: gq.q1, type: "behavioral", talkingPoints: gq.q1Tips },
+    { question: gq.q2, type: "culture_fit", talkingPoints: gq.q2Tips },
+    { question: gq.q3, type: "behavioral", talkingPoints: gq.q3Tips },
+    { question: gq.q4, type: "behavioral", talkingPoints: gq.q4Tips },
+    { question: gq.q5, type: "situational", talkingPoints: gq.q5Tips },
+    { question: gq.q6, type: "behavioral", talkingPoints: gq.q6Tips },
+  ];
+
   function startGeneric() {
-    onStart(GENERIC_QUESTIONS, "Entry-level position", "Generic Practice", "generic");
+    onStart(GENERIC_QUESTIONS, t("interviews.mockInterview.entryLevel"), t("interviews.mockInterview.genericLabel"), "generic");
   }
 
   function startFromJD(analysis: JDAnalysis) {
@@ -47,20 +53,20 @@ export function SessionSetup({ jdAnalyses, onStart }: SessionSetupProps) {
   return (
     <div className="space-y-6">
       <div className="rounded-xl border border-neutral-150 bg-white p-6 shadow-sm">
-        <h3 className="font-semibold text-neutral-800">Quick Practice</h3>
+        <h3 className="font-semibold text-neutral-800">{t("interviews.mockInterview.quickPractice")}</h3>
         <p className="mt-1 text-sm text-neutral-500">
-          6 common questions that come up in almost every interview.
+          {t("interviews.mockInterview.quickPracticeDesc")}
         </p>
         <Button className="mt-3" onClick={startGeneric}>
-          Start Quick Practice
+          {t("interviews.mockInterview.startQuickPractice")}
         </Button>
       </div>
 
       {jdAnalyses.length > 0 && (
         <div className="rounded-xl border border-neutral-150 bg-white p-6 shadow-sm">
-          <h3 className="font-semibold text-neutral-800">Practice for a Specific Job</h3>
+          <h3 className="font-semibold text-neutral-800">{t("interviews.mockInterview.specificJob")}</h3>
           <p className="mt-1 text-sm text-neutral-500">
-            Questions pulled from a job posting you already analyzed.
+            {t("interviews.mockInterview.specificJobDesc")}
           </p>
           <div className="mt-3 space-y-2">
             {jdAnalyses.map((a) => (
@@ -73,10 +79,10 @@ export function SessionSetup({ jdAnalyses, onStart }: SessionSetupProps) {
                     : "border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300"
                 }`}
               >
-                <span className="font-medium">{a.jobTitle || "Untitled"}</span>
+                <span className="font-medium">{a.jobTitle || t("common.untitled")}</span>
                 {a.company && <span className="text-neutral-500"> — {a.company}</span>}
                 <span className="ml-2 text-xs text-neutral-400">
-                  {a.mockQuestions.length} Qs
+                  {a.mockQuestions.length} {t("common.questionsAbbr")}
                 </span>
               </button>
             ))}
@@ -90,7 +96,7 @@ export function SessionSetup({ jdAnalyses, onStart }: SessionSetupProps) {
                 if (analysis) startFromJD(analysis);
               }}
             >
-              Start Job-Specific Practice
+              {t("interviews.mockInterview.startJobSpecific")}
             </Button>
           )}
         </div>

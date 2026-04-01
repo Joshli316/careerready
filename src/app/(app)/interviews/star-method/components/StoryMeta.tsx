@@ -3,6 +3,7 @@
 import { Input } from "@/components/ui/Input";
 import { StrengthRating } from "./StrengthRating";
 import { SkillSelect } from "./SkillSelect";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { StarStory, Competency } from "@/types/interview";
 
 interface StoryMetaProps {
@@ -11,6 +12,8 @@ interface StoryMetaProps {
 }
 
 export function StoryMeta({ story, onUpdate }: StoryMetaProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="space-y-4">
       {/* Strength rating — full width */}
@@ -21,20 +24,20 @@ export function StoryMeta({ story, onUpdate }: StoryMetaProps) {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <SkillSelect
-          label="Primary Skill"
+          label={t("interviews.starMethod.primarySkill")}
           value={story.primarySkill}
           onChange={(v: Competency | "") => onUpdate("primarySkill", v)}
         />
 
         <SkillSelect
-          label="Secondary Skill"
+          label={t("interviews.starMethod.secondarySkill")}
           value={story.secondarySkill}
           onChange={(v: Competency | "") => onUpdate("secondarySkill", v)}
         />
 
         <Input
-          label="Best deployed for"
-          placeholder="e.g., Amazon leadership principles, startup culture fit"
+          label={t("interviews.starMethod.bestDeployedFor")}
+          placeholder={t("interviews.starMethod.bestDeployedForPlaceholder")}
           value={story.deployFor}
           onChange={(e) => onUpdate("deployFor", e.target.value)}
         />
@@ -42,7 +45,7 @@ export function StoryMeta({ story, onUpdate }: StoryMetaProps) {
         {/* useCount with +/- controls */}
         <div>
           <p className="mb-1.5 block text-sm font-medium text-neutral-700">
-            Use Count
+            {t("interviews.starMethod.useCount")}
           </p>
           <div className="flex items-center gap-2">
             <button
@@ -54,7 +57,9 @@ export function StoryMeta({ story, onUpdate }: StoryMetaProps) {
               −
             </button>
             <span className="min-w-[6rem] text-sm text-neutral-700">
-              Used {story.useCount} {story.useCount === 1 ? "time" : "times"}
+              {t("interviews.starMethod.usedCount")
+                .replace("{count}", String(story.useCount))
+                .replace("{unit}", story.useCount === 1 ? t("interviews.starMethod.time") : t("interviews.starMethod.times"))}
             </span>
             <button
               type="button"

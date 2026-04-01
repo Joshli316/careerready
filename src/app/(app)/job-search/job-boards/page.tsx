@@ -1,56 +1,55 @@
-import type { Metadata } from "next";
+"use client";
+
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
-export const metadata: Metadata = {
-  title: "Job Boards & Websites",
-  description: "Job search websites for recent graduates: LinkedIn, Indeed, Handshake, and others. Tips for each platform.",
+const boardKeys = ["linkedin", "indeed", "glassdoor", "handshake", "googleJobs", "usajobs", "wellfound", "ziprecruiter"] as const;
+
+const boardUrls: Record<string, string> = {
+  linkedin: "https://www.linkedin.com/jobs",
+  indeed: "https://www.indeed.com",
+  glassdoor: "https://www.glassdoor.com",
+  handshake: "https://joinhandshake.com",
+  googleJobs: "https://www.google.com/search?q=jobs+near+me",
+  usajobs: "https://www.usajobs.gov",
+  wellfound: "https://wellfound.com",
+  ziprecruiter: "https://www.ziprecruiter.com",
 };
 
-const boards = [
-  { name: "LinkedIn", type: "Professional Network", tip: "Build your profile, set job alerts, use Easy Apply", url: "https://www.linkedin.com/jobs" },
-  { name: "Indeed", type: "Job Aggregator", tip: "Upload resume, set daily email alerts by keyword", url: "https://www.indeed.com" },
-  { name: "Glassdoor", type: "Reviews + Jobs", tip: "Research company culture and salary ranges", url: "https://www.glassdoor.com" },
-  { name: "Handshake", type: "College-Focused", tip: "Connect with employers recruiting from your school", url: "https://joinhandshake.com" },
-  { name: "Google Jobs", type: "Search Engine", tip: "Search 'jobs near me'. It pulls listings from multiple sites.", url: "https://www.google.com/search?q=jobs+near+me" },
-  { name: "USAJobs.gov", type: "Government", tip: "Federal job listings with structured applications", url: "https://www.usajobs.gov" },
-  { name: "Wellfound", type: "Startups", tip: "Startup and tech company opportunities", url: "https://wellfound.com" },
-  { name: "ZipRecruiter", type: "Job Matching", tip: "AI-matched job recommendations based on your resume", url: "https://www.ziprecruiter.com" },
-];
-
 export default function JobBoardsPage() {
+  const { t } = useLanguage();
+
   return (
     <div>
-      <Breadcrumb href="/job-search" label="Job Search" />
+      <Breadcrumb href="/job-search" label={t("jobSearch.title")} />
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-neutral-800">Job Boards & Websites</h1>
-        <p className="mt-1 text-sm text-neutral-500">Post your resume on multiple sites and set up alerts so openings come to you.</p>
+        <h1 className="text-2xl font-bold text-neutral-800">{t("jobSearch.jobBoards.title")}</h1>
+        <p className="mt-1 text-sm text-neutral-500">{t("jobSearch.jobBoards.description")}</p>
       </div>
 
       <Callout type="tip" className="mb-6">
-        Use a variety of sites, set job alerts, and use keyword-rich search terms.
-        If a company's name appears, apply directly through their website when possible.
+        {t("jobSearch.jobBoards.callout")}
       </Callout>
 
       <Callout type="warning" className="mb-6">
-        <strong>Watch out for scams.</strong> Be wary of listings that promise quick income, require fees,
-        or ask for your Social Security number or bank info before hiring.
+        <strong>{t("jobSearch.jobBoards.scamWarning")}</strong>
       </Callout>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        {boards.map((board) => (
+        {boardKeys.map((key) => (
           <a
-            key={board.name}
-            href={board.url}
+            key={key}
+            href={boardUrls[key]}
             target="_blank"
             rel="noopener noreferrer"
             className="group rounded-xl border border-neutral-150 bg-white p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md hover:border-primary-300"
           >
             <div className="mb-1 flex items-center justify-between">
-              <h2 className="font-semibold text-neutral-800 group-hover:text-primary-400">{board.name}</h2>
-              <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-500">{board.type}</span>
+              <h2 className="font-semibold text-neutral-800 group-hover:text-primary-400">{t(`jobSearch.jobBoards.boards.${key}.name`)}</h2>
+              <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-500">{t(`jobSearch.jobBoards.boards.${key}.type`)}</span>
             </div>
-            <p className="text-sm text-neutral-600">{board.tip}</p>
+            <p className="text-sm text-neutral-600">{t(`jobSearch.jobBoards.boards.${key}.tip`)}</p>
           </a>
         ))}
       </div>

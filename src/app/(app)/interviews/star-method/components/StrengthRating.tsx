@@ -2,6 +2,7 @@
 
 import { Star } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 interface StrengthRatingProps {
   value: number;
@@ -9,10 +10,12 @@ interface StrengthRatingProps {
 }
 
 export function StrengthRating({ value, onChange }: StrengthRatingProps) {
+  const { t } = useLanguage();
+
   return (
     <div>
-      <p className="mb-1 text-sm font-medium text-neutral-700">Story Strength</p>
-      <div role="radiogroup" aria-label="Story Strength" className="flex gap-1">
+      <p className="mb-1 text-sm font-medium text-neutral-700">{t("interviews.starMethod.storyStrength")}</p>
+      <div role="radiogroup" aria-label={t("interviews.starMethod.storyStrength")} className="flex gap-1">
         {[1, 2, 3, 4, 5].map((n) => (
           <button
             key={n}

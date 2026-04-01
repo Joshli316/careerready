@@ -1,15 +1,20 @@
+"use client";
+
 import type { EmployerContact } from "@/types/contact";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 interface ContactStatsProps {
   contacts: EmployerContact[];
 }
 
 export function ContactStats({ contacts }: ContactStatsProps) {
+  const { t } = useLanguage();
+
   const stats = [
-    { label: "Total", count: contacts.length },
-    { label: "Applied", count: contacts.filter((c) => c.status === "applied").length },
-    { label: "Interviews", count: contacts.filter((c) => c.status === "interview" || c.status === "phone_screen").length },
-    { label: "Offers", count: contacts.filter((c) => c.status === "offer" || c.status === "accepted").length },
+    { label: t("contactLog.stats.total"), count: contacts.length },
+    { label: t("contactLog.stats.applied"), count: contacts.filter((c) => c.status === "applied").length },
+    { label: t("contactLog.stats.interviews"), count: contacts.filter((c) => c.status === "interview" || c.status === "phone_screen").length },
+    { label: t("contactLog.stats.offers"), count: contacts.filter((c) => c.status === "offer" || c.status === "accepted").length },
   ];
 
   return (

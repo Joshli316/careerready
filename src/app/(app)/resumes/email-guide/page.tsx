@@ -1,20 +1,19 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
-export const metadata: Metadata = {
-  title: "Emailing Your Resume",
-  description: "How to write a professional email when sending your resume. Subject line format, body template, and attachment tips.",
-};
-
 export default function EmailGuidePage() {
+  const { t } = useLanguage();
+
   return (
     <div>
-      <Breadcrumb href="/resumes" label="Resumes" />
+      <Breadcrumb href="/resumes" label={t("resumes.title")} />
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-neutral-800">Emailing Your Resume</h1>
+        <h1 className="text-2xl font-bold text-neutral-800">{t("resumes.emailGuide.title")}</h1>
         <p className="mt-1 text-sm text-neutral-500">
-          Follow these guidelines when submitting your resume via email.
+          {t("resumes.emailGuide.description")}
         </p>
       </div>
 
@@ -24,12 +23,12 @@ export default function EmailGuidePage() {
           <div className="flex items-start gap-3">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-400 text-sm font-bold text-white">1</div>
             <div>
-              <h2 className="font-semibold text-neutral-800">Subject Line</h2>
+              <h2 className="font-semibold text-neutral-800">{t("resumes.emailGuide.subjectLine")}</h2>
               <p className="mt-1 text-sm text-neutral-600">
-                Include the job title or position you are applying for and your full name.
+                {t("resumes.emailGuide.subjectDesc")}
               </p>
               <div className="mt-2 rounded-lg bg-neutral-50 p-3 font-mono text-sm text-neutral-700">
-                Subject: Marketing Coordinator Position - Jane Smith
+                {t("resumes.emailGuide.subjectExample")}
               </div>
             </div>
           </div>
@@ -40,14 +39,14 @@ export default function EmailGuidePage() {
           <div className="flex items-start gap-3">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-400 text-sm font-bold text-white">2</div>
             <div>
-              <h2 className="font-semibold text-neutral-800">Email Body</h2>
+              <h2 className="font-semibold text-neutral-800">{t("resumes.emailGuide.emailBody")}</h2>
               <p className="mt-1 text-sm text-neutral-600">
-                Write a brief introductory message. You can use your cover letter as the body, or compose a shorter message and attach the cover letter.
+                {t("resumes.emailGuide.emailBodyDesc")}
               </p>
               <ul className="mt-2 space-y-1 text-sm text-neutral-600">
-                <li className="flex gap-2"><span className="text-primary-400">&#10003;</span>Address to the contact person if possible</li>
-                <li className="flex gap-2"><span className="text-primary-400">&#10003;</span>1-2 short paragraphs explaining your qualifications</li>
-                <li className="flex gap-2"><span className="text-primary-400">&#10003;</span>Reference 1-2 skills from the job posting that match your experience</li>
+                <li className="flex gap-2"><span className="text-primary-400">&#10003;</span>{t("resumes.emailGuide.emailTip1")}</li>
+                <li className="flex gap-2"><span className="text-primary-400">&#10003;</span>{t("resumes.emailGuide.emailTip2")}</li>
+                <li className="flex gap-2"><span className="text-primary-400">&#10003;</span>{t("resumes.emailGuide.emailTip3")}</li>
               </ul>
             </div>
           </div>
@@ -58,9 +57,9 @@ export default function EmailGuidePage() {
           <div className="flex items-start gap-3">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-400 text-sm font-bold text-white">3</div>
             <div>
-              <h2 className="font-semibold text-neutral-800">Contact Information</h2>
+              <h2 className="font-semibold text-neutral-800">{t("resumes.emailGuide.contactInfo")}</h2>
               <p className="mt-1 text-sm text-neutral-600">
-                Include your full name, phone number, and email at the end of your email. Make it easy for the employer to contact you.
+                {t("resumes.emailGuide.contactInfoDesc")}
               </p>
             </div>
           </div>
@@ -71,46 +70,44 @@ export default function EmailGuidePage() {
           <div className="flex items-start gap-3">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-400 text-sm font-bold text-white">4</div>
             <div>
-              <h2 className="font-semibold text-neutral-800">Attachments</h2>
+              <h2 className="font-semibold text-neutral-800">{t("resumes.emailGuide.attachments")}</h2>
               <p className="mt-1 text-sm text-neutral-600">
-                Attach your resume and cover letter as PDF files. Name them clearly:
+                {t("resumes.emailGuide.attachmentsDesc")}
               </p>
               <div className="mt-2 space-y-1 rounded-lg bg-neutral-50 p-3 font-mono text-sm text-neutral-700">
-                <div>Jane Smith Resume.pdf</div>
-                <div>Jane Smith Cover Letter.pdf</div>
+                <div>{t("resumes.emailGuide.attachmentResume")}</div>
+                <div>{t("resumes.emailGuide.attachmentCover")}</div>
               </div>
             </div>
           </div>
         </section>
 
         <Callout type="warning">
-          Double check your spelling, grammar, and capitalization before sending. Proofread everything. Emails create a first impression too.
+          {t("resumes.emailGuide.proofreadWarning")}
         </Callout>
 
         {/* Sample email */}
         <section className="rounded-xl border border-neutral-150 bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-neutral-800">Sample Email</h2>
+          <h2 className="mb-4 text-lg font-semibold text-neutral-800">{t("resumes.emailGuide.sampleEmail")}</h2>
           <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-sm leading-relaxed text-neutral-700">
             <div className="mb-2 border-b border-neutral-200 pb-2">
               <div><strong>To:</strong> hiring@company.com</div>
-              <div><strong>Subject:</strong> Marketing Coordinator Position - Jane Smith</div>
+              <div><strong>{t("resumes.emailGuide.subjectLine")}:</strong> {t("resumes.emailGuide.sampleSubject").replace("Subject: ", "")}</div>
             </div>
-            <p>Hello Ms. Johnson,</p>
+            <p>{t("resumes.emailGuide.sampleGreeting")}</p>
             <br />
             <p>
-              I've attached my resume and cover letter for the Marketing Coordinator position. I recently
-              graduated with a degree in Marketing and have internship experience managing social media
-              campaigns. I'd love to bring that hands-on experience to your team.
+              {t("resumes.emailGuide.sampleBody")}
             </p>
             <br />
             <p>
-              Thank you for your time. I look forward to hearing from you.
+              {t("resumes.emailGuide.sampleClosing")}
             </p>
             <br />
-            <p>Sincerely,</p>
-            <p>Jane Smith</p>
-            <p>555-555-5555</p>
-            <p>janesmith@email.com</p>
+            <p>{t("common.sincerely")}</p>
+            <p>{t("resumes.emailGuide.sampleName")}</p>
+            <p>{t("resumes.emailGuide.samplePhone")}</p>
+            <p>{t("resumes.emailGuide.sampleEmail2")}</p>
           </div>
         </section>
       </div>

@@ -2,30 +2,32 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useProfileSave } from "@/hooks/useProfileSave";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
-const VALUES = [
-  { value: "Achievement", description: "Jobs that let you use your best abilities with a feeling of accomplishment." },
-  { value: "Relationships", description: "Jobs where co-workers are friendly and you can be of service to others." },
-  { value: "Support", description: "Jobs with competent and fair management that stands behind its workers." },
-  { value: "Independence", description: "Jobs where you are encouraged to take initiative and make decisions." },
-  { value: "Recognition", description: "Jobs with good possibilities for advancement, prestige, and leadership." },
-  { value: "Working Conditions", description: "Jobs with desired pay, security, location, and work style." },
+const VALUE_KEYS: { value: string; nameKey: string; descKey: string }[] = [
+  { value: "Achievement", nameKey: "knowYourself.workValues.values.achievement", descKey: "knowYourself.workValues.values.achievementDesc" },
+  { value: "Relationships", nameKey: "knowYourself.workValues.values.relationships", descKey: "knowYourself.workValues.values.relationshipsDesc" },
+  { value: "Support", nameKey: "knowYourself.workValues.values.support", descKey: "knowYourself.workValues.values.supportDesc" },
+  { value: "Independence", nameKey: "knowYourself.workValues.values.independence", descKey: "knowYourself.workValues.values.independenceDesc" },
+  { value: "Recognition", nameKey: "knowYourself.workValues.values.recognition", descKey: "knowYourself.workValues.values.recognitionDesc" },
+  { value: "Working Conditions", nameKey: "knowYourself.workValues.values.workingConditions", descKey: "knowYourself.workValues.values.workingConditionsDesc" },
 ];
 
 export default function WorkValuesPage() {
   const { saved, save, storage } = useProfileSave();
-  const [rankings, setRankings] = useState(VALUES.map((v, i) => ({ ...v, rank: i + 1 })));
+  const { t } = useLanguage();
+  const [rankings, setRankings] = useState(VALUE_KEYS.map((v, i) => ({ ...v, rank: i + 1 })));
 
   useEffect(() => {
     storage.getProfile().then((profile) => {
       if (profile?.workValues?.length) {
-        const ranked = VALUES.map((v) => {
+        const ranked = VALUE_KEYS.map((v) => {
           const found = profile.workValues?.find((wv) => wv.value === v.value);
-          return { ...v, rank: found?.rank ?? VALUES.indexOf(v) + 1 };
+          return { ...v, rank: found?.rank ?? VALUE_KEYS.indexOf(v) + 1 };
         }).sort((a, b) => a.rank - b.rank);
         setRankings(ranked);
       }
@@ -53,20 +55,19 @@ export default function WorkValuesPage() {
 
   return (
     <div>
-      <Breadcrumb href="/know-yourself" label="Know Yourself" />
+      <Breadcrumb href="/know-yourself" label={t("knowYourself.title")} />
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-800">Work Values Assessment</h1>
+          <h1 className="text-2xl font-bold text-neutral-800">{t("knowYourself.workValues.title")}</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Rank what matters most to you in a workplace. This helps you target jobs that align with your priorities.
+            {t("knowYourself.workValues.description")}
           </p>
         </div>
         <SavedIndicator visible={saved} />
       </div>
 
       <Callout type="tip" className="mb-6">
-        Use the arrows to reorder. #1 is most important to you.
-        Your values may change over time. Revisit this periodically.
+        {t("knowYourself.workValues.callout")}
       </Callout>
 
       <div className="space-y-3">
@@ -79,14 +80,14 @@ export default function WorkValuesPage() {
               {index + 1}
             </div>
             <div className="flex-1">
-              <div className="font-semibold text-neutral-800">{item.value}</div>
-              <div className="text-sm text-neutral-500">{item.description}</div>
+              <div className="font-semibold text-neutral-800">{t(item.nameKey)}</div>
+              <div className="text-sm text-neutral-500">{t(item.descKey)}</div>
             </div>
             <div className="flex flex-col gap-1">
               <button
                 onClick={() => moveUp(index)}
                 disabled={index === 0}
-                aria-label={`Move ${item.value} up`}
+                aria-label={`Move ${t(item.nameKey)} up`}
                 className="rounded p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600 disabled:opacity-30"
               >
                 ▲
@@ -94,7 +95,7 @@ export default function WorkValuesPage() {
               <button
                 onClick={() => moveDown(index)}
                 disabled={index === rankings.length - 1}
-                aria-label={`Move ${item.value} down`}
+                aria-label={`Move ${t(item.nameKey)} down`}
                 className="rounded p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600 disabled:opacity-30"
               >
                 ▼
@@ -105,7 +106,7 @@ export default function WorkValuesPage() {
       </div>
 
       <div className="mt-6 flex justify-end">
-        <Button onClick={handleSave} size="lg">Save Rankings</Button>
+        <Button onClick={handleSave} size="lg">{t("knowYourself.workValues.saveRankings")}</Button>
       </div>
     </div>
   );

@@ -6,28 +6,16 @@ import { ToggleButton } from "@/components/ui/ToggleButton";
 import { useProfileSave } from "@/hooks/useProfileSave";
 import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Button } from "@/components/ui/Button";
-
-const progressItems = [
-  "I can access my resume through email, cloud, or flash drive",
-  "I have registered with and completed profiles on job websites",
-  "I have registered with staffing agencies",
-  "I am contacting at least 2 people in my network each week",
-  "I have contacted companies through cold calls or walk-ins",
-  "I have attended recruitments or interviews",
-  "I practice my Power Statement regularly",
-  "I practice interview questions daily",
-  "I have attended Job Fairs or Career Expos",
-  "I follow up on each of my applications and interviews",
-];
-
-const methods = [
-  "Networking", "Cold Calling", "Face-to-Face/Walk-In", "Online Job Boards",
-  "Help Wanted Signs", "Classified Ads", "Employment Centers",
-  "Staffing Agencies", "Professional Organizations", "Job Fairs",
-  "Recruitments", "Company Websites", "Social Media",
-];
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import en from "@/lib/i18n/en.json";
+import zh from "@/lib/i18n/zh.json";
 
 export default function ChecklistPage() {
+  const { t, language } = useLanguage();
+  const translations = language === "zh" ? zh : en;
+  const progressItems = translations.jobSearch.checklist.progressItems;
+  const methods = translations.jobSearch.checklist.methods;
+
   const { saved, save, storage } = useProfileSave();
   const [checkedProgress, setCheckedProgress] = useState<Set<number>>(new Set());
   const [checkedMethods, setCheckedMethods] = useState<Set<number>>(new Set());
@@ -61,17 +49,17 @@ export default function ChecklistPage() {
 
   return (
     <div>
-      <Breadcrumb href="/job-search" label="Job Search" />
+      <Breadcrumb href="/job-search" label={t("jobSearch.title")} />
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-neutral-800">Job Search Checklist</h1>
-        <p className="mt-1 text-sm text-neutral-500">Check off each item as you go so you don't miss any channels.</p>
+        <h1 className="text-2xl font-bold text-neutral-800">{t("jobSearch.checklist.title")}</h1>
+        <p className="mt-1 text-sm text-neutral-500">{t("jobSearch.checklist.description")}</p>
       </div>
 
       <SavedIndicator visible={saved} />
 
       <div className="grid gap-6 md:grid-cols-2">
         <section className="rounded-xl border border-neutral-150 bg-white p-5 shadow-sm">
-          <h2 className="mb-4 font-semibold text-neutral-800">My Job Search Progress</h2>
+          <h2 className="mb-4 font-semibold text-neutral-800">{t("jobSearch.checklist.progressTitle")}</h2>
           <div className="space-y-2">
             {progressItems.map((item, i) => (
                 <ToggleButton
@@ -83,12 +71,12 @@ export default function ChecklistPage() {
             ))}
           </div>
           <div className="mt-3 text-sm text-neutral-500">
-            {checkedProgress.size} of {progressItems.length} completed
+            {t("jobSearch.checklist.progressCount").replace("{checked}", String(checkedProgress.size)).replace("{total}", String(progressItems.length))}
           </div>
         </section>
 
         <section className="rounded-xl border border-neutral-150 bg-white p-5 shadow-sm">
-          <h2 className="mb-4 font-semibold text-neutral-800">Methods I Have Used</h2>
+          <h2 className="mb-4 font-semibold text-neutral-800">{t("jobSearch.checklist.methodsTitle")}</h2>
           <div className="space-y-2">
             {methods.map((method, i) => (
                 <ToggleButton
@@ -100,13 +88,13 @@ export default function ChecklistPage() {
             ))}
           </div>
           <div className="mt-3 text-sm text-neutral-500">
-            {checkedMethods.size} of {methods.length} methods used
+            {t("jobSearch.checklist.methodsCount").replace("{checked}", String(checkedMethods.size)).replace("{total}", String(methods.length))}
           </div>
         </section>
       </div>
 
       <div className="mt-6 flex justify-end">
-        <Button onClick={handleSave} size="lg">Save Progress</Button>
+        <Button onClick={handleSave} size="lg">{t("jobSearch.checklist.saveProgress")}</Button>
       </div>
     </div>
   );

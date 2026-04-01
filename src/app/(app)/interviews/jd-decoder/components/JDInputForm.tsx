@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Trash2 } from "lucide-react";
 import type { JDAnalysis } from "../types";
 
@@ -21,6 +22,7 @@ export function JDInputForm({
   onDeleteAnalysis,
   loading,
 }: JDInputFormProps) {
+  const { t } = useLanguage();
   const [jdText, setJdText] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
@@ -28,7 +30,7 @@ export function JDInputForm({
     <div className="space-y-4">
       {savedAnalyses.length > 0 && (
         <div>
-          <h3 className="mb-2 text-xs font-medium uppercase text-neutral-500">Saved Analyses</h3>
+          <h3 className="mb-2 text-xs font-medium uppercase text-neutral-500">{t("interviews.jdDecoder.savedAnalyses")}</h3>
           <div className="flex flex-wrap gap-2">
             {savedAnalyses.map((a) => (
               <div key={a.id} className="group flex items-center gap-1">
@@ -36,12 +38,12 @@ export function JDInputForm({
                   onClick={() => onSelectAnalysis(a)}
                   className="rounded-lg bg-neutral-100 px-3 py-1.5 text-sm text-neutral-700 hover:bg-primary-50 hover:text-primary-600"
                 >
-                  {a.jobTitle || "Untitled"}{a.company ? ` — ${a.company}` : ""}
+                  {a.jobTitle || t("common.untitled")}{a.company ? ` — ${a.company}` : ""}
                 </button>
                 <button
                   onClick={() => setDeleteId(a.id)}
                   className="rounded p-2 text-neutral-300 hover:text-red-500"
-                  aria-label={`Delete ${a.jobTitle || "Untitled"} analysis`}
+                  aria-label={`${t("common.delete")} ${a.jobTitle || t("common.untitled")}`}
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                 </button>
@@ -53,7 +55,7 @@ export function JDInputForm({
       <textarea
         value={jdText}
         onChange={(e) => setJdText(e.target.value)}
-        placeholder="Paste the full job posting here (the more detail, the better)..."
+        placeholder={t("interviews.jdDecoder.inputPlaceholder")}
         rows={8}
         maxLength={15000}
         className="w-full min-h-[120px] rounded-xl border border-neutral-200 bg-white p-4 text-sm text-neutral-700 placeholder:text-neutral-400 focus:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-100 resize-y"
@@ -65,14 +67,14 @@ export function JDInputForm({
           onClick={() => onDecode(jdText)}
           disabled={loading || jdText.trim().length < 50}
         >
-          {loading ? "Analyzing job posting..." : "Analyze This Job"}
+          {loading ? t("interviews.jdDecoder.analyzing") : t("interviews.jdDecoder.analyzeButton")}
         </Button>
       </div>
 
       <ConfirmDialog
         open={deleteId !== null}
-        title="Delete Analysis"
-        message="This JD analysis and its prep plan will be permanently deleted."
+        title={t("interviews.jdDecoder.deleteAnalysisTitle")}
+        message={t("interviews.jdDecoder.deleteAnalysisConfirm")}
         onConfirm={() => {
           if (deleteId) onDeleteAnalysis(deleteId);
           setDeleteId(null);

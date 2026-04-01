@@ -1,19 +1,33 @@
+"use client";
+
 import { Pencil, Trash2, X, Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Select } from "@/components/ui/Select";
 import type { EmployerContact, ContactStatus } from "@/types/contact";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
-const statusLabels: Record<string, { label: string; color: string }> = {
-  saved: { label: "Saved", color: "bg-neutral-100 text-neutral-600" },
-  applied: { label: "Applied", color: "bg-blue-50 text-blue-700" },
-  phone_screen: { label: "Phone Screen", color: "bg-cyan-50 text-cyan-700" },
-  interview: { label: "Interview", color: "bg-purple-50 text-purple-700" },
-  follow_up: { label: "Follow Up", color: "bg-orange-50 text-orange-700" },
-  offer: { label: "Offer", color: "bg-green-50 text-green-700" },
-  rejected: { label: "Rejected", color: "bg-red-50 text-red-700" },
-  accepted: { label: "Accepted", color: "bg-primary-50 text-primary-700" },
+const STATUS_KEYS: Record<string, string> = {
+  saved: "contactLog.statuses.saved",
+  applied: "contactLog.statuses.applied",
+  phone_screen: "contactLog.statuses.phoneScreen",
+  interview: "contactLog.statuses.interview",
+  follow_up: "contactLog.statuses.followUp",
+  offer: "contactLog.statuses.offer",
+  rejected: "contactLog.statuses.rejected",
+  accepted: "contactLog.statuses.accepted",
+};
+
+const STATUS_COLORS: Record<string, string> = {
+  saved: "bg-neutral-100 text-neutral-600",
+  applied: "bg-blue-50 text-blue-700",
+  phone_screen: "bg-cyan-50 text-cyan-700",
+  interview: "bg-purple-50 text-purple-700",
+  follow_up: "bg-orange-50 text-orange-700",
+  offer: "bg-green-50 text-green-700",
+  rejected: "bg-red-50 text-red-700",
+  accepted: "bg-primary-50 text-primary-700",
 };
 
 interface ContactCardProps {
@@ -55,28 +69,30 @@ export function ContactCard({
   onStatusChange,
   onDelete,
 }: ContactCardProps) {
+  const { t } = useLanguage();
+
   if (isEditing) {
     return (
       <div className="rounded-xl border-2 border-primary-200 bg-white p-4 shadow-sm">
         <div className="grid gap-4 sm:grid-cols-2">
           <Input
-            label="Company"
+            label={t("contactLog.form.companyLabel")}
             value={editCompany}
             onChange={(e) => onEditCompanyChange(e.target.value)}
           />
           <Input
-            label="Position"
+            label={t("contactLog.form.positionLabel")}
             value={editPosition}
             onChange={(e) => onEditPositionChange(e.target.value)}
           />
           <Select
-            label="Status"
+            label={t("contactLog.form.statusLabel")}
             value={editStatus}
             onChange={(e) => onEditStatusChange(e.target.value as ContactStatus)}
           >
-            {Object.entries(statusLabels).map(([key, { label }]) => (
+            {Object.entries(STATUS_KEYS).map(([key, tKey]) => (
               <option key={key} value={key}>
-                {label}
+                {t(tKey)}
               </option>
             ))}
           </Select>
@@ -85,7 +101,7 @@ export function ContactCard({
               htmlFor={`edit-date-${contact.id}`}
               className="block text-sm font-medium text-neutral-700"
             >
-              Date Applied
+              {t("contactLog.form.dateApplied")}
             </label>
             <input
               id={`edit-date-${contact.id}`}
@@ -99,7 +115,7 @@ export function ContactCard({
         </div>
         <div className="mt-4">
           <Textarea
-            label="Notes (optional)"
+            label={t("contactLog.form.notesLabel")}
             value={editNotes}
             onChange={(e) => onEditNotesChange(e.target.value)}
             rows={2}
@@ -108,11 +124,11 @@ export function ContactCard({
         <div className="mt-4 flex justify-end gap-3">
           <Button variant="ghost" size="md" onClick={onCancelEditing}>
             <X className="mr-1 h-4 w-4" />
-            Cancel
+            {t("common.cancel")}
           </Button>
           <Button size="md" onClick={onSaveEdit}>
             <Check className="mr-1 h-4 w-4" />
-            Save Changes
+            {t("contactLog.form.saveChanges")}
           </Button>
         </div>
       </div>
@@ -131,7 +147,6 @@ export function ContactCard({
           </p>
         </div>
         <div className="flex items-center gap-2">
-          {/* Inline status dropdown */}
           <select
             value={contact.status}
             onChange={(e) =>
@@ -140,17 +155,16 @@ export function ContactCard({
                 e.target.value as ContactStatus
               )
             }
-            className={`cursor-pointer rounded-full border-0 py-0.5 pl-2.5 pr-7 text-xs font-medium ${statusLabels[contact.status]?.color}`}
+            className={`cursor-pointer rounded-full border-0 py-0.5 pl-2.5 pr-7 text-xs font-medium ${STATUS_COLORS[contact.status]}`}
             aria-label={`Change status for ${contact.companyName}`}
           >
-            {Object.entries(statusLabels).map(([key, { label }]) => (
+            {Object.entries(STATUS_KEYS).map(([key, tKey]) => (
               <option key={key} value={key}>
-                {label}
+                {t(tKey)}
               </option>
             ))}
           </select>
 
-          {/* Edit button */}
           <button
             onClick={() => onStartEditing(contact)}
             className="rounded-lg p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-neutral-400 sm:opacity-0 transition-opacity hover:bg-neutral-100 hover:text-neutral-600 group-hover:opacity-100 focus-visible:opacity-100"
@@ -159,7 +173,6 @@ export function ContactCard({
             <Pencil className="h-4 w-4" />
           </button>
 
-          {/* Delete button */}
           <button
             onClick={() => onDelete(contact)}
             className="rounded-lg p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-neutral-400 sm:opacity-0 transition-opacity hover:bg-red-50 hover:text-red-500 group-hover:opacity-100 focus-visible:opacity-100"
@@ -176,7 +189,7 @@ export function ContactCard({
       )}
       {contact.dateApplied && (
         <p className="mt-1 text-xs text-neutral-400">
-          Added{" "}
+          {t("contactLog.form.added")}{" "}
           {new Date(contact.dateApplied).toLocaleDateString()}
         </p>
       )}

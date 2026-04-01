@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useStorage } from "@/hooks/useStorage";
 import { useToast } from "@/components/ui/Toast";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { nanoid } from "nanoid";
 import type { JDAnalysis } from "../jd-decoder/types";
 import type { MockInterviewQuestion, MockInterviewExchange, MockInterviewSession } from "./types";
@@ -26,6 +27,7 @@ interface SummaryData {
 export default function MockInterviewPage() {
   const storage = useStorage();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [jdAnalyses, setJDAnalyses] = useState<JDAnalysis[]>([]);
   const [savedSessions, setSavedSessions] = useState<MockInterviewSession[]>([]);
   const [phase, setPhase] = useState<Phase>("setup");
@@ -63,8 +65,8 @@ export default function MockInterviewPage() {
       let feedbackText: string;
       if (!res.ok) {
         const errData = (await res.json().catch(() => ({}))) as { error?: string };
-        toast(errData.error || "Failed to get feedback. You can still continue.", "warning");
-        feedbackText = "(Feedback unavailable — AI service was temporarily unavailable.)";
+        toast(errData.error || t("interviews.mockInterview.feedbackFailed"), "warning");
+        feedbackText = t("interviews.mockInterview.feedbackUnavailable");
       } else {
         const { result } = (await res.json()) as { result: string };
         feedbackText = result;
@@ -76,9 +78,9 @@ export default function MockInterviewPage() {
       setExchanges((prev) => [...prev, exchange]);
       setPhase("feedback");
     } catch {
-      toast("Something went wrong. Please try again.", "error");
+      toast(t("common.error"), "error");
     } finally { setLoading(false); }
-  }, [questions, currentIndex, jobContext, toast]);
+  }, [questions, currentIndex, jobContext, toast, t]);
 
   const handleFinish = useCallback(async () => {
     setPhase("summary"); setLoading(true);
@@ -97,15 +99,15 @@ export default function MockInterviewPage() {
         setSummaryData(result);
         session.summary = result.overall;
       } else {
-        toast("Summary not available. Your answers are still saved.", "warning");
+        toast(t("interviews.mockInterview.summaryNotAvailable"), "warning");
       }
     } catch {
-      toast("Summary not available. Your answers are still saved.", "warning");
+      toast(t("interviews.mockInterview.summaryNotAvailable"), "warning");
     }
     await storage.saveMockSession(session);
     setSavedSessions((prev) => [...prev, session]);
     setLoading(false);
-  }, [sessionId, sourceType, sourceLabel, jobContext, exchanges, storage, toast]);
+  }, [sessionId, sourceType, sourceLabel, jobContext, exchanges, storage, toast, t]);
 
   const handleNewSession = useCallback(() => {
     setPhase("setup"); setQuestions([]); setExchanges([]);
@@ -115,16 +117,16 @@ export default function MockInterviewPage() {
   const handleDeleteSession = useCallback(async (id: string) => {
     await storage.deleteMockSession(id);
     setSavedSessions((prev) => prev.filter((s) => s.id !== id));
-    toast("Session deleted");
-  }, [storage, toast]);
+    toast(t("interviews.mockInterview.sessionDeleted"));
+  }, [storage, toast, t]);
 
   return (
     <div>
-      <Breadcrumb href="/interviews" label="Interviews" />
+      <Breadcrumb href="/interviews" label={t("nav.interviews")} />
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-neutral-800">AI Mock Interview</h1>
+        <h1 className="text-2xl font-bold text-neutral-800">{t("interviews.mockInterview.title")}</h1>
         <p className="mt-1 text-sm text-neutral-500">
-          Pick a question set, answer each one, and get feedback before moving on.
+          {t("interviews.mockInterview.description")}
         </p>
       </div>
 

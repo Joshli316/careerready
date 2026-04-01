@@ -11,6 +11,7 @@ import { CheckCircle, Trash2 } from "lucide-react";
 import { useStorage } from "@/hooks/useStorage";
 import { useSaveIndicator } from "@/hooks/useSaveIndicator";
 import { useToast } from "@/components/ui/Toast";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 interface Research {
   company: string;
@@ -26,6 +27,7 @@ const emptyResearch = (): Research => ({
 });
 
 export default function CompanyResearchPage() {
+  const { t } = useLanguage();
   const storage = useStorage();
   const [entries, setEntries] = useState<Research[]>([emptyResearch()]);
   const [active, setActive] = useState(0);
@@ -66,29 +68,28 @@ export default function CompanyResearchPage() {
 
   return (
     <div>
-      <Breadcrumb href="/interviews" label="Interviews" />
+      <Breadcrumb href="/interviews" label={t("interviews.title")} />
       <div className="mb-6 flex items-center justify-between">
         <div>
-        <h1 className="text-2xl font-bold text-neutral-800">Company Research</h1>
+        <h1 className="text-2xl font-bold text-neutral-800">{t("interviews.companyResearch.title")}</h1>
         <p className="mt-1 text-sm text-neutral-500">
-          Research each company before your interview. Use this framework to organize your findings.
+          {t("interviews.companyResearch.description")}
         </p>
         </div>
         {saved && (
           <div className="flex items-center gap-1.5 text-sm text-success">
             <CheckCircle className="h-4 w-4" />
-            Saved
+            {t("common.saved")}
           </div>
         )}
       </div>
 
       <Callout type="tip" className="mb-6">
-        <strong>What to research:</strong> How long they've been in business, products/services, mission statement,
-        locations, recent news, the role's purpose, growth opportunities, and salary/benefits.
+        {t("interviews.companyResearch.callout")}
       </Callout>
 
       <TabStrip
-        tabs={entries.map((e, i) => ({ id: String(i), label: e.company || `Company ${i + 1}` }))}
+        tabs={entries.map((e, i) => ({ id: String(i), label: e.company || `${t("interviews.companyResearch.companyName")} ${i + 1}` }))}
         activeId={String(active)}
         onSelect={(id) => setActive(Number(id))}
         onAdd={() => { setEntries([...entries, emptyResearch()]); setActive(entries.length); }}
@@ -96,27 +97,27 @@ export default function CompanyResearchPage() {
 
       {entry && (
         <div className="space-y-4 rounded-xl border border-neutral-150 bg-white p-6 shadow-sm">
-          <Input label="Company Name" value={entry.company} onChange={(e) => update("company", e.target.value)} placeholder="e.g., Acme Corp" />
-          <Textarea label="Mission Statement" value={entry.mission} onChange={(e) => update("mission", e.target.value)} placeholder="What is their mission?" rows={2} />
-          <Textarea label="Products / Services" value={entry.products} onChange={(e) => update("products", e.target.value)} placeholder="What do they offer?" rows={2} />
-          <Textarea label="Company Culture" value={entry.culture} onChange={(e) => update("culture", e.target.value)} placeholder="What's the work environment like?" rows={2} />
-          <Textarea label="Recent News" value={entry.recentNews} onChange={(e) => update("recentNews", e.target.value)} placeholder="Any recent announcements, awards, or changes?" rows={2} />
+          <Input label={t("interviews.companyResearch.companyName")} value={entry.company} onChange={(e) => update("company", e.target.value)} placeholder={t("interviews.companyResearch.companyNamePlaceholder")} />
+          <Textarea label={t("interviews.companyResearch.mission")} value={entry.mission} onChange={(e) => update("mission", e.target.value)} placeholder={t("interviews.companyResearch.missionPlaceholder")} rows={2} />
+          <Textarea label={t("interviews.companyResearch.products")} value={entry.products} onChange={(e) => update("products", e.target.value)} placeholder={t("interviews.companyResearch.productsPlaceholder")} rows={2} />
+          <Textarea label={t("interviews.companyResearch.culture")} value={entry.culture} onChange={(e) => update("culture", e.target.value)} placeholder={t("interviews.companyResearch.culturePlaceholder")} rows={2} />
+          <Textarea label={t("interviews.companyResearch.news")} value={entry.recentNews} onChange={(e) => update("recentNews", e.target.value)} placeholder={t("interviews.companyResearch.newsPlaceholder")} rows={2} />
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-neutral-700">Questions to Ask</label>
+            <label className="mb-1.5 block text-sm font-medium text-neutral-700">{t("interviews.companyResearch.questions")}</label>
             {entry.questions.map((q, i) => (
               <div key={i} className="mb-2 flex gap-2">
-                <Input className="flex-1" placeholder={`Question ${i + 1}`} value={q}
+                <Input className="flex-1" placeholder={t("interviews.companyResearch.questionN").replace("{n}", String(i + 1))} value={q}
                   onChange={(e) => { const qs = [...entry.questions]; qs[i] = e.target.value; const u = [...entries]; u[active] = { ...u[active], questions: qs }; setEntries(u); }} />
               </div>
             ))}
             <button onClick={() => { const u = [...entries]; u[active] = { ...u[active], questions: [...u[active].questions, ""] }; setEntries(u); }}
-              className="text-xs font-medium text-primary-400 hover:text-primary-500">+ Add question</button>
+              className="text-xs font-medium text-primary-400 hover:text-primary-500">{t("interviews.companyResearch.addQuestion")}</button>
           </div>
         </div>
       )}
 
       <div className="mt-6 flex justify-end">
-        <Button onClick={save} size="lg">Save Research</Button>
+        <Button onClick={save} size="lg">{t("interviews.companyResearch.saveResearch")}</Button>
       </div>
     </div>
   );

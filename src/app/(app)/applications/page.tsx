@@ -1,40 +1,39 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Applications",
-  description: "Fill out job applications faster with tips, templates, and a master form that saves your info.",
-};
+import Link from "next/link";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { ListChecks, Lightbulb, ClipboardList } from "lucide-react";
 
-const sections = [
-  {
-    title: "10 Essential Application Tips",
-    description: "10 tips to get your application past the first screening.",
-    href: "/applications/tips",
-    icon: ListChecks,
-  },
-  {
-    title: "Experience Gap Solver",
-    description: "Turn volunteer work, freelance gigs, and internships into application material.",
-    href: "/applications/experience-gap",
-    icon: Lightbulb,
-  },
-  {
-    title: "Master Application Builder",
-    description: "Keep all your info in one place so you can fill any application fast.",
-    href: "/applications/master-builder",
-    icon: ClipboardList,
-  },
-];
-
 export default function ApplicationsPage() {
+  const { t } = useLanguage();
+
+  const sections = [
+    {
+      title: t("applications.sections.tips.title"),
+      description: t("applications.sections.tips.description"),
+      href: "/applications/tips",
+      icon: ListChecks,
+    },
+    {
+      title: t("applications.sections.experienceGap.title"),
+      description: t("applications.sections.experienceGap.description"),
+      href: "/applications/experience-gap",
+      icon: Lightbulb,
+    },
+    {
+      title: t("applications.sections.masterBuilder.title"),
+      description: t("applications.sections.masterBuilder.description"),
+      href: "/applications/master-builder",
+      icon: ClipboardList,
+    },
+  ];
+
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-neutral-800">Applications</h1>
+        <h1 className="text-3xl font-bold text-neutral-800">{t("applications.title")}</h1>
         <p className="mt-2 text-neutral-500">
-          Fill out applications faster. Stop re-typing the same information.
+          {t("applications.description")}
         </p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">

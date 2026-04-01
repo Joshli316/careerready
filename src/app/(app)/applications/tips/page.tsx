@@ -1,79 +1,37 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
-export const metadata: Metadata = {
-  title: "Application Tips",
-  description: "10 tips for completing job applications that get you noticed. Avoid the errors that reject 50% of applicants.",
-};
-
-const tips = [
-  {
-    number: 1,
-    title: "Review the job announcement first",
-    description: "Make sure you meet most of the minimum qualifications: experience, education/certificates, and hard and soft skills.",
-  },
-  {
-    number: 2,
-    title: "Gather detailed information",
-    description: "Work history, education, references: create a master application with complete and accurate employment information to have on hand.",
-  },
-  {
-    number: 3,
-    title: "Follow instructions carefully",
-    description: "Read all directions before completing each section. Use the exact date format requested. List employment history in the order specified.",
-  },
-  {
-    number: 4,
-    title: "Include all work experience",
-    description: "List all paid and unpaid work: volunteer, charity, community activities, internships, self-employment, and temporary experience. Don't leave gaps in your history.",
-  },
-  {
-    number: 5,
-    title: "Use keywords from the job posting",
-    description: "Include transferable skills and keywords in the availability, education, and work history sections. Online applications use software to filter by keywords.",
-  },
-  {
-    number: 6,
-    title: "Never leave the reference section blank",
-    description: "Always enter the number of references requested. Ask permission first, and verify current contact information for each reference.",
-  },
-  {
-    number: 7,
-    title: "Spell everything correctly",
-    description: "Use proper capitalization and grammar. Use a dictionary, spell-checker, or have someone proofread before submitting.",
-  },
-  {
-    number: 8,
-    title: "Customize for each application",
-    description: "For each application, submit a customized resume and cover letter that match the specified requirements.",
-  },
-  {
-    number: 9,
-    title: "Review before submitting",
-    description: "Thoroughly review the application and all supporting documents before submitting. Check for errors, missing information, and consistency.",
-  },
-  {
-    number: 10,
-    title: "Keep a copy for your records",
-    description: "Save or screenshot every application along with the job announcement. This helps when preparing for interviews and following up.",
-  },
-];
-
 export default function ApplicationTipsPage() {
+  const { t } = useLanguage();
+
+  const tips = [
+    { number: 1, title: t("applications.tips.tip1Title"), description: t("applications.tips.tip1Desc") },
+    { number: 2, title: t("applications.tips.tip2Title"), description: t("applications.tips.tip2Desc") },
+    { number: 3, title: t("applications.tips.tip3Title"), description: t("applications.tips.tip3Desc") },
+    { number: 4, title: t("applications.tips.tip4Title"), description: t("applications.tips.tip4Desc") },
+    { number: 5, title: t("applications.tips.tip5Title"), description: t("applications.tips.tip5Desc") },
+    { number: 6, title: t("applications.tips.tip6Title"), description: t("applications.tips.tip6Desc") },
+    { number: 7, title: t("applications.tips.tip7Title"), description: t("applications.tips.tip7Desc") },
+    { number: 8, title: t("applications.tips.tip8Title"), description: t("applications.tips.tip8Desc") },
+    { number: 9, title: t("applications.tips.tip9Title"), description: t("applications.tips.tip9Desc") },
+    { number: 10, title: t("applications.tips.tip10Title"), description: t("applications.tips.tip10Desc") },
+  ];
+
   return (
     <div>
-      <Breadcrumb href="/applications" label="Applications" />
+      <Breadcrumb href="/applications" label={t("applications.title")} />
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-neutral-800">10 Essential Application Tips</h1>
+        <h1 className="text-2xl font-bold text-neutral-800">{t("applications.tips.title")}</h1>
         <p className="mt-1 text-sm text-neutral-500">
-          Follow these tips to complete effective applications that get you noticed.
+          {t("applications.tips.description")}
         </p>
       </div>
 
       <Callout type="tip" className="mb-6">
-        Many applications are rejected because of errors or failure to tailor the content.
-        Following up within 3&#8211;5 days shows your commitment and keeps your name on the employer&#8217;s radar.
+        {t("applications.tips.callout")}
       </Callout>
 
       <div className="space-y-4">

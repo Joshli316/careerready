@@ -7,10 +7,13 @@ import { cn } from "@/lib/utils/cn";
 import { X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { navItems } from "./navItems";
+import { LanguageToggle } from "@/components/ui/LanguageToggle";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export function TopNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+  const { t } = useLanguage();
   const navRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -35,7 +38,7 @@ export function TopNav() {
             ref={menuButtonRef}
             onClick={() => setMobileOpen(true)}
             className="rounded-lg p-2 text-neutral-600 hover:bg-neutral-100"
-            aria-label="Open menu"
+            aria-label={t("common.openMenu")}
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -48,7 +51,8 @@ export function TopNav() {
         </div>
         <div className="hidden md:block" />
         <div className="flex items-center gap-2">
-          <span className="text-xs text-neutral-400">Data saved locally in your browser</span>
+          <span className="text-xs text-neutral-400">{t("common.dataSavedLocally")}</span>
+          <LanguageToggle />
         </div>
       </header>
 
@@ -57,7 +61,7 @@ export function TopNav() {
           className="fixed inset-0 z-50 md:hidden"
           role="dialog"
           aria-modal="true"
-          aria-label="Navigation menu"
+          aria-label={t("common.navigationMenu")}
           onKeyDown={(e) => { if (e.key === "Escape") closeMobileNav(); }}
         >
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" role="presentation" onClick={closeMobileNav} />
@@ -67,7 +71,7 @@ export function TopNav() {
               <button
                 onClick={closeMobileNav}
                 className="rounded-lg p-2 text-neutral-600 hover:bg-neutral-100"
-                aria-label="Close menu"
+                aria-label={t("common.closeMenu")}
               >
                 <X className="h-5 w-5" />
               </button>
@@ -89,7 +93,7 @@ export function TopNav() {
                         )}
                       >
                         <tool.icon className="h-5 w-5" />
-                        {tool.name}
+                        {tool.nameKey ? t(tool.nameKey) : tool.name}
                       </Link>
                     </li>
                   );

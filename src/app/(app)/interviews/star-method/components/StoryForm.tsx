@@ -2,6 +2,7 @@
 
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { StarStory } from "@/types/interview";
 
 interface StoryFormProps {
@@ -11,12 +12,14 @@ interface StoryFormProps {
 }
 
 export function StoryForm({ story, onUpdate, sampleQuestions }: StoryFormProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="space-y-4">
       {sampleQuestions.length > 0 && (
         <div className="rounded-lg border border-primary-200 bg-primary-50 p-3">
           <p className="text-sm font-medium text-primary-700">
-            Pick a question to practice:
+            {t("interviews.starMethod.pickQuestion")}
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
             {sampleQuestions.map((q) => (
@@ -34,47 +37,47 @@ export function StoryForm({ story, onUpdate, sampleQuestions }: StoryFormProps) 
       )}
 
       <Input
-        label="Behavioral Question"
-        placeholder="The interview question you're preparing for..."
+        label={t("interviews.starMethod.behavioralQuestion")}
+        placeholder={t("interviews.starMethod.behavioralQuestionPlaceholder")}
         value={story.question}
         onChange={(e) => onUpdate("question", e.target.value)}
       />
 
       <Textarea
-        label="Situation"
-        placeholder="Set the scene. What was happening? Where were you working/studying?"
+        label={t("interviews.starMethod.situation")}
+        placeholder={t("interviews.starMethod.situationPlaceholder")}
         value={story.situation}
         onChange={(e) => onUpdate("situation", e.target.value)}
         rows={3}
       />
 
       <Textarea
-        label="Task"
-        placeholder="What was your responsibility or challenge?"
+        label={t("interviews.starMethod.task")}
+        placeholder={t("interviews.starMethod.taskPlaceholder")}
         value={story.task}
         onChange={(e) => onUpdate("task", e.target.value)}
         rows={3}
       />
 
       <Textarea
-        label="Action"
-        placeholder="What specific steps did you take? Focus on YOUR actions."
+        label={t("interviews.starMethod.action")}
+        placeholder={t("interviews.starMethod.actionPlaceholder")}
         value={story.action}
         onChange={(e) => onUpdate("action", e.target.value)}
         rows={3}
       />
 
       <Textarea
-        label="Result"
-        placeholder="What was the outcome? Use numbers when possible (%, $, time saved)."
+        label={t("interviews.starMethod.result")}
+        placeholder={t("interviews.starMethod.resultPlaceholder")}
         value={story.result}
         onChange={(e) => onUpdate("result", e.target.value)}
         rows={3}
       />
 
       <Textarea
-        label="Earned Secret"
-        placeholder="What hidden insight or lesson did you earn from this experience?"
+        label={t("interviews.starMethod.earnedSecret")}
+        placeholder={t("interviews.starMethod.earnedSecretPlaceholder")}
         value={story.earnedSecret}
         onChange={(e) => onUpdate("earnedSecret", e.target.value)}
         rows={2}

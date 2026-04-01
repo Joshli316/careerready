@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useProfileSave } from "@/hooks/useProfileSave";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { SavedIndicator } from "@/components/ui/SavedIndicator";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -30,6 +31,7 @@ const emptyGoal: FocusGoal = {
 
 export default function FocusGoalsPage() {
   const { saved, save, storage } = useProfileSave();
+  const { t } = useLanguage();
   const [focusGoal, setFocusGoal] = useState<FocusGoal>(emptyGoal);
 
   useEffect(() => {
@@ -56,22 +58,27 @@ export default function FocusGoalsPage() {
     setFocusGoal({ ...focusGoal, steps });
   }
 
+  const phaseLabels: Record<string, string> = {
+    today: t("knowYourself.focusGoals.today"),
+    threeWeeks: t("knowYourself.focusGoals.threeWeeks"),
+    threeMonths: t("knowYourself.focusGoals.threeMonths"),
+  };
+
   return (
     <div>
-      <Breadcrumb href="/know-yourself" label="Know Yourself" />
+      <Breadcrumb href="/know-yourself" label={t("knowYourself.title")} />
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-800">Goal Setting with FOCUS</h1>
+          <h1 className="text-2xl font-bold text-neutral-800">{t("knowYourself.focusGoals.title")}</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Set your job search goals using the FOCUS method.
+            {t("knowYourself.focusGoals.description")}
           </p>
         </div>
         <SavedIndicator visible={saved} />
       </div>
 
       <Callout type="tip" className="mb-6">
-        If your goal is just a dream, take specific action steps to make it happen.
-        The FOCUS framework breaks your goal into achievable parts.
+        {t("knowYourself.focusGoals.callout")}
       </Callout>
 
       {/* F — Find and Define */}
@@ -81,14 +88,14 @@ export default function FocusGoalsPage() {
             F
           </div>
           <div>
-            <h2 className="font-semibold text-neutral-800">Find and Define</h2>
-            <p className="text-sm text-neutral-500">What exactly do you want to achieve? Be specific.</p>
+            <h2 className="font-semibold text-neutral-800">{t("knowYourself.focusGoals.findTitle")}</h2>
+            <p className="text-sm text-neutral-500">{t("knowYourself.focusGoals.findDesc")}</p>
           </div>
         </div>
         <Textarea
           value={focusGoal.goal}
           onChange={(e) => setFocusGoal({ ...focusGoal, goal: e.target.value })}
-          placeholder="What exactly do you want to achieve? Be specific."
+          placeholder={t("knowYourself.focusGoals.findPlaceholder")}
           rows={3}
         />
       </section>
@@ -100,21 +107,21 @@ export default function FocusGoalsPage() {
             O
           </div>
           <div>
-            <h2 className="font-semibold text-neutral-800">Outline Steps</h2>
-            <p className="text-sm text-neutral-500">Break your goal into smaller, achievable steps.</p>
+            <h2 className="font-semibold text-neutral-800">{t("knowYourself.focusGoals.outlineTitle")}</h2>
+            <p className="text-sm text-neutral-500">{t("knowYourself.focusGoals.outlineDesc")}</p>
           </div>
         </div>
         <div className="grid gap-4 sm:grid-cols-3">
           {(["today", "threeWeeks", "threeMonths"] as const).map((phase) => (
             <div key={phase} className="rounded-lg border border-neutral-150 p-4">
               <h3 className="mb-2 text-sm font-medium text-neutral-700">
-                {phase === "today" ? "Today" : phase === "threeWeeks" ? "In 3 Weeks" : "In 3 Months"}
+                {phaseLabels[phase]}
               </h3>
               <div className="space-y-2">
                 {focusGoal.steps[phase].map((step, i) => (
                   <Input
                     key={i}
-                    placeholder={`Step ${i + 1}`}
+                    placeholder={`${t("common.step")} ${i + 1}`}
                     value={step}
                     onChange={(e) => updateSteps(phase, i, e.target.value)}
                   />
@@ -123,7 +130,7 @@ export default function FocusGoalsPage() {
                   onClick={() => addStep(phase)}
                   className="text-xs font-medium text-primary-400 hover:text-primary-500"
                 >
-                  + Add step
+                  {t("knowYourself.focusGoals.addStep")}
                 </button>
               </div>
             </div>
@@ -138,15 +145,15 @@ export default function FocusGoalsPage() {
             C
           </div>
           <div>
-            <h2 className="font-semibold text-neutral-800">Create a List of Resources</h2>
-            <p className="text-sm text-neutral-500">Who and what can help you achieve this goal?</p>
+            <h2 className="font-semibold text-neutral-800">{t("knowYourself.focusGoals.resourcesTitle")}</h2>
+            <p className="text-sm text-neutral-500">{t("knowYourself.focusGoals.resourcesDesc")}</p>
           </div>
         </div>
         <div className="space-y-2">
           {focusGoal.resources.map((resource, i) => (
             <Input
               key={i}
-              placeholder={`Resource ${i + 1} (person, place, or organization)`}
+              placeholder={t("knowYourself.focusGoals.resourcePlaceholder")}
               value={resource}
               onChange={(e) => {
                 const updated = [...focusGoal.resources];
@@ -159,7 +166,7 @@ export default function FocusGoalsPage() {
             onClick={() => setFocusGoal({ ...focusGoal, resources: [...focusGoal.resources, ""] })}
             className="text-xs font-medium text-primary-400 hover:text-primary-500"
           >
-            + Add resource
+            {t("knowYourself.focusGoals.addResource")}
           </button>
         </div>
       </section>
@@ -171,14 +178,14 @@ export default function FocusGoalsPage() {
             U
           </div>
           <div>
-            <h2 className="font-semibold text-neutral-800">Understand the Purpose</h2>
-            <p className="text-sm text-neutral-500">Why is this goal important to you?</p>
+            <h2 className="font-semibold text-neutral-800">{t("knowYourself.focusGoals.purposeTitle")}</h2>
+            <p className="text-sm text-neutral-500">{t("knowYourself.focusGoals.purposeDesc")}</p>
           </div>
         </div>
         <Textarea
           value={focusGoal.purpose}
           onChange={(e) => setFocusGoal({ ...focusGoal, purpose: e.target.value })}
-          placeholder="Why is this goal important to you?"
+          placeholder={t("knowYourself.focusGoals.purposePlaceholder")}
           rows={3}
         />
       </section>
@@ -190,8 +197,8 @@ export default function FocusGoalsPage() {
             S
           </div>
           <div>
-            <h2 className="font-semibold text-neutral-800">Set a Time Frame</h2>
-            <p className="text-sm text-neutral-500">When will you achieve this goal?</p>
+            <h2 className="font-semibold text-neutral-800">{t("knowYourself.focusGoals.timeframeTitle")}</h2>
+            <p className="text-sm text-neutral-500">{t("knowYourself.focusGoals.timeframeDesc")}</p>
           </div>
         </div>
         <Input
@@ -205,10 +212,10 @@ export default function FocusGoalsPage() {
       <section className="mb-6 rounded-xl border border-primary-200 bg-primary-50 p-6">
         <div className="mb-3 flex items-center gap-2">
           <Target className="h-5 w-5 text-primary-600" />
-          <h2 className="font-semibold text-primary-800">Your Complete Goal Statement</h2>
+          <h2 className="font-semibold text-primary-800">{t("knowYourself.focusGoals.goalStatementTitle")}</h2>
         </div>
         <Textarea
-          placeholder="Combine all FOCUS elements into one complete goal statement..."
+          placeholder={t("knowYourself.focusGoals.goalStatementPlaceholder")}
           value={focusGoal.fullStatement}
           onChange={(e) => setFocusGoal({ ...focusGoal, fullStatement: e.target.value })}
           rows={4}
@@ -218,7 +225,7 @@ export default function FocusGoalsPage() {
 
       <div className="flex justify-end">
         <Button onClick={handleSave} size="lg">
-          Save Goal
+          {t("knowYourself.focusGoals.saveGoal")}
         </Button>
       </div>
     </div>
