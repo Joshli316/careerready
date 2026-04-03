@@ -146,11 +146,13 @@ Skills, brand statement, and power statement from "Know Yourself" flow into othe
 - **`Breadcrumb`** — back-navigation link, used on all 22 sub-pages.
 - **`AICoverLetterForm`** — AI cover letter generator in `resumes/cover-letter/components/`.
 - **`resumeToText`** — converts Resume object to plain text for AI prompts.
+- **`useToolProgress`** — reads localStorage to check which tools have saved data. Returns `{ started, count, total }`. Used in Sidebar for progress bar + checkmarks.
+- **`NextStepLink`** — bottom-of-page "Next step: [Tool] →" link. Used on all 22 sub-tool pages to chain the guided flow.
 
 ## i18n (added 2026-03-31)
 
 - **Architecture:** JSON translation files + React Context. No external i18n library.
-- **Files:** `src/lib/i18n/en.json`, `src/lib/i18n/zh.json` (970 strings each, must stay in parity)
+- **Files:** `src/lib/i18n/en.json`, `src/lib/i18n/zh.json` (~1210 lines each, must stay in parity)
 - **Context:** `src/lib/i18n/LanguageContext.tsx` — provides `useLanguage()` hook with `t(key)`, `language`, `setLanguage`
 - **`useTranslations()`** — returns full translation object for array access (checklist items, audit items) since `t()` only returns strings
 - **Toggle:** `src/components/ui/LanguageToggle.tsx` — in Sidebar (desktop) and TopNav (mobile)
@@ -168,6 +170,25 @@ Skills, brand statement, and power statement from "Know Yourself" flow into othe
 - Rate limiting falls back to in-memory when `getRequestContext()` is unavailable (local dev).
 
 ## Session Log
+
+### 2026-04-03 — main
+
+**What was done:**
+- Full beta test: Playwright walkthrough of all 8 tools as a real user (30 min)
+- Fixed 3 bugs: 40+ missing i18n keys, CSP blocking PDF WASM, deprecated meta tag
+- 8 UX improvements: sidebar progress bar, NextStepLink on 22 pages, tool reorder (Job Search before Interviews, Contact Log before Landing the Job), save indicator redesign, contact log date fields, hard skills clarity, "Earned Secret" → "Lesson Learned", clear data button
+- Expert panel: 10 executives × 3 rounds, ~60 auto-fixes (copy, a11y, focus states, touch targets, error handling, security headers, i18n hardcoded strings)
+- Phases renamed: "Market Your Brand" → "Apply & Prepare", "Prove Yourself" → "Follow Through"
+- Created `/beta-test` skill at ~/.claude/skills/beta-test/
+- CSP tightened: removed `unsafe-eval`, added HSTS, cache-control headers
+
+**Open items:**
+- ~40 subjective expert panel findings flagged as "Needs Input" (mobile focus trap, component refactoring, contact log search, service worker)
+- CSP change removed `unsafe-eval` — verify on production (Next.js may need it)
+- `CLAUDE_API_KEY` still not set on Cloudflare — AI features return 503
+- Not yet pushed to origin
+
+**Next session:** Push and deploy. Verify CSP doesn't break production. Set `CLAUDE_API_KEY` on Cloudflare.
 
 ### 2026-03-31 — main
 
