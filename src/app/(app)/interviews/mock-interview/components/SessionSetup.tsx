@@ -73,7 +73,7 @@ export function SessionSetup({ jdAnalyses, onStart }: SessionSetupProps) {
               <button
                 key={a.id}
                 onClick={() => setSelectedJD(a.id === selectedJD ? null : a.id)}
-                className={`w-full rounded-lg border px-4 py-3 text-left text-sm transition-colors ${
+                className={`w-full rounded-lg border px-4 py-3 text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 ${
                   selectedJD === a.id
                     ? "border-primary-400 bg-primary-50 text-primary-700"
                     : "border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300"

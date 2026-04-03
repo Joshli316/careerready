@@ -10,8 +10,8 @@
     "error": "出了点问题",
     "tryAgain": "重试",
     "goBack": "返回",
-    "getStartedFree": "免费开始",
-    "seeTheTools": "查看工具",
+    "getStartedFree": "立即开始 — 无需注册",
+    "seeTheTools": "浏览工具",
     "skipToContent": "跳到主要内容",
     "backToDashboard": "返回首页",
     "preview": "预览",
@@ -52,7 +52,10 @@
     "next": "下一步",
     "untitled": "未命名",
     "opensInNewTab": "在新标签页中打开",
-    "nextStep": "下一步"
+    "nextStep": "下一步",
+    "savedSuccessfully": "保存成功",
+    "saveFailed": "保存失败，请重试。",
+    "pdfExportFailed": "PDF导出失败，请重试。"
   },
   "nav": {
     "home": "首页",
@@ -75,12 +78,12 @@
     "knowYourself": {
       "name": "认识自己",
       "shortDesc": "在开始求职前，先了解你的技能、价值观和个人品牌。",
-      "longDesc": "梳理技能、写品牌陈述、准备30秒自我介绍。这里的内容会自动同步到简历。"
+      "longDesc": "整理出技能清单、品牌陈述和30秒自我介绍，自动同步到简历和求职信。"
     },
     "applications": {
       "name": "求职申请",
       "shortDesc": "实用技巧和一份一次填写、处处可用的主表格。",
-      "longDesc": "把所有信息集中在一份主表格里。下次雇主问同样的问题，直接调出来用。"
+      "longDesc": "获取申请技巧，发现你没想到的经历，用一份主表格随时调用。"
     },
     "resumes": {
       "name": "简历",
@@ -90,7 +93,7 @@
     "interviews": {
       "name": "面试",
       "shortDesc": "练习 STAR 面试法、准备回答、研究目标公司。",
-      "longDesc": "写好 STAR 故事，练习回答问题，在真正面试前获得反馈。"
+      "longDesc": "带着练好的 STAR 故事、研究过的公司信息和 AI 教练的反馈走进每场面试。"
     },
     "jobSearch": {
       "name": "找工作",
@@ -104,23 +107,23 @@
     },
     "landingTheJob": {
       "name": "入职准备",
-      "shortDesc": "职场成功技巧和自我评估跟踪器。",
+      "shortDesc": "入职头90天攻略：职场习惯和自我评估跟踪器。",
       "longDesc": "用职场好习惯和每月自我评估清单，顺利度过入职的头90天。"
     },
     "contactLog": {
       "name": "联系记录",
       "shortDesc": "在一个地方记录每家公司、跟进和状态变化。",
-      "longDesc": "在一个地方追踪每次申请、跟进和面试。"
+      "longDesc": "追踪每次申请和跟进，确保不遗漏任何机会。"
     },
     "phases": {
       "knowYourself": "认识自己",
-      "marketYourBrand": "营销你的品牌",
-      "proveYourself": "证明自己"
+      "marketYourBrand": "投递与准备",
+      "proveYourself": "跟进落实"
     }
   },
   "landing": {
     "heroTitle": "一步步，拿下第一份工作。",
-    "heroSubtitle": "8 个相互关联的工具，带你从搞清楚自己的优势到搞定面试。专为应届生打造。写一次，自动填充到各处。",
+    "heroSubtitle": "8 个相互关联的工具，带你从搞清楚自己的优势到搞定面试。专为不想每次都从头填写的应届生打造。",
     "seeHowItWorks": "了解使用方法",
     "startKnowYourself": "从发现你的优势开始",
     "yourToolkit": "你的工具箱",
@@ -128,22 +131,22 @@
     "benefits": {
       "noAccount": "无需注册，立即开始",
       "privateData": "数据保存在您的浏览器，隐私安全",
-      "autoFill": "从技能清单自动填充简历",
+      "autoFill": "技能只需填一次，简历自动同步",
       "exportPdf": "一键导出 PDF",
       "freeForever": "全部 8 个工具，永久免费"
     },
     "howItWorks": "使用方法",
     "toolsNav": "工具",
     "phaseSectionTitle": "从「我擅长什么？」到签约入职。",
-    "phaseSectionSubtitle": "三个阶段，八个工具。按顺序来，或直接跳到你需要的。你在一个工具里写的内容，其他工具也能用。",
+    "phaseSectionSubtitle": "三个阶段，八个工具。按顺序来，或直接跳到你需要的。你的技能和品牌陈述会自动同步到简历、求职信和面试准备中。",
     "phase1": {
       "tagline": "搞清楚你到底擅长什么。",
       "desc": "在投简历之前，先弄明白你能带来什么。梳理技能，排列工作价值观，写一段社交场合能用的30秒自我介绍。",
       "tools": ["技能清单", "工作价值观", "FOCUS 目标", "个人陈述"]
     },
     "phase2": {
-      "tagline": "精准投递，自信面试。",
-      "desc": "品牌陈述自动填充到简历和求职信中。搜索招聘网站，整理社交媒体，收到面试通知后用 STAR 故事和 AI 模拟面试做准备。",
+      "tagline": "品牌陈述自动填充，准备工作替你说话。",
+      "desc": "用已有的技能清单生成简历和求职信。搜索招聘网站，整理社交媒体，收到面试通知后用 STAR 故事和 AI 模拟面试做准备。",
       "tools": ["简历生成器", "找工作", "社交媒体", "面试准备"]
     },
     "phase3": {
@@ -152,10 +155,10 @@
       "tools": ["联系记录", "职场成功", "自我评估"]
     },
     "toolsGridTitle": "选一个工具，开始吧",
-    "toolsGridSubtitle": "建议按顺序使用，但你也可以直接跳到现在最需要的。点击任意卡片开始。",
+    "toolsGridSubtitle": "建议按顺序使用，但你也可以直接跳到现在最需要的。选择任意卡片开始。",
     "quoteText": "在「认识自己」里写一次你的技能和品牌陈述，之后它们会自动填充到简历、求职信和面试准备中。不用复制粘贴。",
-    "quoteAttribution": "这就是核心理念：写一次，处处可用。",
-    "ctaTitle": "第一步只要 5 分钟。",
+    "quoteAttribution": "CareerReady 如何帮你省时间",
+    "ctaTitle": "5 分钟后你就有了品牌陈述。",
     "ctaDesc": "打开「认识自己」，选出核心技能，写一段品牌陈述。后面的一切都从这里开始。",
     "footer": {
       "tagline": "应届生求职工具。按自己的节奏准备，数据保存在浏览器中。",
@@ -168,8 +171,8 @@
       "step2": "2. 制作你的简历",
       "step3": "3. 准备 STAR 故事",
       "step4": "4. 追踪你的申请",
-      "bottomLine": "免费开放，数据保存在你的浏览器中。",
-      "startNow": "免费开始求职准备"
+      "bottomLine": "专为应届生打造。无需注册，完全免费。",
+      "startNow": "开始求职准备"
     }
   },
   "knowYourself": {
@@ -695,6 +698,8 @@
       "deleteStory": "删除这个故事",
       "deleteStoryTitle": "删除故事",
       "deleteStoryConfirm": "这个故事将被永久删除。",
+      "storyAdded": "故事已添加 — 请在下方填写你的 STAR 回答。",
+      "storyDeleted": "故事已删除",
       "saveStories": "保存故事",
       "summary": "你有 {count} 个{storyWord}（{complete} 个完成）。建议准备6-8个四个 STAR 字段都填写完整的故事。",
       "story": "故事",
@@ -843,7 +848,8 @@
       "checklistDraftNewStory": "写一个新故事",
       "checklistResearch": "研究公司",
       "checklistPractice": "大声练习",
-      "checklistProgress": "已完成 {done}/{total}"
+      "checklistProgress": "已完成 {done}/{total}",
+      "analysisDeleted": "分析已删除"
     },
     "mockInterview": {
       "title": "AI 模拟面试",

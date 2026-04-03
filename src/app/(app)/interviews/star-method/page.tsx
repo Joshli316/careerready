@@ -51,12 +51,14 @@ export default function StarMethodPage() {
   const deepLinkHandled = useRef(false);
 
   useEffect(() => {
-    storage.getInterviewPrep().then((prep) => {
-      if (prep?.starStories?.length) {
-        setStories(prep.starStories.map(hydrateStory));
-      }
-    });
-  }, [storage]);
+    storage.getInterviewPrep()
+      .then((prep) => {
+        if (prep?.starStories?.length) {
+          setStories(prep.starStories.map(hydrateStory));
+        }
+      })
+      .catch(() => toast(t("common.error"), "error"));
+  }, [storage, toast, t]);
 
   const pendingSaveRef = useRef(false);
 
@@ -74,7 +76,7 @@ export default function StarMethodPage() {
         return updated;
       });
       pendingSaveRef.current = true;
-      toast("Story added — fill in your STAR answer below.", "success");
+      toast(t("interviews.starMethod.storyAdded"), "success");
     }
   }, [searchParams, toast]);
 
@@ -119,7 +121,7 @@ export default function StarMethodPage() {
     const updated = stories.filter((_, i) => i !== index);
     setStories(updated);
     setActiveIndex(Math.min(activeIndex, updated.length - 1));
-    toast("Story deleted");
+    toast(t("interviews.starMethod.storyDeleted"));
   }
 
   const story = stories[activeIndex];

@@ -27,7 +27,7 @@ export function StoryForm({ story, onUpdate, sampleQuestions }: StoryFormProps) 
                 key={q}
                 type="button"
                 onClick={() => onUpdate("question", q)}
-                className="rounded-full border border-neutral-200 bg-white px-2.5 py-1.5 text-xs text-neutral-600 hover:border-primary-300 hover:text-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
+                className="rounded-full border border-neutral-200 bg-white px-2.5 py-1.5 min-h-[44px] text-xs text-neutral-600 hover:border-primary-300 hover:text-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
               >
                 {q}
               </button>

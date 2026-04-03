@@ -113,7 +113,7 @@ export function ContactCard({
               value={editDateApplied}
               max={new Date().toISOString().split("T")[0]}
               onChange={(e) => onEditDateChange(e.target.value)}
-              className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-400"
+              className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:border-primary-400"
             />
           </div>
           <div className="space-y-1.5">
@@ -128,7 +128,7 @@ export function ContactCard({
               type="date"
               value={editFollowUpDate}
               onChange={(e) => onEditFollowUpDateChange(e.target.value)}
-              className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-400"
+              className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:border-primary-400"
             />
           </div>
         </div>
@@ -174,7 +174,7 @@ export function ContactCard({
                 e.target.value as ContactStatus
               )
             }
-            className={`cursor-pointer rounded-full border-0 py-0.5 pl-2.5 pr-7 text-xs font-medium ${STATUS_COLORS[contact.status]}`}
+            className={`cursor-pointer rounded-full border-0 py-0.5 pl-2.5 pr-7 text-xs font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 ${STATUS_COLORS[contact.status]}`}
             aria-label={`Change status for ${contact.companyName}`}
           >
             {Object.entries(STATUS_KEYS).map(([key, tKey]) => (
@@ -186,7 +186,7 @@ export function ContactCard({
 
           <button
             onClick={() => onStartEditing(contact)}
-            className="rounded-lg p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-neutral-400 sm:opacity-0 transition-opacity hover:bg-neutral-100 hover:text-neutral-600 group-hover:opacity-100 focus-visible:opacity-100"
+            className="rounded-lg p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-neutral-400 sm:opacity-0 transition-opacity hover:bg-neutral-100 hover:text-neutral-600 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
             aria-label={`Edit ${contact.companyName}`}
           >
             <Pencil className="h-4 w-4" />
@@ -194,7 +194,7 @@ export function ContactCard({
 
           <button
             onClick={() => onDelete(contact)}
-            className="rounded-lg p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-neutral-400 sm:opacity-0 transition-opacity hover:bg-red-50 hover:text-red-500 group-hover:opacity-100 focus-visible:opacity-100"
+            className="rounded-lg p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-neutral-400 sm:opacity-0 transition-opacity hover:bg-red-50 hover:text-red-500 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error"
             aria-label={`Delete ${contact.companyName}`}
           >
             <Trash2 className="h-4 w-4" />

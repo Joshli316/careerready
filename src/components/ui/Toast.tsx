@@ -52,7 +52,7 @@ function ToastContainer({ toasts, removeToast }: { toasts: Toast[]; removeToast:
               "min-w-[280px] max-w-[400px]",
               styles[toast.type]
             )}
-            role="alert"
+            role="status"
           >
             <Icon className="h-4 w-4 shrink-0" />
             <span className="flex-1 text-sm">{toast.message}</span>

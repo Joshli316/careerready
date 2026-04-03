@@ -69,9 +69,9 @@ export default function ResumeBuilderPage() {
         setProfile(savedProfile);
         if (validResumes.length > 0) { setResume(validResumes[0]); setActiveId(validResumes[0].id); }
       })
-      .catch((err) => console.error("[ResumeBuilder] Failed to load data:", err))
+      .catch(() => toast(t("common.error"), "error"))
       .finally(() => setInitialLoading(false));
-  }, [storage]);
+  }, [storage, toast, t]);
 
   // Warn before navigating away with unsaved changes
   useEffect(() => {
@@ -103,7 +103,7 @@ export default function ResumeBuilderPage() {
   // Ctrl/Cmd+S keyboard shortcut to save
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "s") {
+      if ((e.metaKey || e.ctrlKey) && e.key === "s" && !e.isComposing) {
         e.preventDefault();
         save();
       }
@@ -273,7 +273,7 @@ export default function ResumeBuilderPage() {
               <div key={i} className="mb-3 rounded-lg border border-neutral-100 p-4 last:mb-0">
                 <div className="mb-3 flex items-center justify-between">
                   <span className="text-sm font-medium text-neutral-600">{t("resumes.builder.educationN").replace("{n}", String(i + 1))}</span>
-                  <button onClick={() => removeEducation(i)} className="text-neutral-400 hover:text-error" aria-label={`${t("common.remove")} ${t("resumes.builder.educationN").replace("{n}", String(i + 1))}`}><Trash2 className="h-4 w-4" /></button>
+                  <button onClick={() => removeEducation(i)} className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg p-2 text-neutral-400 hover:text-error hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400" aria-label={`${t("common.remove")} ${t("resumes.builder.educationN").replace("{n}", String(i + 1))}`}><Trash2 className="h-4 w-4" /></button>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <Input placeholder={t("resumes.builder.schoolPlaceholder")} value={edu.school} onChange={(e) => updateEducation(i, "school", e.target.value)} />

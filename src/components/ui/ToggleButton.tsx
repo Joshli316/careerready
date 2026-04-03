@@ -14,7 +14,7 @@ export function ToggleButton({ label, checked, onToggle }: ToggleButtonProps) {
       onClick={onToggle}
       role="checkbox"
       aria-checked={checked}
-      className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 ${
+      className={`flex items-center gap-2 rounded-lg border px-3 py-2 min-h-[44px] text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 ${
         checked
           ? "border-primary-400 bg-primary-50 text-primary-700"
           : "border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300"

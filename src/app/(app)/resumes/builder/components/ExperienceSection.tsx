@@ -52,7 +52,7 @@ export function ExperienceSection({
         <div key={i} className="mb-4 rounded-lg border border-neutral-100 p-4 last:mb-0">
           <div className="mb-3 flex items-center justify-between">
             <span className="text-sm font-medium text-neutral-600">{t("resumes.builder.positionN").replace("{n}", String(i + 1))}</span>
-            <button onClick={() => onRemove(i)} className="text-neutral-400 hover:text-error" aria-label={`${t("common.remove")} ${i + 1}`}>
+            <button onClick={() => onRemove(i)} className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg p-2 text-neutral-400 hover:text-error hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400" aria-label={`${t("common.remove")} ${i + 1}`}>
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
@@ -76,13 +76,13 @@ export function ExperienceSection({
                   onChange={(e) => onUpdateBullet(i, j, e.target.value)}
                 />
                 {exp.bullets.length > 1 && (
-                  <button onClick={() => onRemoveBullet(i, j)} className="mt-2 text-neutral-400 hover:text-error" aria-label={t("common.removeBullet")}>
+                  <button onClick={() => onRemoveBullet(i, j)} className="mt-0.5 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-neutral-400 hover:text-error hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400" aria-label={t("common.removeBullet")}>
                     <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 )}
               </div>
             ))}
-            <button onClick={() => onAddBullet(i)} className="text-xs font-medium text-primary-400 hover:text-primary-500">
+            <button onClick={() => onAddBullet(i)} className="rounded-lg px-2 py-1 text-xs font-medium text-primary-400 hover:text-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400">
               {t("common.addBullet")}
             </button>
           </div>

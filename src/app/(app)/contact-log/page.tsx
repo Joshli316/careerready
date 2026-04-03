@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Plus, Building2 } from "lucide-react";
 import { useStorage } from "@/hooks/useStorage";
 import { useToast } from "@/components/ui/Toast";
@@ -59,7 +59,10 @@ export default function ContactLogPage() {
   }, [storage, toast, t]);
 
   const addContact = useCallback(async () => {
-    if (!formCompany.trim() || !formPosition.trim()) return;
+    if (!formCompany.trim() || !formPosition.trim()) {
+      toast(t("contactLog.validationError"), "warning");
+      return;
+    }
     const now = new Date().toISOString();
     const contact: EmployerContact = {
       id: nanoid(),
@@ -187,6 +190,11 @@ export default function ContactLogPage() {
     }
   }, [deleteTarget, storage, toast, t]);
 
+  const sortedContacts = useMemo(
+    () => [...contacts].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()),
+    [contacts]
+  );
+
   return (
     <div>
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -228,7 +236,7 @@ export default function ContactLogPage() {
         </div>
       ) : (
       <>
-      <ContactStats contacts={contacts} />
+      {contacts.length > 0 && <ContactStats contacts={contacts} />}
 
       {contacts.length === 0 ? (
         <div className="rounded-xl border-2 border-dashed border-neutral-200 p-12 text-center">
@@ -244,7 +252,7 @@ export default function ContactLogPage() {
         </div>
       ) : (
         <div className="space-y-3">
-          {[...contacts].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()).map((contact) => (
+          {sortedContacts.map((contact) => (
             <ContactCard
               key={contact.id}
               contact={contact}

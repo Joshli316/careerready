@@ -97,12 +97,16 @@ export default function JDDecoderPage() {
 
   const handleDeleteAnalysis = useCallback(
     async (id: string) => {
-      await storage.deleteJDAnalysis(id);
-      setSavedAnalyses((prev) => prev.filter((a) => a.id !== id));
-      if (activeAnalysis?.id === id) setActiveAnalysis(null);
-      toast("Analysis deleted");
+      try {
+        await storage.deleteJDAnalysis(id);
+        setSavedAnalyses((prev) => prev.filter((a) => a.id !== id));
+        if (activeAnalysis?.id === id) setActiveAnalysis(null);
+        toast(t("interviews.jdDecoder.analysisDeleted"));
+      } catch {
+        toast(t("common.saveFailed"), "error");
+      }
     },
-    [storage, activeAnalysis, toast]
+    [storage, activeAnalysis, toast, t]
   );
 
   const { matchedReqs, gapReqs, otherReqs } = useMemo(() => {

@@ -74,7 +74,7 @@ export function ContactForm({
             value={formDateApplied}
             max={new Date().toISOString().split("T")[0]}
             onChange={(e) => onDateAppliedChange(e.target.value)}
-            className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-400"
+            className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:border-primary-400"
           />
         </div>
         <div className="space-y-1.5">
@@ -86,7 +86,7 @@ export function ContactForm({
             type="date"
             value={formFollowUpDate}
             onChange={(e) => onFollowUpDateChange(e.target.value)}
-            className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-400"
+            className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:border-primary-400"
           />
         </div>
       </div>

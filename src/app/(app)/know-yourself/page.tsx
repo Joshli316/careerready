@@ -61,7 +61,7 @@ export default function KnowYourselfPage() {
           <Link
             key={section.href}
             href={section.href}
-            className="group flex gap-4 rounded-xl border border-neutral-150 bg-white p-4 sm:p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md hover:border-primary-300"
+            className="group flex gap-4 rounded-xl border border-neutral-150 bg-white p-4 sm:p-5 shadow-sm transition-[shadow,border-color] hover:shadow-md hover:border-primary-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-400 group-hover:bg-primary-100">
               <section.icon className="h-5 w-5" />
@@ -82,7 +82,7 @@ export default function KnowYourselfPage() {
       <div className="mt-8 rounded-xl border border-blue-200 bg-blue-50 p-4">
         <p className="text-sm text-blue-800">
           <span className="font-semibold">{t("knowYourself.nextStep")}</span> {t("knowYourself.nextStepText")}{" "}
-          <Link href="/resumes/builder" className="font-medium underline hover:text-blue-900">{t("knowYourself.resumeBuilderLink")}</Link>{" "}
+          <Link href="/resumes/builder" className="font-medium underline hover:text-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:rounded">{t("knowYourself.resumeBuilderLink")}</Link>{" "}
           {t("knowYourself.nextStepSuffix")}
         </p>
       </div>

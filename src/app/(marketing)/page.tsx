@@ -11,8 +11,8 @@ import { LanguageToggle } from "@/components/ui/LanguageToggle";
 
 const cardHeaderGradient: Record<string, string> = {
   "Know Yourself": "card-header-green",
-  "Market Your Brand": "card-header-blue",
-  "Prove Yourself": "card-header-purple",
+  "Apply & Prepare": "card-header-blue",
+  "Follow Through": "card-header-purple",
 };
 
 function HomePage() {
@@ -258,7 +258,7 @@ function HomePage() {
               <Link
                 key={tc.name}
                 href={tc.href}
-                className="group overflow-hidden rounded-xl bg-white shadow-sm transition-all hover:shadow-lg motion-safe:hover:-translate-y-1"
+                className="group overflow-hidden rounded-xl bg-white shadow-sm transition-all hover:shadow-lg motion-safe:hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
               >
                 {/* Colored gradient header */}
                 <div className={`${cardHeaderGradient[tc.phase]} flex h-14 items-center justify-between px-5`}>
@@ -331,35 +331,35 @@ function HomePage() {
             <div>
               <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">{t("landing.footer.coreTools")}</h4>
               <nav aria-label="Core Tools links" className="mt-3 flex flex-col gap-3">
-                <Link href="/know-yourself" className="text-sm text-slate-400 hover:text-white transition-colors">{t("nav.knowYourself")}</Link>
-                <Link href="/resumes" className="text-sm text-slate-400 hover:text-white transition-colors">{t("landing.footer.resumeBuilder")}</Link>
-                <Link href="/interviews" className="text-sm text-slate-400 hover:text-white transition-colors">{t("landing.footer.interviewPrep")}</Link>
-                <Link href="/applications" className="text-sm text-slate-400 hover:text-white transition-colors">{t("nav.applications")}</Link>
+                <Link href="/know-yourself" className="text-sm text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:rounded">{t("nav.knowYourself")}</Link>
+                <Link href="/resumes" className="text-sm text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:rounded">{t("landing.footer.resumeBuilder")}</Link>
+                <Link href="/interviews" className="text-sm text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:rounded">{t("landing.footer.interviewPrep")}</Link>
+                <Link href="/applications" className="text-sm text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:rounded">{t("nav.applications")}</Link>
               </nav>
             </div>
             <div>
               <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">{t("landing.footer.moreTools")}</h4>
               <nav aria-label="More Tools links" className="mt-3 flex flex-col gap-3">
-                <Link href="/job-search" className="text-sm text-slate-400 hover:text-white transition-colors">{t("nav.jobSearch")}</Link>
-                <Link href="/social-media" className="text-sm text-slate-400 hover:text-white transition-colors">{t("nav.socialMedia")}</Link>
-                <Link href="/landing-the-job" className="text-sm text-slate-400 hover:text-white transition-colors">{t("nav.landingTheJob")}</Link>
-                <Link href="/contact-log" className="text-sm text-slate-400 hover:text-white transition-colors">{t("nav.contactLog")}</Link>
+                <Link href="/job-search" className="text-sm text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:rounded">{t("nav.jobSearch")}</Link>
+                <Link href="/social-media" className="text-sm text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:rounded">{t("nav.socialMedia")}</Link>
+                <Link href="/landing-the-job" className="text-sm text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:rounded">{t("nav.landingTheJob")}</Link>
+                <Link href="/contact-log" className="text-sm text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:rounded">{t("nav.contactLog")}</Link>
               </nav>
             </div>
             <div>
               <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">{t("landing.footer.getStarted")}</h4>
               <nav aria-label="Get started links" className="mt-3 flex flex-col gap-3">
-                <Link href="/know-yourself" className="text-sm text-slate-400 hover:text-white transition-colors">{t("landing.footer.step1")}</Link>
-                <Link href="/resumes/builder" className="text-sm text-slate-400 hover:text-white transition-colors">{t("landing.footer.step2")}</Link>
-                <Link href="/interviews/star-method" className="text-sm text-slate-400 hover:text-white transition-colors">{t("landing.footer.step3")}</Link>
-                <Link href="/contact-log" className="text-sm text-slate-400 hover:text-white transition-colors">{t("landing.footer.step4")}</Link>
+                <Link href="/know-yourself" className="text-sm text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:rounded">{t("landing.footer.step1")}</Link>
+                <Link href="/resumes/builder" className="text-sm text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:rounded">{t("landing.footer.step2")}</Link>
+                <Link href="/interviews/star-method" className="text-sm text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:rounded">{t("landing.footer.step3")}</Link>
+                <Link href="/contact-log" className="text-sm text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:rounded">{t("landing.footer.step4")}</Link>
               </nav>
             </div>
           </div>
           <div className="mt-12 border-t border-white/10 pt-6">
             <p className="text-xs text-slate-400">
               {t("landing.footer.bottomLine")}{" "}
-              <Link href="/know-yourself" className="text-accent-blue hover:underline">{t("landing.footer.startNow")} &rarr;</Link>
+              <Link href="/know-yourself" className="text-accent-blue hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:rounded">{t("landing.footer.startNow")} &rarr;</Link>
             </p>
           </div>
         </div>

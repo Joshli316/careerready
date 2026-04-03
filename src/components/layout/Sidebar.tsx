@@ -44,6 +44,11 @@ export function Sidebar() {
           </div>
           <div className="mt-1.5 h-1.5 rounded-full bg-primary-100">
             <div
+              role="progressbar"
+              aria-valuenow={count}
+              aria-valuemin={0}
+              aria-valuemax={total}
+              aria-label={t("nav.progress").replace("{count}", String(count)).replace("{total}", String(total))}
               className="h-1.5 rounded-full bg-primary-500 transition-all duration-500"
               style={{ width: `${(count / total) * 100}%` }}
             />
@@ -67,7 +72,7 @@ export function Sidebar() {
                       : "text-neutral-600 hover:bg-neutral-100 hover:text-neutral-800"
                   )}
                 >
-                  <tool.icon className="h-5 w-5 shrink-0" />
+                  <tool.icon className="h-5 w-5 shrink-0" aria-hidden="true" />
                   <span className="flex-1">{tool.nameKey ? t(tool.nameKey) : tool.name}</span>
                   {isStarted && (
                     <Check className="h-4 w-4 shrink-0 text-green-500" aria-label={t("nav.started")} />
@@ -82,7 +87,7 @@ export function Sidebar() {
         <div className="border-t border-neutral-150 px-3 py-3">
           <button
             onClick={() => setShowClearConfirm(true)}
-            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs text-neutral-400 transition-colors hover:bg-red-50 hover:text-red-500"
+            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs text-neutral-400 transition-colors hover:bg-red-50 hover:text-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error"
           >
             <Trash2 className="h-3.5 w-3.5" />
             {t("nav.clearData")}

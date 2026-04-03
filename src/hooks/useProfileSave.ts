@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useStorage } from "./useStorage";
 import { useSaveIndicator } from "./useSaveIndicator";
 import { useToast } from "@/components/ui/Toast";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { UserProfile } from "@/types/profile";
 
 /**
@@ -17,6 +18,7 @@ export function useProfileSave() {
   const storage = useStorage();
   const { saved, showSaved } = useSaveIndicator();
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const save = useCallback(
     async (patch: Partial<UserProfile>) => {
@@ -24,12 +26,12 @@ export function useProfileSave() {
         const profile = (await storage.getProfile()) ?? {};
         await storage.setProfile({ ...profile, ...patch });
         showSaved();
-        toast("Saved successfully", "success");
+        toast(t("common.savedSuccessfully"), "success");
       } catch {
-        toast("Failed to save. Please try again.", "error");
+        toast(t("common.saveFailed"), "error");
       }
     },
-    [storage, showSaved, toast]
+    [storage, showSaved, toast, t]
   );
 
   return { saved, save, storage };

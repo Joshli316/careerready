@@ -2,11 +2,13 @@
 
 import { useCallback, useState } from "react";
 import { useToast } from "@/components/ui/Toast";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { Resume, CoverLetter } from "@/types/resume";
 
 export function usePdfExport() {
   const [exporting, setExporting] = useState(false);
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const exportDocument = useCallback(
     async (
@@ -25,12 +27,12 @@ export function usePdfExport() {
         downloadBlob(blob, filename);
       } catch (err) {
         console.error("PDF export failed:", err);
-        toast("PDF export failed. Please try again.", "error");
+        toast(t("common.pdfExportFailed"), "error");
       } finally {
         setExporting(false);
       }
     },
-    [toast]
+    [toast, t]
   );
 
   const exportResume = useCallback(

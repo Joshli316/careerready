@@ -10,8 +10,8 @@
     "error": "Something went wrong",
     "tryAgain": "Try again",
     "goBack": "Back to",
-    "getStartedFree": "Get Started Free",
-    "seeTheTools": "See the Tools",
+    "getStartedFree": "Start Now — No Sign-Up",
+    "seeTheTools": "Explore the Tools",
     "skipToContent": "Skip to content",
     "backToDashboard": "Back to dashboard",
     "preview": "Preview",
@@ -52,7 +52,10 @@
     "next": "Next",
     "untitled": "Untitled",
     "opensInNewTab": "opens in new tab",
-    "nextStep": "Next step"
+    "nextStep": "Next step",
+    "savedSuccessfully": "Saved successfully",
+    "saveFailed": "Failed to save. Please try again.",
+    "pdfExportFailed": "PDF export failed. Please try again."
   },
   "nav": {
     "home": "Home",
@@ -75,12 +78,12 @@
     "knowYourself": {
       "name": "Know Yourself",
       "shortDesc": "Figure out your skills, values, and brand before you start applying.",
-      "longDesc": "Map your skills, write a brand statement, and build a 30-second pitch. Everything here feeds into your resume."
+      "longDesc": "Walk away with a skills list, a brand statement, and a 30-second pitch that auto-fill your resume and cover letter."
     },
     "applications": {
       "name": "Applications",
       "shortDesc": "Tips and a master form that saves you from re-typing your info.",
-      "longDesc": "Keep one master form with all your info. Pull from it whenever an employer asks the same questions again."
+      "longDesc": "Get application tips, find experience you didn't know counted, and keep one master form you can pull from every time."
     },
     "resumes": {
       "name": "Resumes",
@@ -90,7 +93,7 @@
     "interviews": {
       "name": "Interviews",
       "shortDesc": "Practice the STAR method, prep answers, and research companies.",
-      "longDesc": "Write STAR stories, practice answering questions, and get feedback before the real thing."
+      "longDesc": "Walk into every interview with practiced STAR stories, researched companies, and AI-coached answers."
     },
     "jobSearch": {
       "name": "Job Search",
@@ -104,23 +107,23 @@
     },
     "landingTheJob": {
       "name": "Landing the Job",
-      "shortDesc": "Workplace success tips and self-evaluation tracker.",
-      "longDesc": "Nail your first 90 days with workplace habits and a monthly self-evaluation checklist."
+      "shortDesc": "First-90-days playbook: workplace habits and a self-evaluation tracker.",
+      "longDesc": "Start strong in your first 90 days with workplace habits and a monthly self-evaluation checklist."
     },
     "contactLog": {
       "name": "Contact Log",
       "shortDesc": "Log every company, follow-up, and status change in one place.",
-      "longDesc": "Track every application, follow-up, and interview in one place."
+      "longDesc": "Track every application and follow-up so nothing slips through the cracks."
     },
     "phases": {
       "knowYourself": "Know Yourself",
-      "marketYourBrand": "Market Your Brand",
-      "proveYourself": "Prove Yourself"
+      "marketYourBrand": "Apply & Prepare",
+      "proveYourself": "Follow Through"
     }
   },
   "landing": {
     "heroTitle": "Land your first job, step by step.",
-    "heroSubtitle": "8 connected tools that walk you from figuring out your strengths to nailing the interview. Built for new grads. Write once, auto-fill everywhere.",
+    "heroSubtitle": "8 connected tools that walk you from figuring out your strengths to acing the interview. Built for new grads who don't want to start from scratch every time.",
     "seeHowItWorks": "See how it works",
     "startKnowYourself": "Start with Your Strengths",
     "yourToolkit": "Your Toolkit",
@@ -128,34 +131,34 @@
     "benefits": {
       "noAccount": "Start instantly, no account needed",
       "privateData": "Keep your data private in your browser",
-      "autoFill": "Auto-fill your resume from your skills inventory",
+      "autoFill": "Skills you enter once show up in your resume automatically",
       "exportPdf": "Export to PDF in one click",
       "freeForever": "All 8 tools included, always free"
     },
     "howItWorks": "How It Works",
     "toolsNav": "Tools",
     "phaseSectionTitle": "From \"what am I good at?\" to signed offer.",
-    "phaseSectionSubtitle": "Three phases, eight tools. Go in order or jump to what you need. What you write in one tool shows up in the others.",
+    "phaseSectionSubtitle": "Three phases, eight tools. Go in order or jump to what you need. Your skills and brand statement flow into your resume, cover letter, and interview prep.",
     "phase1": {
       "tagline": "Figure out what you're actually good at.",
-      "desc": "Before you apply anywhere, get clear on what you bring. Map your skills, rank your work values, and write a 30-second pitch you can use at networking events.",
+      "desc": "Before you apply anywhere, get clear on what you bring. Map skills, rank work values, and write a 30-second pitch you can use at networking events.",
       "tools": ["Skills Inventory", "Work Values", "Focus Goals", "Power Statement"]
     },
     "phase2": {
-      "tagline": "Apply smart. Interview strong.",
-      "desc": "Your brand statement auto-fills into your resume and cover letter. Search job boards, clean up your social media, then prep STAR stories and practice with AI mock interviews once you get callbacks.",
+      "tagline": "Your brand statement auto-fills. Your prep does the talking.",
+      "desc": "Build a resume and cover letter from the skills you already entered. Search job boards, clean up your social media, then practice with STAR stories and AI mock interviews once you get callbacks.",
       "tools": ["Resume Builder", "Job Search", "Social Media", "Interview Prep"]
     },
     "phase3": {
-      "tagline": "Track applications. Crush your first 90 days.",
+      "tagline": "Track applications. Own your first 90 days.",
       "desc": "Log every application you send, set follow-up reminders so nothing falls through, and get a self-evaluation checklist for your first months on the job.",
       "tools": ["Contact Log", "Workplace Success", "Self-Evaluation"]
     },
     "toolsGridTitle": "Pick a tool and start",
-    "toolsGridSubtitle": "We recommend going in order, but you can jump to whatever you need right now. Click any card to begin.",
+    "toolsGridSubtitle": "We recommend going in order, but you can jump to whatever you need right now. Pick any card to begin.",
     "quoteText": "You write your skills and brand statement once in Know Yourself. After that, they auto-fill your resume, cover letter, and interview prep. No copy-pasting.",
-    "quoteAttribution": "That's the whole idea: write once, use everywhere.",
-    "ctaTitle": "Your first step takes 5 minutes.",
+    "quoteAttribution": "How CareerReady saves you time",
+    "ctaTitle": "In 5 minutes you'll have a brand statement.",
     "ctaDesc": "Open Know Yourself, pick your top skills, and write a quick brand statement. Everything else builds from there.",
     "footer": {
       "tagline": "Job prep tools for new grads. Prep at your own pace. Data stays in your browser.",
@@ -168,8 +171,8 @@
       "step2": "2. Build your resume",
       "step3": "3. Prep your STAR stories",
       "step4": "4. Track your applications",
-      "bottomLine": "Free and open to everyone. Your data stays in your browser.",
-      "startNow": "Start your free job prep"
+      "bottomLine": "Built for new grads. No account, no cost, no catch.",
+      "startNow": "Start your job prep"
     }
   },
   "knowYourself": {
@@ -266,7 +269,7 @@
       "challengesDesc": "Think of any negative beliefs about employment and convert them to positive affirmations.",
       "challengePlaceholder": "I have had a challenge with...",
       "solutionPlaceholder": "But I can overcome it by...",
-      "addChallenge": "Add another challenge",
+      "addChallenge": "+ Add challenge",
       "removeChallenge": "Remove this challenge",
       "saveBeliefs": "Save Beliefs"
     },
@@ -302,7 +305,7 @@
         "relationships": "Relationships",
         "relationshipsDesc": "Jobs where co-workers are friendly and you can be of service to others.",
         "support": "Support",
-        "supportDesc": "Jobs with competent and fair management that stands behind its workers.",
+        "supportDesc": "Jobs where management is fair, communicates clearly, and has your back.",
         "independence": "Independence",
         "independenceDesc": "Jobs where you are encouraged to take initiative and make decisions.",
         "recognition": "Recognition",
@@ -348,7 +351,7 @@
       "tip4": "Focus on the benefits you bring to the employer",
       "brandRef": "Your Brand Statement (from Branding tool)",
       "exampleTitle": "Example",
-      "exampleText": "\"My name is Sarah Chen and I recently graduated with a degree in Marketing from UCLA. I specialize in social media strategy and content creation, with internship experience managing campaigns that increased engagement by 40%. I'm looking for an entry-level marketing coordinator role where I can bring fresh ideas and data-driven creativity to your team.\"",
+      "exampleText": "\"My name is Sarah Chen and I recently graduated with a degree in Marketing from UCLA. I specialize in social media strategy and content creation, with internship experience managing campaigns that increased engagement by 40%. I'm looking for an entry-level marketing coordinator role where I can run campaigns and grow your audience.\"",
       "yourPowerStatement": "Your Power Statement",
       "placeholder": "Hi, I'm [name]. I just graduated from [school] with a degree in [field]. At [internship/job], I [specific thing you did]. I'm looking for a [target role] where I can...",
       "savePowerStatement": "Save Power Statement"
@@ -373,7 +376,7 @@
     },
     "tips": {
       "title": "10 Essential Application Tips",
-      "description": "Follow these tips to complete effective applications that get you noticed.",
+      "description": "Follow these tips to avoid common mistakes and get your application past the first screening.",
       "callout": "Many applications are rejected because of errors or failure to tailor the content. Following up within 3\u20135 days shows your commitment and keeps your name on the employer's radar.",
       "tip1Title": "Review the job announcement first",
       "tip1Desc": "Make sure you meet most of the minimum qualifications: experience, education/certificates, and hard and soft skills.",
@@ -695,6 +698,8 @@
       "deleteStory": "Delete this story",
       "deleteStoryTitle": "Delete Story",
       "deleteStoryConfirm": "This story will be permanently deleted.",
+      "storyAdded": "Story added — fill in your STAR answer below.",
+      "storyDeleted": "Story deleted",
       "saveStories": "Save Stories",
       "summary": "You have {count} {storyWord} ({complete} complete). Aim for 6-8 stories with all four STAR fields filled in.",
       "story": "story",
@@ -811,7 +816,7 @@
       "keyPointsPlaceholder": "Mention specific things discussed, what excited you about the role...",
       "templatePara1": "Thank you for meeting with me today. It was a pleasure to learn more about the {position} role and the team at {company}.",
       "templatePara2": "Our conversation confirmed that this role is a great match for what I do best. I'm looking forward to the possibility of joining the team.",
-      "templatePara3": "Feel free to reach out if you need anything else from me. I hope to hear from you soon."
+      "templatePara3": "I'm happy to share anything else that would help. Looking forward to the next steps."
     },
     "jdDecoder": {
       "title": "JD Decoder",
@@ -843,7 +848,8 @@
       "checklistDraftNewStory": "Draft a new story",
       "checklistResearch": "Research the company",
       "checklistPractice": "Practice out loud",
-      "checklistProgress": "{done} of {total} done"
+      "checklistProgress": "{done} of {total} done",
+      "analysisDeleted": "Analysis deleted"
     },
     "mockInterview": {
       "title": "AI Mock Interview",
@@ -996,19 +1002,19 @@
       "callout": "Before starting your job search, Google yourself and review every social media profile. Set all personal accounts to private. Everything public is fair game for employers.",
       "includeTitle": "Include",
       "includeItems": [
-        "Professional headshot photo",
-        "Content interesting and relevant to your industry",
-        "Up-to-date industry news and shared articles",
-        "A wide range of interests",
-        "Profile matching your application and resume"
+        "Use a professional headshot as your profile photo",
+        "Share content relevant to your target industry",
+        "Repost industry news and thoughtful articles",
+        "Show a range of interests beyond just work",
+        "Make sure your profile matches your resume"
       ],
-      "dontIncludeTitle": "Don't Include",
+      "dontIncludeTitle": "Remove or Hide",
       "dontIncludeItems": [
-        "Default or inappropriate profile image",
-        "Images/posts that contradict your professional brand",
-        "Poor grammar and spelling mistakes",
-        "Profanity or references to alcohol/drug use",
-        "Negative comments about past employers or co-workers"
+        "Replace default or unprofessional profile photos",
+        "Delete posts that contradict your professional image",
+        "Fix any posts with grammar or spelling errors",
+        "Remove profanity and references to alcohol or drug use",
+        "Delete negative comments about past employers or co-workers"
       ],
       "bgCheckTitle": "Background Check Self-Audit",
       "bgCheckDesc": "Review your posts and pictures. Would you pass an employer's screening in these categories?",
@@ -1052,12 +1058,12 @@
           ]
         },
         "performance": {
-          "title": "Performance of Duties",
+          "title": "Doing Your Job Well",
           "items": [
             "Understand what is expected of you",
             "Meet performance goals and standards",
-            "Be a team player — contribute to team objectives",
-            "Be neat and organized in all your tasks",
+            "Contribute to team goals — volunteer for tasks and help co-workers when you can",
+            "Keep notes, track deadlines, and leave your workspace ready for the next day",
             "If you make a mistake, take responsibility and communicate"
           ]
         },
@@ -1112,7 +1118,7 @@
           ]
         },
         "performance": {
-          "title": "Performance of Duties",
+          "title": "Doing Your Job Well",
           "items": [
             "I understand my job duties and responsibilities",
             "I am meeting performance goals and standards",

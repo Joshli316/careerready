@@ -99,8 +99,10 @@ export default function SkillsPage() {
   }
 
   function addCustomSkill() {
-    if (!newSkill.trim()) return;
-    const updated = [...skills, { name: newSkill.trim(), category: newCategory, source: newSource.trim() }];
+    const trimmed = newSkill.trim();
+    if (!trimmed) return;
+    if (skills.some((s) => s.name.toLowerCase() === trimmed.toLowerCase() && s.category === newCategory)) return;
+    const updated = [...skills, { name: trimmed, category: newCategory, source: newSource.trim() }];
     setSkills(updated);
     setNewSkill("");
     setNewSource("");
@@ -170,7 +172,7 @@ export default function SkillsPage() {
         {hardSkills.length > 0 && (
           <div className="mb-4 flex flex-wrap gap-2">
             {hardSkills.map((skill, i) => {
-              const globalIdx = skills.indexOf(skill);
+              const globalIdx = skills.findIndex((s) => s.name === skill.name && s.category === skill.category);
               return (
                 <span
                   key={i}
