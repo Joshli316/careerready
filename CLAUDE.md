@@ -147,7 +147,8 @@ Skills, brand statement, and power statement from "Know Yourself" flow into othe
 - **`AICoverLetterForm`** — AI cover letter generator in `resumes/cover-letter/components/`.
 - **`resumeToText`** — converts Resume object to plain text for AI prompts.
 - **`useToolProgress`** — reads localStorage to check which tools have saved data. Returns `{ started, count, total }`. Used in Sidebar for progress bar + checkmarks.
-- **`NextStepLink`** — bottom-of-page "Next step: [Tool] →" link. Used on all 22 sub-tool pages to chain the guided flow.
+- **`NextStepLink`** — bottom-of-page prev/next navigation. Supports optional `prevHref`/`prevLabelKey` for "← Previous step" (amber) alongside "Next step →" (green). Used on all 22 sub-tool pages.
+- **`extractTextFromFile`** — client-side PDF/text file parser using `pdfjs-dist` (lazy-loaded). Worker served from `public/pdf.worker.min.mjs`. Used in cover letter form and JD decoder.
 
 ## i18n (added 2026-03-31)
 
@@ -170,6 +171,24 @@ Skills, brand statement, and power statement from "Know Yourself" flow into othe
 - Rate limiting falls back to in-memory when `getRequestContext()` is unavailable (local dev).
 
 ## Session Log
+
+### 2026-04-04 — main
+
+**What was done:**
+- File upload for JD and resume: PDF/text parsing via pdfjs-dist on cover letter form and JD decoder
+- Previous step navigation: amber "← Previous step" link on all 22 sub-pages
+- Highlighted "Start here" tile on Know Yourself landing page
+- Mock interview: added "Next step: Contact Log" button alongside "Practice Again"
+- Email Guide: added draft composer (To/Subject/Body) with save + PDF export
+- CSP fix: added `wasm-unsafe-eval` to restore @react-pdf/renderer PDF export
+- Refactor: deduplicated upload handlers, guarded worker init
+
+**Open items:**
+- `CLAUDE_API_KEY` still not set on Cloudflare — AI features return 503 in production
+- D1 migration `0002` not yet run on remote
+- ~40 subjective expert panel findings from prior session still pending
+
+**Next session:** Set `CLAUDE_API_KEY` on Cloudflare (`npx wrangler secret put CLAUDE_API_KEY` in Terminal). Run D1 migration.
 
 ### 2026-04-03 — main
 
