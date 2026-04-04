@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Callout } from "@/components/ui/Callout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
@@ -26,6 +26,8 @@ export default function EmailGuidePage() {
   const [draft, setDraft] = useState<EmailDraft>({ to: "", subject: "", body: "" });
   const [saved, setSaved] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const draftRef = useRef(draft);
+  draftRef.current = draft;
 
   useEffect(() => {
     try {
@@ -46,6 +48,7 @@ export default function EmailGuidePage() {
   }
 
   const exportPdf = useCallback(async () => {
+    const current = draftRef.current;
     setExporting(true);
     try {
       const { pdf, Document, Page, Text, View, StyleSheet } = await import("@react-pdf/renderer");
@@ -61,9 +64,9 @@ export default function EmailGuidePage() {
       const doc = h(Document, null,
         h(Page, { size: "LETTER", style: styles.page },
           h(View, null,
-            h(Text, { style: styles.header }, `To: ${draft.to}`),
-            h(Text, { style: styles.subject }, `Subject: ${draft.subject}`),
-            h(Text, { style: styles.body }, draft.body),
+            h(Text, { style: styles.header }, `To: ${current.to}`),
+            h(Text, { style: styles.subject }, `Subject: ${current.subject}`),
+            h(Text, { style: styles.body }, current.body),
           )
         )
       );
@@ -83,7 +86,7 @@ export default function EmailGuidePage() {
     } finally {
       setExporting(false);
     }
-  }, [draft, toast, t]);
+  }, [toast, t]);
 
   const hasDraftContent = draft.to.trim() || draft.subject.trim() || draft.body.trim();
 
