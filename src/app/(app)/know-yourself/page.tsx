@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Brain, Target, Wrench, Heart, Sparkles, Mic } from "lucide-react";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 
 export default function KnowYourselfPage() {
   const { t } = useLanguage();
@@ -83,13 +84,7 @@ export default function KnowYourselfPage() {
         ))}
       </div>
 
-      <div className="mt-8 rounded-xl border border-blue-200 bg-blue-50 p-4">
-        <p className="text-sm text-blue-800">
-          <span className="font-semibold">{t("knowYourself.nextStep")}</span> {t("knowYourself.nextStepText")}{" "}
-          <Link href="/resumes/builder" className="font-medium underline hover:text-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:rounded">{t("knowYourself.resumeBuilderLink")}</Link>{" "}
-          {t("knowYourself.nextStepSuffix")}
-        </p>
-      </div>
+      <NextStepLink href="/applications" labelKey="tools.applications.name" />
     </div>
   );
 }

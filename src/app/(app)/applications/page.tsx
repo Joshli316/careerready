@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { ListChecks, Lightbulb, ClipboardList, ArrowRight } from "lucide-react";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 
 export default function ApplicationsPage() {
   const { t } = useLanguage();
@@ -69,6 +70,8 @@ export default function ApplicationsPage() {
           </Link>
         ))}
       </div>
+
+      <NextStepLink href="/resumes" labelKey="tools.resumes.name" prevHref="/know-yourself" prevLabelKey="tools.knowYourself.name" />
     </div>
   );
 }

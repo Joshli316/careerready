@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Briefcase, BarChart3, ArrowRight } from "lucide-react";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 
 export default function LandingTheJobPage() {
   const { t } = useLanguage();
@@ -42,6 +43,8 @@ export default function LandingTheJobPage() {
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-400 group-hover:bg-primary-100"><Briefcase className="h-5 w-5" /></div>
         <div><h2 className="font-semibold text-neutral-800">{t("landingTheJob.sections.workplaceSuccess.title")}</h2><p className="mt-1 text-sm text-neutral-500">{t("landingTheJob.sections.workplaceSuccess.description")}</p></div>
       </Link>
+
+      <NextStepLink prevHref="/contact-log" prevLabelKey="tools.contactLog.name" />
     </div>
   );
 }

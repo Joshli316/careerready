@@ -13,6 +13,7 @@ import { ContactStats } from "./components/ContactStats";
 import { ContactForm } from "./components/ContactForm";
 import { ContactCard } from "./components/ContactCard";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 
 const statusKeys: Record<string, string> = {
   saved: "contactLog.statuses.saved",
@@ -294,6 +295,8 @@ export default function ContactLogPage() {
         onConfirm={confirmDelete}
         onCancel={() => setDeleteTarget(null)}
       />
+
+      <NextStepLink href="/landing-the-job" labelKey="tools.landingTheJob.name" prevHref="/interviews" prevLabelKey="tools.interviews.name" />
     </div>
   );
 }

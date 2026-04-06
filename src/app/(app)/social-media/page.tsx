@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { ShieldCheck, ArrowRight } from "lucide-react";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 
 const platformKeys = ["linkedin", "twitter", "instagram", "facebook"] as const;
 
@@ -52,6 +53,8 @@ export default function SocialMediaPage() {
           </a>
         ))}
       </div>
+
+      <NextStepLink href="/interviews" labelKey="tools.interviews.name" prevHref="/job-search" prevLabelKey="tools.jobSearch.name" />
     </div>
   );
 }

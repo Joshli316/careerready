@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { BookOpen, MessageCircle, Building2, ThumbsUp, FileSearch, Mic, ArrowRight } from "lucide-react";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 import { ReadinessDashboard } from "./components/ReadinessDashboard";
 
 const featuredKeys = [
@@ -59,6 +60,8 @@ export default function InterviewsPage() {
           </Link>
         ))}
       </div>
+
+      <NextStepLink href="/contact-log" labelKey="tools.contactLog.name" prevHref="/social-media" prevLabelKey="tools.socialMedia.name" />
     </div>
   );
 }

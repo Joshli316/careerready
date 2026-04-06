@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Users, Monitor, CheckSquare, ArrowRight } from "lucide-react";
+import { NextStepLink } from "@/components/ui/NextStepLink";
 
 export default function JobSearchPage() {
   const { t } = useLanguage();
@@ -48,6 +49,8 @@ export default function JobSearchPage() {
           </Link>
         ))}
       </div>
+
+      <NextStepLink href="/social-media" labelKey="tools.socialMedia.name" prevHref="/resumes" prevLabelKey="tools.resumes.name" />
     </div>
   );
 }
